@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<!-- Meta, title, CSS, favicons, etc. -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title></title>
+	
+	<!-- Bootstrap -->
+	<link th:href="@{/admin/vendors/bootstrap/dist/css/bootstrap.min.css}"
+		rel="stylesheet">
+	<!-- Font Awesome -->
+	<link th:href="@{/admin/vendors/font-awesome/css/font-awesome.min.css}"
+		rel="stylesheet">
+	<!-- NProgress -->
+	<link th:href="@{/admin/vendors/nprogress/nprogress.css}" rel="stylesheet">
+	
+	<!-- Custom Theme Style -->
+	<link th:href="@{/admin/build/css/custom.min.css}" rel="stylesheet">
+</head>
+<body class="nav-md">
+	<div class="container body">
+		<div class="main_container">
+			<div class="col-md-3 left_col">
+				<div class="left_col scroll-view">
+					<div class="navbar nav_title" style="border: 0;">
+						<a th:href="@{/user/index}" class="site_title"><i class="fa fa-paw"></i>
+							<span>열려라 냉장고</span>
+						</a>
+					</div>
+
+					<div class="clearfix"></div>
+
+					<!-- menu profile quick info -->
+					<div class="profile clearfix">
+						<div class="profile_pic">
+							<img src="images/img.jpg" alt="..."
+								class="img-circle profile_img">
+						</div>
+						<div class="profile_info">
+							<span>Welcome,</span>
+							<h2>John Doe</h2>
+						</div>
+					</div>
+					<!-- /menu profile quick info -->
+
+					<br />
+					<!-- sidebar menu -->
+					<div th:replace="~{fragment/admin_sidebar :: sidebarFragment}"></div>
+					<!-- /sidebar menu -->
+					<!-- /menu footer buttons -->					
+					<div th:replace="~{fragment/admin_menuFooter :: sidebarFooterFragment}"></div>
+					<!-- /menu footer buttons -->
+				</div>
+			</div>
+			<!-- top navigation -->
+			<div th:replace="~{fragment/admin_topNavi :: topNaviFragment}"></div>			
+			<!-- /top navigation -->
+			<!-- page content -->
+			<div class="right_col" role="main">
+				<div class="">
+					<th:block layout:fragment="customContents">
+					</th:block>
+				</div>
+			</div>
+			<!-- footer content -->
+			<footer th:replace="~{fragment/admin_footer :: footerFragment}"></footer>
+			<!-- /footer content -->
+		</div>
+	</div>
+
+	<!-- jQuery -->
+	<script th:src="@{/admin/vendors/jquery/dist/jquery.min.js}"></script>
+	<!-- Bootstrap -->
+	<script th:src="@{/admin/vendors/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+	 <!-- FastClick -->
+	<script th:src="@{/admin/vendors/fastclick/lib/fastclick.js}"></script>
+	<!-- NProgress -->
+	<script th:src="@{/admin/vendors/nprogress/nprogress.js}"></script>
+	
+	
+	<!-- Custom Theme Scripts -->
+	<script th:src="@{/admin/build/js/custom.min.js}"></script>
+
+	<th:block layout:fragment="customJs"></th:block>
+
+
+
+
+</body>
+</html>

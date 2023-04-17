@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title></title>
+
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{/user/img/core-img/favicon.ico}">
+
+    <!-- Core Stylesheet -->
+    <link rel="stylesheet" th:href="@{/user/style.css}">
+</head>
+<body>
+	<th:block th:replace="~{fragment/user_preloader :: preloaderFragment}"></th:block>
+	
+	<!-- ##### Header Area Start ##### -->
+	<header th:replace="~{fragment/user_header :: headerFragment}"></header>
+    <!-- ##### Header Area End ##### -->
+
+    <!-- ##### Hero Area Start (contents)##### -->
+<!--    <section th:replace="~{fragment/user_slider :: sliderFragment}"></section>-->
+
+	<th:block layout:fragment="customContent"></th:block>
+
+
+    <!-- ##### Hero Area End (contents)##### -->
+    <!-- ##### Footer Area Start ##### -->
+    <footer th:replace="~{fragment/user_footer :: footerFragment}"></footer>
+    <!-- ##### Footer Area End ##### -->
+
+	<!-- jQuery-2.2.4 js -->
+    <script th:src="@{/user/js/jquery/jquery-2.2.4.min.js}"></script>
+    <!-- Popper js -->
+    <script th:src="@{/user/js/bootstrap/popper.min.js}"></script>
+    <!-- Bootstrap js -->
+    <script th:src="@{/user/js/bootstrap/bootstrap.min.js}"></script>
+    <!-- All Plugins js -->
+    <script th:src="@{/user/js/plugins/plugins.js}"></script>
+    <!-- Active js -->
+    <script th:src="@{/user/js/active.js}"></script>
+
+	<th:block layout:fragment="customJs"></th:block>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/user_default}">
+
+<head>
+    <style>
+        .row {
+            display: flex;
+            justify-content: center;
+        }
+        .themed-grid-col {
+            border: 1px solid black;
+            background-color: lightblue;
+            width: 150px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 3px;
+        }
+        .themed-grid-col1 {
+            border: 1px solid black;
+            background-color: lightskyblue;
+            width: 150px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 3px;
+        }
+    </style>
+</head>
+
+
+<th:block layout:fragment="customContent">
+
+    <!-- ##### Breadcumb Area Start ##### -->
+    <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(/user/img/bg-img/breadcumb2.jpg);">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <div class="breadcumb-text text-center">
+                        <h2>냉장고</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <div class="container">
+    <h2 class="mt-4" th:align="center">냉장고 재료</h2>
+
+        <div class="row mb-2">
+            <div class="col-4 themed-grid-col">
+                <fieldset>
+                    <legend>냉장4 좌</legend>
+                    <p th:text="김치" style="color:blue"></p>
+                </fieldset>
+            </div>
+            <div class="col-4 themed-grid-col">
+                <fieldset>
+                    <legend>냉장4 우</legend>
+                    <p th:text="두부" style="color:blue"></p>
+                </fieldset>
+            </div>
+        </div>
+
+    <div class="row mb-2">
+        <div class="col-sm-4 themed-grid-col">냉장3 좌</div>
+        <div class="col-sm-4 themed-grid-col">냉장3 우</div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-md-4 themed-grid-col">냉장2 좌</div>
+        <div class="col-md-4 themed-grid-col">냉장2 우</div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-lg-4 themed-grid-col">냉장1 좌</div>
+        <div class="col-lg-4 themed-grid-col">냉장1 우</div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-xl-4 themed-grid-col1">냉동 좌</div>
+        <div class="col-xl-4 themed-grid-col1">냉동 우</div>
+    </div>
+    </div>
+
+
+
+    <!-- ##### All Javascript Files ##### -->
+    <!-- jQuery-2.2.4 js -->
+    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="js/active.js"></script>
+
+</th:block>
+</html>
