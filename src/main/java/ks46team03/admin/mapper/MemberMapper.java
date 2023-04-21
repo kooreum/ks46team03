@@ -1,7 +1,7 @@
 package ks46team03.admin.mapper;
 
-import ks46team03.dto.Member;
-import ks46team03.dto.MemberLevel;
+import ks46team03.admin.dto.Member;
+import ks46team03.admin.dto.MemberLevel;
 import org.apache.ibatis.annotations.Mapper;
 
 

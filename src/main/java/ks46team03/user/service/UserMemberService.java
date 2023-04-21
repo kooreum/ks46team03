@@ -3,6 +3,8 @@ package ks46team03.user.service;
 import ks46team03.dto.Member;
 import ks46team03.dto.MemberLevel;
 import ks46team03.user.mapper.UserMemberMapper;
+import org.apache.logging.log4j.Logger;
+import org.slf4j.ILoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,7 @@ public class UserMemberService {
     public UserMemberService(UserMemberMapper userMemberMapper) {
         this.userMemberMapper = userMemberMapper;
     }
+
 
     /**
      * 회원정보 확인(로그인)
@@ -79,6 +82,7 @@ public class UserMemberService {
      */
     public List<Member> getMemberList(String searchKey, String searchValue) {
         List<Member> memberList = userMemberMapper.getMemberList(searchKey, searchValue);
+
 
         if (searchKey != null) {
             switch (searchKey) {

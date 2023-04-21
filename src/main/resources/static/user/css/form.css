@@ -47,7 +47,4 @@ button:not(#submitBtn, #resetBtn){
 	font-weight: bold;
 	font-size: larger;
 }
-.table-center {
-	margin: auto;
-}
 		

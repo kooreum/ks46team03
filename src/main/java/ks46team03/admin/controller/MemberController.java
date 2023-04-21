@@ -1,7 +1,7 @@
 package ks46team03.admin.controller;
 
-import ks46team03.dto.Member;
-import ks46team03.dto.MemberLevel;
+import ks46team03.admin.dto.Member;
+import ks46team03.admin.dto.MemberLevel;
 import ks46team03.admin.mapper.MemberMapper;
 import ks46team03.admin.service.MemberService;
 import org.slf4j.Logger;
