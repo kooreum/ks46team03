@@ -27,6 +27,32 @@
 <!--        </collection>-->
 
     </resultMap>
+    <select id="RecipeListByWriter" parameterType="Map" resultMap="memberResultMap">
+        /* 판매자별 상품조회 */
+        SELECT
+        m.member_id
+        ,m.member_name
+        ,r.recipe_code
+        ,r.recipe_name
+        ,r.recipe_category_code
+        ,r.member_id
+        ,r.reg_date
+        FROM
+        member as m
+        INNER JOIN
+        recipe_reg as r
+        ON
+        m.member_id = r.member_id
+        <where>
+            <if test="checkArr != null">
+                <foreach collection="checkArr" item="column">
+                    OR ${column} LIKE CONCAT('%', #{searchValue}, '%')
+                </foreach>
+            </if>
+        </where>
+        ORDER BY r.recipe_code;
+    </select>
+
     <delete id="removeMemberById" parameterType="String">
         /* 회원탈퇴 */
         DELETE
@@ -99,17 +125,6 @@
             WHERE
                 m.member_id  = #{memberId};
         </select>
-
-
-    <select id="nicknameCheck" parameterType="String" resultType="boolean">
-        /* 회원닉네임 중복체크 */
-        SELECT
-        if(COUNT(1)=0, 1, 0)
-        FROM
-        member as m
-        WHERE
-        m.member_nickname  = #{memberNickname};
-    </select>
 
         <select id="getMemberLevelList" resultType="MemberLevel">
             /* 회원 등급 조회 */

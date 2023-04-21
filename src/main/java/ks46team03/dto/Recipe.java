@@ -14,6 +14,8 @@ public class Recipe {
     private String recommendationCount;
     private String recipeUseNumber;
 
+    private Member SellerInfo;
+
     public String getRecipeCode() {
         return recipeCode;
     }
@@ -110,6 +112,14 @@ public class Recipe {
         this.recipeUseNumber = recipeUseNumber;
     }
 
+    public Member getSellerInfo() {
+        return SellerInfo;
+    }
+
+    public void setSellerInfo(Member sellerInfo) {
+        SellerInfo = sellerInfo;
+    }
+
     @Override
     public String toString() {
         return "Recipe{" +
@@ -125,6 +135,7 @@ public class Recipe {
                 ", viewCount='" + viewCount + '\'' +
                 ", recommendationCount='" + recommendationCount + '\'' +
                 ", recipeUseNumber='" + recipeUseNumber + '\'' +
+                ", SellerInfo=" + SellerInfo +
                 '}';
     }
 }
