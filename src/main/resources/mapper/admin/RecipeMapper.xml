@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks46team03.admin.mapper.RecipeMapper">
+    <resultMap id="recipeResultMap" type="recipe">
+        <id     column="recipe_code"                property="recipeCode"/>
+        <result column="recipe_name"                property="recipeName"/>
+        <result column="recipe_category_code"       property="recipeCategoryCode"/>
+        <result column="member_id"                  property="memberId"/>
+        <result column="recipe_cal"                 property="recipeCal"/>
+        <result column="recipe_quantity"            property="recipeQuantity"/>
+        <result column="reg_date"                   property="regDate"/>
+        <result column="update_at"                  property="updateAt"/>
+        <result column="image_url"                  property="imageUrl"/>
+        <result column="view_count"                 property="viewCount"/>
+        <result column="recommendation_count"       property="recommendationCount"/>
+        <result column="recipe_use_number"          property="recipeUseNumber"/>
+    </resultMap>
+
+    <delete id="removeRecipeById" parameterType="String">
+        /* 레시피 삭제 */
+        DELETE
+        FROM
+        recipe_reg
+        WHERE
+        recipe_code = #{recipeCode};
+    </delete>
+    <delete id="removeRecipeListById" parameterType="String">
+        /*  레시피 이력 삭제 */
+        DELETE
+        FROM
+        recipe_reg
+        WHERE
+        recipe_code = #{recipe_code};
+    </delete>
+
+
+    <update id="modifyRecipe" parameterType="Recipe">
+        <!-- 레시피 수정 -->
+        UPDATE recipe_reg
+        <trim prefix="SET" suffixOverrides=",">
+        <if test="recipeName != null and recipeName != ''">
+            recipe_name = #{recipeName},
+        </if>
+        <if test="recipeCategoryCode != null and recipeCategoryCode != ''">
+            recipe_category_code = #{recipeCategoryCode},
+        </if>
+        <if test="memberId != null and memberId != ''">
+            member_id = #{memberId},
+        </if>
+        <if test="recipeCal != null and recipeCal != ''">
+            recipe_cal = #{recipeCal},
+        </if>
+        <if test="imageUrl != null and imageUrl != ''">
+            image_url = #{imageUrl},
+           </if>
+            update_at = NOW(),
+
+        </trim>
+        WHERE
+        recipe_code = #{recipeCode};
+    </update>
+
+
+    <select id="getRecipeInfoById" parameterType="String" resultMap="recipeResultMap">
+        /* 특정 레시피 조회 */
+        SELECT
+        r.recipe_code
+        ,r.recipe_name
+        ,r.recipe_category_code
+        ,r.member_id
+        ,r.recipe_cal
+        ,r.recipe_quantity
+        ,r.reg_date
+        ,r.update_at
+        ,r.image_url
+        ,view_count
+        ,recommendation_count
+        ,recipe_use_number
+        FROM
+        recipe_reg AS r
+        WHERE
+        r.recipe_code = #{recipeCode};
+    </select>
+
+
+
+
+    <insert id="addRecipe" parameterType="Recipe">
+        /* 회원가입 */
+        INSERT INTO recipe_reg
+        (recipe_code, recipe_name, recipe_category_code, member_id, recipe_cal, recipe_quantity, image_url, reg_date)
+        VALUES
+        (#{recipeCode}, #{recipeName}, #{recipeCategoryCode}, #{memberId}, #{recipeCal}, #{recipeQuantity}, #{imageUrl}, SYSDATE());
+    </insert>
+
+    <select id="getRecipeList" resultMap="recipeResultMap">
+        /* 레시피 목록 조회 */
+        SELECT
+        recipe_code
+        ,recipe_name
+        ,recipe_category_code
+        ,member_id
+        ,recipe_cal
+        ,recipe_quantity
+        ,reg_date
+        ,update_at
+        ,image_url
+        ,view_count
+        ,recommendation_count
+        ,recipe_use_number
+        FROM
+        recipe_reg
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>
