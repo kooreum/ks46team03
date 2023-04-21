@@ -100,6 +100,17 @@
                 m.member_id  = #{memberId};
         </select>
 
+
+    <select id="nicknameCheck" parameterType="String" resultType="boolean">
+        /* 회원닉네임 중복체크 */
+        SELECT
+        if(COUNT(1)=0, 1, 0)
+        FROM
+        member as m
+        WHERE
+        m.member_nickname  = #{memberNickname};
+    </select>
+
         <select id="getMemberLevelList" resultType="MemberLevel">
             /* 회원 등급 조회 */
             SELECT

@@ -1,8 +1,11 @@
+
 <!DOCTYPE html>
+<!-- 관리자 페이지 내 회원가입 페이지!-->
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/admin_default}">
 <head>
+  <meta charset="UTF-8">
   <link rel="stylesheet" type="text/css" th:href="@{/admin/css/form.css}">
 </head>
 <th:block layout:fragment="customJs">
@@ -95,6 +98,8 @@
         <td>
           <button type="button" id="checkBtn">아이디 중복체크</button>
         </td>
+
+
       </tr>
       <tr>
         <td class="labeltd">
@@ -126,7 +131,16 @@
         <td colspan="2">
           <input type="text" id="memberName" name="memberName" placeholder="이름을 입력해 주세요" disabled="disabled"/>
         </td>
+
       <tr>
+        <td class="labeltd">
+          <label for="memberName">닉네임</label>
+        </td>
+        <td colspan="2">
+          <input type="text" id="nickName" name="nickName" placeholder="닉네임을 입력해 주세요" disabled="disabled"/>
+        </td>
+      <tr>
+
         <td class="labeltd">
           <label for="memberBirth">생년월일</label>
         </td>
@@ -149,6 +163,14 @@
           <input type="text" id="memberEmail" name="memberEmail" placeholder="이메일을 입력해 주세요" disabled="disabled"/>
         </td>
       </tr>
+      /* <tr>
+        <td class="labeltd">
+          <label for="newField">test</label>
+        </td>
+        <td colspan="2">
+          <input type="text" id="newField" name="newField" placeholder="ddddd" disabled="disabled"/>
+        </td>
+      </tr> */
       <tr>
         <td colspan="3">
           <button type="button" id="submitBtn" disabled="disabled">회원가입</button>
