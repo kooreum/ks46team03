@@ -1,23 +1,28 @@
 <!DOCTYPE html>
+
+<!-- 유저 페이지 회원로그인 페이지 !-->
+
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/user_default}">
 <head>
+    <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/user/css/form.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/user/css/login.css}">
 </head>
+
 <th:block layout:fragment="customJs">
     <script th:src="@{/js/jquery-3.6.4.js}"></script>
     <script type="text/javascript" th:inline="javascript">
         $('#resetBtn').click(function (){
             //location.href = '/member/memberList';
-            history.go(-1);
+            history.go(-1)
         });
 
-        let result = /*[[${result}]]*/;
+        let result =/*[[${result}]]*/;
         if(result) alert(result);
 
         const validationFn = ele => {
+
             let value = $(ele).val();
             let result = true;
             if (typeof value == 'undefined' || value == null || value == '') {
@@ -42,8 +47,9 @@
 </th:block>
 
 <th:block layout:fragment="customContent">
+
     <form id="loginForm" th:action="@{/user/member/login}" method="post">
-        <table th:object="${memberInfo}" class="table-center">
+        <table th:object="${memberInfo}">
             <tbody>
             <tr>
                 <td class="labeltd">
@@ -58,7 +64,7 @@
                     <label for="memberPw">회원비밀번호</label>
                 </td>
                 <td>
-                    <input type="text" id="memberPw" name="memberPw" placeholder="회원비밀번호를 입력해 주세요"/>
+                    <input type="password" id="memberPw" name="memberPw" placeholder="회원비밀번호를 입력해 주세요"/>
                 </td>
             </tr>
             <tr>
@@ -71,6 +77,5 @@
         </table>
     </form>
 
-    <br><br>
 </th:block>
 </html>

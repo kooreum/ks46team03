@@ -1,160 +1,160 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-    <header class="header-area" th:fragment="headerFragment">
+<header class="header-area" th:fragment="headerFragment">
 
-        <!-- Top Header Area -->
-        <div class="top-header-area">
-            <div class="container h-100">
-                <div class="row h-100 align-items-center justify-content-between">
-                    <!-- Breaking News -->
-                    <div class="col-12 col-sm-6">
-                        <div class="breaking-news">
-                            <div id="breakingNewsTicker" class="ticker">
-                                <ul>
-                                    <li th:if="${session.SID != null}" id="welcome-message"><a th:text="${session.SID} + '&nbsp' + '님' + '&nbsp&nbsp' + '어서오세요.'" style="color:royalblue;"></a></li>
-                                    <li><a th:text="'열려라 냉장고 입니다'" style="color:royalblue;"></a></li>
-                                </ul>
-                            </div>
+    <!-- Top Header Area -->
+    <div class="top-header-area">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center justify-content-between">
+                <!-- Breaking News -->
+                <div class="col-12 col-sm-6">
+                    <div class="breaking-news">
+                        <div id="breakingNewsTicker" class="ticker">
+                            <ul>
+                                <li th:if="${session.SID != null}" id="welcome-message"><a th:text="${session.SID} + '&nbsp' + '님' + '&nbsp&nbsp' + '어서오세요.'" style="color:royalblue;"></a></li>
+                                <li><a th:text="'열려라 냉장고 입니다'" style="color:royalblue;"></a></li>
+                            </ul>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Top Social Info -->
-                    <div class="col-12 col-sm-6">
-                        <div class="top-social-info text-right">
-                            <a th:if="${session.SID == null}"     th:href="@{/user/member/login}">로그인</a>
-                            <a th:unless="${session.SID == null}" th:href="@{/user/member/logout}">로그아웃</a>
-                            <a th:if="${session.SID == null}" th:href="@{/user/member/addMember}">회원가입</a>
-                            <a th:unless="${session.SID == null}" th:href="@{/user/member/modifyMember(memberId=${session.SID})}">마이페이지</a>
-                        </div>
+                <!-- Top Social Info -->
+                <div class="col-12 col-sm-6">
+                    <div class="top-social-info text-right">
+                        <a th:if="${session.SID == null}"     th:href="@{/user/member/login}">로그인</a>
+                        <a th:unless="${session.SID == null}" th:href="@{/user/member/logout}">로그아웃</a>
+                        <a th:if="${session.SID == null}" th:href="@{/user/member/addMember}">회원가입</a>
+                        <a th:unless="${session.SID == null}" th:href="@{/user/member/modifyMember(memberId=${session.SID})}">마이페이지</a>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Navbar Area -->
-        <div class="delicious-main-menu">
-            <div class="classy-nav-container breakpoint-off">
-                <div class="container">
+    <!-- Navbar Area -->
+    <div class="delicious-main-menu">
+        <div class="classy-nav-container breakpoint-off">
+            <div class="container">
+                <!-- Menu -->
+                <nav class="classy-navbar justify-content-between" id="deliciousNav">
+
+                    <!-- Logo -->
+                    <a class="nav-brand" href="/user/index"><img src="/user/img/core-img/logo.jpg" alt=""></a>
+
+                    <!-- Navbar Toggler -->
+                    <div class="classy-navbar-toggler">
+                        <span class="navbarToggler"><span></span><span></span><span></span></span>
+                    </div>
+
                     <!-- Menu -->
-                    <nav class="classy-navbar justify-content-between" id="deliciousNav">
+                    <div class="classy-menu">
 
-                        <!-- Logo -->
-                        <a class="nav-brand" href="/user/index"><img src="/user/img/core-img/logo.jpg" alt=""></a>
-
-                        <!-- Navbar Toggler -->
-                        <div class="classy-navbar-toggler">
-                            <span class="navbarToggler"><span></span><span></span><span></span></span>
+                        <!-- close btn -->
+                        <div class="classycloseIcon">
+                            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
                         </div>
 
-                        <!-- Menu -->
-                        <div class="classy-menu">
+                        <!-- Nav Start -->
+                        <div class="classynav">
+                            <ul>
+                                <li><a href="/user/index">Home</a></li>
 
-                            <!-- close btn -->
-                            <div class="classycloseIcon">
-                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
-                            </div>
-
-                            <!-- Nav Start -->
-                            <div class="classynav">
-                                <ul>
-                                    <li><a href="/user/index">Home</a></li>
-
-                                    <li><a href="#">카테고리</a>
-                                        <div class="megamenu">
-                                            <ul class="single-mega cn-col-2">
-                                                <li class="title">레시피별 카테고리</li>
-                                                <br>
-                                                <li>&nbsp</li>
-                                                <li>&nbsp</li>
-                                                <li>&nbsp</li>
-                                                <li><a href="index.html">밥요리</a></li>
-                                                <li><a href="about.html">샐러드</a></li>
-                                                <li><a href="blog-post.html">야식&술안주</a></li>
-                                                <li><a href="receipe-post.html">스파게티</a></li>
-                                                <li><a href="contact.html">간식&분식</a></li>
-                                                <li><a hreff="index.html">토스트&샌드위치</a></li>
-                                                <li><a href="about.html">디저트</a></li>
-                                                <li><a href="blog-post.html">국&탕</a></li>
-                                                <li><a href="receipe-post.html">찌개&전골</a></li>
-                                                <li><a href="contact.html">밑반찬</a></li>
-                                                <li><a hreff="index.html">볶음요리</a></li>
-                                                <li><a href="about.html">구이</a></li>
-                                                <li><a href="blog-post.html">찜&조림</a></li>
-                                                <li><a href="receipe-post.html">튀김</a></li>
-                                                <li><a hreff="index.html">면요리</a></li>
-                                                <li><a hreff="index.html">기타</a></li>
-                                            </ul>
+                                <li><a href="#">카테고리</a>
+                                    <div class="megamenu">
+                                        <ul class="single-mega cn-col-2">
+                                            <li class="title">레시피별 카테고리</li>
                                             <br>
-                                            <ul class="single-mega cn-col-2">
-                                                <li class="title">재료별 카테고리</li>
-                                                <br>
-                                                <li>&nbsp</li>
-                                                <li>&nbsp</li>
-                                                <li>&nbsp</li>
-                                                <li><a href="index.html">소고기</a></li>
-                                                <li><a href="about.html">밀가루</a></li>
-                                                <li><a href="blog-post.html">건어물류</a></li>
-                                                <li><a href="receipe-post.html">버섯류</a></li>
-                                                <li><a href="contact.html">과일류</a></li>
-                                                <li><a hreff="index.html">콩&견과류</a></li>
-                                                <li><a href="about.html">곡류</a></li>
-                                                <li><a href="blog-post.html">돼지고기</a></li>
-                                                <li><a href="receipe-post.html">닭고기</a></li>
-                                                <li><a href="contact.html">육류</a></li>
-                                                <li><a hreff="index.html">채소류</a></li>
-                                                <li><a href="about.html">해물류</a></li>
-                                                <li><a href="blog-post.html">달걀&유제품</a></li>
-                                                <li><a href="receipe-post.html">가공식품류</a></li>
-                                                <li><a hreff="index.html">쌀</a></li>
-                                                <li><a hreff="index.html">기타</a></li>
-                                            </ul>
-
-<!--                                            <div class="single-mega cn-col-4">-->
-<!--                                                <div class="receipe-slider owl-carousel">-->
-<!--                                                    <a href="#"><img src="img/bg-img/bg1.jpg" alt=""></a>-->
-<!--                                                    <a href="#"><img src="img/bg-img/bg6.jpg" alt=""></a>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-                                        </div>
-                                    </li>
-
-                                    <li><a th:href="@{/user/fridge}">냉장고</a></li>
-                                    <li><a th:href="@{/user/recipe}">레시피</a></li>
-                                    <li><a href="receipe-post.html">즐겨찾기</a></li>
-
-                                    <li><a href="#">더보기</a>
-                                        <ul class="dropdown">
-                                            <li><a th:href="@{/user/noticeList}">공지 게시판</a></li>
-                                            <li><a th:href="@{/user/inquiryList}">문의 게시판</a></li>
-                                            <li><a th:href="@{/user/reportList}">신고 게시판</a></li>
-                                            <li><a th:if="${session.SID == null}"></a>
-                                                <a th:unless="${session.SID == null or session.SID != 'id1'}"
-                                                   th:href="@{/user/member/memberList(memberId=${session.SID == 'id1' ? 'id1' : ''})}">관리자페이지</a>
-                                            </li>
-<!--                                            <li><a th:if="${session.SID == null}"></a>-->
-<!--                                                <a th:unless="${session.SID == null}"-->
-<!--                                                   th:href="@{/user/member/modifyMember(memberId=${session.SID == 'id1' ? 'id1' : ''})}">관리자페이지</a>-->
-<!--                                            </li>-->
+                                            <li>&nbsp</li>
+                                            <li>&nbsp</li>
+                                            <li>&nbsp</li>
+                                            <li><a href="index.html">밥요리</a></li>
+                                            <li><a href="about.html">샐러드</a></li>
+                                            <li><a href="blog-post.html">야식&술안주</a></li>
+                                            <li><a href="receipe-post.html">스파게티</a></li>
+                                            <li><a href="contact.html">간식&분식</a></li>
+                                            <li><a hreff="index.html">토스트&샌드위치</a></li>
+                                            <li><a href="about.html">디저트</a></li>
+                                            <li><a href="blog-post.html">국&탕</a></li>
+                                            <li><a href="receipe-post.html">찌개&전골</a></li>
+                                            <li><a href="contact.html">밑반찬</a></li>
+                                            <li><a hreff="index.html">볶음요리</a></li>
+                                            <li><a href="about.html">구이</a></li>
+                                            <li><a href="blog-post.html">찜&조림</a></li>
+                                            <li><a href="receipe-post.html">튀김</a></li>
+                                            <li><a hreff="index.html">면요리</a></li>
+                                            <li><a hreff="index.html">기타</a></li>
                                         </ul>
-                                    </li>
+                                        <br>
+                                        <ul class="single-mega cn-col-2">
+                                            <li class="title">재료별 카테고리</li>
+                                            <br>
+                                            <li>&nbsp</li>
+                                            <li>&nbsp</li>
+                                            <li>&nbsp</li>
+                                            <li><a href="index.html">소고기</a></li>
+                                            <li><a href="about.html">밀가루</a></li>
+                                            <li><a href="blog-post.html">건어물류</a></li>
+                                            <li><a href="receipe-post.html">버섯류</a></li>
+                                            <li><a href="contact.html">과일류</a></li>
+                                            <li><a hreff="index.html">콩&견과류</a></li>
+                                            <li><a href="about.html">곡류</a></li>
+                                            <li><a href="blog-post.html">돼지고기</a></li>
+                                            <li><a href="receipe-post.html">닭고기</a></li>
+                                            <li><a href="contact.html">육류</a></li>
+                                            <li><a hreff="index.html">채소류</a></li>
+                                            <li><a href="about.html">해물류</a></li>
+                                            <li><a href="blog-post.html">달걀&유제품</a></li>
+                                            <li><a href="receipe-post.html">가공식품류</a></li>
+                                            <li><a hreff="index.html">쌀</a></li>
+                                            <li><a hreff="index.html">기타</a></li>
+                                        </ul>
 
-<!--                                    <li><a href="receipe-post.html">4 Vegans</a></li>-->
-<!--                                    <li><a href="contact.html">고객센터</a></li>-->
-                                </ul>
+                                        <!--                                            <div class="single-mega cn-col-4">-->
+                                        <!--                                                <div class="receipe-slider owl-carousel">-->
+                                        <!--                                                    <a href="#"><img src="img/bg-img/bg1.jpg" alt=""></a>-->
+                                        <!--                                                    <a href="#"><img src="img/bg-img/bg6.jpg" alt=""></a>-->
+                                        <!--                                                </div>-->
+                                        <!--                                            </div>-->
+                                    </div>
+                                </li>
 
-                                <!-- Newsletter Form -->
-                                <div class="search-btn">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                </div>
+                                <li><a th:href="@{/user/fridge}">냉장고</a></li>
+                                <li><a th:href="@{/user/recipe}">레시피</a></li>
+                                <li><a href="receipe-post.html">즐겨찾기</a></li>
 
+                                <li><a href="#">더보기</a>
+                                    <ul class="dropdown">
+                                        <li><a th:href="@{/user/noticeList}">공지 게시판</a></li>
+                                        <li><a th:href="@{/user/inquiryList}">문의 게시판</a></li>
+                                        <li><a th:href="@{/user/reportList}">신고 게시판</a></li>
+                                        <li><a th:if="${session.SID == null}"></a>
+                                            <a th:unless="${session.SID == null or session.SID != 'id1'}"
+                                               th:href="@{/user/member/memberList(memberId=${session.SID == 'id1' ? 'id1' : ''})}">관리자페이지</a>
+                                        </li>
+                                        <!--                                            <li><a th:if="${session.SID == null}"></a>-->
+                                        <!--                                                <a th:unless="${session.SID == null}"-->
+                                        <!--                                                   th:href="@{/user/member/modifyMember(memberId=${session.SID == 'id1' ? 'id1' : ''})}">관리자페이지</a>-->
+                                        <!--                                            </li>-->
+                                    </ul>
+                                </li>
+
+                                <!--                                    <li><a href="receipe-post.html">4 Vegans</a></li>-->
+                                <!--                                    <li><a href="contact.html">고객센터</a></li>-->
+                            </ul>
+
+                            <!-- Newsletter Form -->
+                            <div class="search-btn">
+                                <i class="fa fa-search" aria-hidden="true"></i>
                             </div>
-                            <!-- Nav End -->
+
                         </div>
-                    </nav>
-                </div>
+                        <!-- Nav End -->
+                    </div>
+                </nav>
             </div>
         </div>
-    </header>
+    </div>
+</header>
 
 </html>

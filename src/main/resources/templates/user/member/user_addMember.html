@@ -1,37 +1,29 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+
+<!--유저 회원가입 페이지!-->
+<!--알러지정보, 성별, 다이어트 유무 정보가 DB에 들어가지 않음 230420:1530 !-->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/user_default}">
+
 <head>
+  <meta charset="UTF-8">
   <link rel="stylesheet" type="text/css" th:href="@{/user/css/form.css}">
-  <link rel="stylesheet" type="text/css" th:href="@{/user/css/login.css}">
 </head>
 <th:block layout:fragment="customJs">
   <script th:src="@{/js/jquery-3.6.4.js}"></script>
   <script>
-    $(function (){
-      //alert('제이쿼리')
-      function validationCheck(ele){
-        let data = $(ele).val();
-        let isValid = true;
-        if(typeof data == 'undefined' || data == null || data == ''){
-          isValid = false;
-        }
-        return isValid;
-      }
+    function validationCheck(item) {
+      return true;
+    }
 
-      $('#memberId').change(function (){
-        $('#addMemberForm input').not('#memberId').prop('disabled', true);
-        $('#addMemberForm button').not('#checkBtn').prop('disabled', true);
-        $('#addMemberForm select').prop('disabled', true);
-      });
-
-
-      $('#checkBtn').click(function(){
+    $(function () {
+      // 아이디 중복 체크
+      $('#checkBtn').click(function () {
         const memberIdEle = $('#memberId');
         let memberId = memberIdEle.val();
         console.log(memberId);
-        if(typeof memberId == 'undefined' || memberId == null || memberId == ''){
+        if (typeof memberId == 'undefined' || memberId == null || memberId == '') {
           alert('회원아이디를 입력해주세요');
           memberIdEle.focus();
           return false;
@@ -39,18 +31,18 @@
         let request = $.ajax({
           url: '/user/member/idCheck',
           method: 'POST',
-          data: { 'memberId' : memberId },
-          dataType: 'json'
+          data: {'memberId': memberId},
+          //dataType: 'json'
         });
 
-        request.done(function ( check ) {
+        request.done(function (check) {
           console.log(typeof check)
           console.log(check)
-          if(!check){
+          if (!check) {
             alert('중복된 아이디 입니다.');
             memberIdEle.val('');
             memberIdEle.focus();
-          }else {
+          } else {
             // 중복이 아닐 경우 속성의 disabled를 제거
             $('#addMemberForm input').prop('disabled', false);
             $('#addMemberForm button').prop('disabled', false);
@@ -58,108 +50,327 @@
           }
         });
 
-        request.fail(function ( jqXHR, textStatus ){
+        request.fail(function (jqXHR, textStatus) {
           alert(`Request failed: ${textStatus}`);
         });
       });
 
-      $('#submitBtn').click(function (){
-        const addMemberForm = $('#addMemberForm');
-        const inputGroup = $('#addMemberForm input');
-        let isSubmit = true;
-        inputGroup.each(function (idx, item){
-          isSubmit = validationCheck(item);
-          if(!isSubmit) {
-            let msg = $(item).parents('tr').find('label').text();
-            alert(msg + '입력해주세요.');
-            $(item).focus();
+
+
+
+      $(function () {
+        // 닉네임 중복 체크
+        //nickChkBtn 선택자
+
+        $('#nickChkBtn').click(function () {
+          let memberNicknameEle = $('#checkNickname');
+          let memberNickname = memberNicknameEle.val();
+          console.log(memberNickname);
+
+          if (typeof memberNickname == 'undefined' || memberNickname == null || memberNickname == '') {
+            alert('닉네임을 입력해주세요');
+            memberNicknameEle.focus();
             return false;
           }
+          let request = $.ajax({
+            url: '/user/member/nickCheck',
+            method: 'POST',
+            data: {'memberNickname': memberNickname},
+            //dataType: 'json
+          });
+
+          request.done(function (checkNickname) {
+            console.log(typeof checkNickname);
+            console.log(checkNickname);
+            if (!checkNickname) {
+              alert('중복된 닉네임입니다.');
+              memberNicknameEle.val('');
+              memberNicknameEle.focus();
+            } else {
+              // 중복이 아닐 경우 속성의 disabled를 제거
+              $('#addMemberForm input').prop('disabled', false);
+              $('#addMemberForm button').prop('disabled', false);
+              $('#addMemberForm select').prop('disabled', false);
+            }
+          });
+
+          request.fail(function ( jqXHR, textStatus ){
+            alert(`Request failed: ${textStatus}`);
+          });
         });
-        if (isSubmit) addMemberForm.submit();
+
+        $('#submitBtn').click(function (){
+          const addMemberForm = $('#addMemberForm');
+          const inputGroup = $('#addMemberForm input');
+          let isSubmit = true;
+          inputGroup.each(function (idx, item){
+            isSubmit = validationCheck(item);
+            if(!isSubmit) {
+              let msg = $(item).parents('tr').find('label').text();
+              alert(msg + '입력해주세요.');
+              $(item).focus();
+              return false;
+            }
+          });
+          if (isSubmit) addMemberForm.submit();
+        });
       });
+
+
+
     });
+
+
+
+
+
+
+    //성별 체크박스 한쪽 누르면 한쪽 해제됨
+
+    /* $('input[type="checkbox"]').change(function () {
+       $('input[type="checkbox"]').not(this).prop('checked', false);
+
+     });*/
+
+    //
+
+
+    //비밀번호 확인
+    $(document).ready(function () {
+      $('#memberPw').on('input', function () {
+        $('#passwordResult').html('');
+      });
+
+      $('#memberPwChk').on('input', function () {
+        if ($('#memberPw').val() !== $('#memberPwChk').val()) {
+          $('#passwordResult').html('<p style="color: #f82a2aa3;padding-right: 7px; text-align: right"  >비밀번호 일치하지 않음</p>');
+        } else {
+          $('#passwordResult').html('<p style="color: #199894b3; padding-right: 7px; text-align: right">비밀번호 일치함</p>');
+        }
+      });
+
+    });
+
+    //추후수정
+    /*$(document).ready(function () {
+      $('#accountList').change(function(){
+        $('#accountLandingUrl').val($(this).find(':selected').attr('data-landUrl'));
+      });
+    });*/
+
+    //메일
+    /*$(function() {
+      $('#select').change(function() {
+        if ($('#select').val() == 'directly') {
+          $('#textEmail').attr("disabled", false);
+          $('#textEmail').val("");
+          $('#textEmail').focus();
+        } else {
+          $('#textEmail').val($('#select').val());
+        }
+      })
+    });*/
+
+
   </script>
 </th:block>
 
 <th:block layout:fragment="customContent">
-  <form id="addMemberForm"  th:action="@{/user/member/addMember}" method="post">
-    <table class="table-center">
+  <form id="addMemberForm"th:action="@{/user/member/addMember}" method="post">
+    <table>
       <tbody>
-        <tr>
-          <td class="labeltd">
-            <label for="memberId">아이디</label>
-          </td>
-          <td>
-            <input type="text" id="memberId" name="memberId" placeholder="회원아이디를 입력해 주세요"/>
-          </td>
-          <td>
-            <button type="button" id="checkBtn">아이디 중복체크</button>
-          </td>
-        </tr>
-        <tr>
-          <td class="labeltd">
-            <label for="memberPw">비밀번호</label>
-          </td>
-          <td colspan="2">
-            <input type="text" id="memberPw" name="memberPw" placeholder="회원비밀번호를 입력해 주세요" disabled="disabled"/>
-          </td>
-        </tr>
-        <tr>
-          <td class="labeltd">
-            <label for="levelNum">회원등급</label>
-          </td>
-          <td colspan="2">
-            <select id="levelNum" name="levelNum" disabled="disabled">
-              <th:block th:unless="${memberLevelList == null}" th:each="l : ${memberLevelList}">
-                <option th:value="${l.levelNum}">[[${l.memberLevel}]]</option>
-              </th:block>
-              <th:block th:if="${memberLevelList == null}">
-                <option>등록된 회원등급이 없습니다.</option>
-              </th:block>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td class="labeltd">
-            <label for="memberName">이름</label>
-          </td>
-          <td colspan="2">
-            <input type="text" id="memberName" name="memberName" placeholder="이름을 입력해 주세요" disabled="disabled"/>
-          </td>
-        <tr>
-          <td class="labeltd">
-            <label for="memberBirth">생년월일</label>
-          </td>
-          <td colspan="2">
-            <input type="text" id="memberBirth" name="memberBirth" placeholder="생년월일을 입력해 주세요" disabled="disabled"/>
-          </td>
-        <tr>
-          <td class="labeltd">
-            <label for="memberPhone">전화번호</label>
-          </td>
-          <td colspan="2">
-            <input type="text" id="memberPhone" name="memberPhone" placeholder="번호를 입력해 주세요" disabled="disabled"/>
-          </td>
-        </tr>
-        <tr>
-          <td class="labeltd">
-            <label for="memberEmail">이메일</label>
-          </td>
-          <td colspan="2">
-            <input type="text" id="memberEmail" name="memberEmail" placeholder="이메일을 입력해 주세요" disabled="disabled"/>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="3">
-            <button type="button" id="submitBtn" disabled="disabled">회원가입</button>
-            <button type="button" id="resetBtn" disabled="disabled">입력취소</button>
-          </td>
-        </tr>
+
+      <!--아이디!-->
+      <tr>
+        <td class="labeltd">
+          <label for="memberId">아이디</label>
+        </td>
+        <td>
+          <input type="text" id="memberId" name="memberId" placeholder="회원아이디를 입력해 주세요"/>
+        </td>
+        <td>
+          <button type="button" id="checkBtn">아이디 중복체크</button>
+        </td>
+      </tr>
+
+      <!--비밀번호!-->
+      <tr>
+        <td class="labeltd">
+          <label for="memberPw">비밀번호</label>
+        </td>
+        <td colspan="2">
+          <input type="password" id="memberPw" name="memberPw" plplaceholder="비밀번호를 입력해 주세요"/>
+        </td>
+      </tr>
+      <tr>
+        <td class="labeltd">
+          <label for="memberPwChk">비밀번호 재입력</label>
+        </td>
+        <td colspan="2">
+          <input type="password" id="memberPwChk" name="memberPwChk"placeholder="비밀번호 확인"/>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          <div id="passwordResult"></div>
+        </td>
+      </tr>
+
+
+      <!--이름!-->
+      <tr>
+        <td class="labeltd">
+          <label for="memberName">이름</label>
+        </td>
+        <td colspan="2">
+          <input type="text" id="memberName" name="memberName" placeholder="이름을 입력해 주세요 ex:홍길동" disabled="disabled"/>
+        </td>
+        <!--생년월일!-->
+
+      <tr>
+        <td class="labeltd">
+          <label for="memberBirth">생년월일</label>
+        </td>
+        <td colspan="2">
+          <input type="text" id="memberBirth" name="memberBirth" placeholder="생년월일을 입력해 주세요 ex:20000101" disabled="disabled"/>
+        </td>
+        <!--닉네임!-->
+
+      <tr>
+        <td class="labeltd">
+          <label for="memberNickname">닉네임</label>
+        </td>
+        <td>
+          <input type="text" id="memberNickname" name="memberNickname" placeholder="닉네임을 입력해 주세요" />
+        </td>
+        <td>
+          <button type="button" id="nickChkBtn">닉네임 중복체크</button>
+        </td>
+      </tr>
+
+
+
+      <!--성별선택!-->
+      <!--  <tr>
+        <td class="labeltd">
+          <label for="memberGender">성별</label>
+        </td>
+        <td colspan="2">
+          <label>
+            <input type="checkbox" id="memberGender" name="memberGender" value="남">남성
+          </label>
+          <label>
+            <input type="checkbox" name="memberGender" value="여">여성
+          </label>
+
+        </td>
+      </tr> !-->
+
+
+      <!--설별선택!-->
+      <tr>
+        <td class="labeltd">
+          <label for="memberGender">성별선택</label>
+        </td>
+        <td colspan="2">
+
+          <select id="memberGender" neme="memberGenderSelect">
+            <option value="gender">선택안함</option>
+            <option value="man"> 남 </option>
+            <option value="girl"> 여 </option>
+          </select>
+        </td>
+      </tr>
+
+      <!--알러지 유무!-->
+      <tr>
+        <td class="labeltd">
+          <label for="memberAllergy">알러지유무</label>
+        </td>
+        <td colspan="2">
+
+          <select id="memberAllergy" neme="memberAllergySelect">
+            <option value="allergy">선택안함</option>
+            <option value="allergytrue">T</option>
+            <option value="noneallergy">F</option>
+          </select>
+        </td>
+      </tr>
+
+
+      <!--다이어트 유무!-->
+      <tr>
+        <td class="labeltd">
+          <label for="memberDiet">다이어트유무</label>
+        </td>
+        <td colspan="2">
+
+          <select id="memberDiet" neme="memberDietSelect">
+            <option value="dite">선택안함</option>
+            <option value="ditetrue">T</option>
+            <option value="nonedite">F</option>
+          </select>
+        </td>
+      </tr>
+
+
+      <!--전화번호!-->
+      <tr>
+        <td class="labeltd">
+          <label for="memberPhone">전화번호</label>
+        </td>
+        <td colspan="2">
+          <input type="text" id="memberPhone" name="memberPhone" placeholder="전화번호를 입력해 주세요 ex:010-0000-0000" disabled="disabled"/>
+        </td>
+      </tr>
+
+
+
+      <!--이메일!-->
+
+       <tr>
+         <td class="labeltd">
+           <label for="memberEmail">이메일</label>
+         </td>
+         <td colspan="2">
+           <input type="text" id="memberEmail" name="memberEmail" placeholder="이메일을 입력해 주세요" disabled="disabled"/>
+         </td>
+       </tr>
+
+      <!--회원등급!-->
+      <tr>
+        <td class="labeltd">
+          <label for="levelNum">회원등급</label>
+        </td>
+        <td colspan="2">
+          <select id="levelNum" name="levelNum" disabled="disabled">
+            <th:block th:unless="${memberLevelList == null}" th:each="l : ${memberLevelList}">
+              <option th:value="${l.levelNum}">[[${l.memberLevel}]]</option>
+            </th:block>
+            <th:block th:if="${memberLevelList == null}">
+              <option>등록된 회원등급이 없습니다.</option>
+            </th:block>
+          </select>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+          <button type="button" id="submitBtn" disabled="disabled">회원가입</button>
+          <button type="button" id="resetBtn" disabled="disabled">입력취소</button>
+        </td>
+      </tr>
       </tbody>
     </table>
   </form>
 
-  <br><br>
 </th:block>
 </html>
+
+
+
+
+
+
+
+

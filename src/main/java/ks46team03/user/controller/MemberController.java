@@ -1,5 +1,6 @@
 package ks46team03.user.controller;
-
+//로그인 회원 불일치시 알람창 > 등록된 회원 정보가 없습니다' 를
+// 등록된 정보가 없거나 아이디 패스워드를 확인해주세요 로 변경했습니다.
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,7 +23,8 @@ import java.util.Map;
 @Controller("userMemberController")
 @RequestMapping("/user/member")
 public class MemberController {
-    private static final Logger log = LoggerFactory.getLogger(MemberController.class);
+    private static final Logger
+            log = LoggerFactory.getLogger(MemberController.class);
     private final UserMemberService userMemberService;
     private final UserMemberMapper userMemberMapper;
 
@@ -69,7 +71,7 @@ public class MemberController {
 
             redirect = "redirect:/";
         }else {
-            reAttr.addAttribute("result", "일치하는 회원의 정보가 없습니다");
+            reAttr.addAttribute("result", "등록된 정보가 없거나 아이디 패스워드를 확인해주세요");
         }
 
         return redirect;
@@ -99,6 +101,16 @@ public class MemberController {
         checked = userMemberMapper.idCheck(memberId);
 
         return checked;
+    }
+//수정
+    @PostMapping("/nickCheck")
+    @ResponseBody
+    public boolean nickCheck(@RequestParam(name = "memberNickname") String memberNickname) {
+        boolean checked1 = true;
+        //닉네임 중복체크
+        checked1 = userMemberMapper.nickCheck(memberNickname);
+
+        return checked1;
     }
 
     @GetMapping("/addMember")
