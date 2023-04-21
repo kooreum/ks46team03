@@ -38,11 +38,15 @@ button:not(#submitBtn, #resetBtn){
 #submitBtn, #resetBtn{
 	width: 47%;
 }
-
+#submitBtn{
+	margin-right: 30px;
+}
 .labeltd{
-	background-color: cornflowerblue;
+	background-color: lightblue;
 	color: white;
 	font-weight: bold;
 	font-size: larger;
 }
-
+.table-center {
+	margin: auto;
+}

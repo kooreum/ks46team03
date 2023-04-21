@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks46team03.user.mapper.UserRecipeMapper">
+        <resultMap id="recipeResultMap" type="Recipe">
+        <id     column="recipe_code" property="recipeCode"/>
+        <result column="recipe_name" property="recipeName"/>
+        <result column="recipe_category_code" property="recipeCategoryCode"/>
+        <result column="member_id" property="memberId"/>
+        <result column="recipe_cal" property="recipeCal"/>
+        <result column="recipe_quantity" property="recipeQuantity"/>
+        <result column="reg_date" property="regDate"/>
+        <result column="update_at" property="updateAt"/>
+        <result column="image_url" property="imageUrl"/>
+        <result column="view_count" property="viewCount"/>
+        <result column="recommendation_count" property="recommendationCount"/>
+        <result column="recipe_use_number" property="recipeUseNumber"/>
+<!--        <collection property="sellerList" ofType="Goods">-->
+<!--            <id     column="g_code" property="goodsCode"/>-->
+<!--            <result column="g_name" property="goodsName"/>-->
+<!--            <result column="g_price" property="goodsPrice"/>-->
+<!--            <result column="g_seller_id" property="goodsSellerId"/>-->
+<!--            <result column="g_reg_date" property="goodsRegDate"/>-->
+<!--        </collection>-->
+    </resultMap>
+
+    <select id="getRecipeList" parameterType="String" resultType="Recipe">
+        /* 상품목록조회 */
+        SELECT
+        r.recipe_code              as recipeCode
+        ,r.recipe_name              as recipeName
+        ,r.recipe_category_code     as recipeCategoryCode
+        ,r.member_id                as memberId
+        ,r.recipe_cal               as recipeCal
+        ,r.recipe_quantity          as recipeQuantity
+        ,r.reg_date                 as regDate
+        FROM
+        recipe_reg as r
+        INNER JOIN
+        member as m
+        ON
+        r.member_id = m.member_id
+        <where>
+            <if test="searchKey != null and searchKey != ''">
+                ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+            </if>
+        </where>
+        ORDER BY r.recipe_code;
+    </select>
+
+
+</mapper>

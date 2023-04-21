@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin_default}">
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/admin/css/form.css}">
+</head>
+<th:block layout:fragment="customJs">
+    <script th:src="@{/js/jquery-3.6.4.js}"></script>
+    <script>
+        $('#resetBtn').click(function (){
+            history.go(-1);
+        });
+        $(function (){
+            //alert('제이쿼리')
+            function validationCheck(ele){
+                let data = $(ele).val();
+                let isValid = true;
+                if(typeof data == 'undefined' || data == null || data == ''){
+                    isValid = false;
+                }
+                return isValid;
+            }
+
+
+            $('#submitBtn').click(function (){
+                const addIngredientForm = $('#addIngredientForm');
+                const inputGroup = $('#addIngredientForm input');
+                let isSubmit = true;
+                inputGroup.each(function (idx, item){
+                    isSubmit = validationCheck(item);
+                    if(!isSubmit) {
+                        let msg = $(item).parents('tr').find('label').text();
+                        alert(msg + '입력해주세요.');
+                        $(item).focus();
+                        return false;
+                    }
+                });
+                if (isSubmit) addIngredientForm.submit();
+            });
+        });
+    </script>
+</th:block>
+
+<th:block layout:fragment="customContents">
+    <form id="addIngredientForm" th:action="@{/admin/ingredient/admin_addIngredient}" method="post">
+        <table>
+            <tbody>
+            <tr>
+                <td class="labeltd">
+                    <label for="ingredientCode">재료코드</label>
+                </td>
+                <td colspan="2">
+                    <input type="text" id="ingredientCode" name="ingredientCode" placeholder="재료코드를 입력해 주세요" />
+                </td>
+            </tr>
+
+            <tr>
+                <td class="labeltd">
+                    <label for="memberId">재료등록 회원이름</label>
+                </td>
+                <td>
+                    <input type="text" id="memberId" name="memberId" placeholder="회원아이디를 입력해 주세요"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="labeltd">
+                    <label for="ingredientName">재료이름</label>
+                </td>
+                <td colspan="2">
+                    <input type="text" id="ingredientName" name="ingredientName" placeholder="재료이름을 입력해 주세요" />
+                </td>
+            </tr>
+
+            <tr>
+                <td class="labeltd">
+                    <label for="ingredientCategoryCode">카테고리코드</label>
+                </td>
+                <td colspan="2">
+                    <input type="text" id="ingredientCategoryCode" name="ingredientCategoryCode" placeholder="카테고리코드를 입력해 주세요" />
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="5">
+                    <button type="button" id="submitBtn" >재료등록</button>
+                    <button type="button" id="resetBtn" >입력취소</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+</th:block>
+</html>
