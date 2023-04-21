@@ -101,7 +101,9 @@ table td.labeltd {
 	padding: 10px 15px;
 }
 
-
+.table-center {
+	margin: auto;
+}
 
 
 

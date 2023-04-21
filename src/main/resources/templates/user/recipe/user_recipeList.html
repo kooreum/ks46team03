@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/user_default}">
+<head>
+	<link rel="stylesheet" type="text/css" th:href="@{/user/css/table.css}" />
+</head>
+
+<th:block layout:fragment="customContent">
+	<div th:include="~{/user/search/user_search :: searchFragment2}"></div>
+	<table class="table-center">
+		<thead>
+			<tr>
+				<th>레시피코드</th>
+				<th>레시피명</th>
+<!--				<th>카테고리코드</th>-->
+				<th>아이디</th>
+				<th>칼로리</th>
+				<th>레시피양</th>
+				<th>상품등록일자</th>
+				<th>수정</th>
+				<th>삭제</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:unless="${recipeList == null}" th:each=" l : ${recipeList}">
+				<td th:text="${l.recipeCode}"></td>
+				<td th:text="${l.recipeName}"></td>
+<!--				<td th:text="${l.recipeCategoryCode}"></td>-->
+				<td th:text="${l.memberId}"></td>
+				<td th:text="${l.recipeCal}"></td>
+				<td th:text="${l.recipeQuantity} + '인분'"></td>
+				<td th:text="${l.regDate}"></td>
+				<td>
+					<a th:href="@{/user/recipe/modifyRecipe(memberId=${l.memberId})}">수정</a>
+				</td>
+				<td>
+					<a th:href="@{/user/recipe/removeRecipe(memberId=${l.memberId})}">삭제</a>
+				</td>
+			</tr>
+			<tr th:if="${recipeList == null}">
+				<td colspan="7">등록된 상품의 정보가 없습니다.</td>
+			</tr>
+
+		</tbody>
+	</table>	
+</th:block>
+
+</html>

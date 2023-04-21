@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 
-@Controller
+@Controller("adminRecipeController")
 @RequestMapping("/admin")
 public class RecipeController {
 
