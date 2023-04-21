@@ -4,6 +4,7 @@
       layout:decorate="~{layout/user_default}">
 <head>
   <link rel="stylesheet" type="text/css" th:href="@{/user/css/form.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/user/css/login.css}">
 </head>
 <th:block layout:fragment="customJs">
   <script th:src="@{/js/jquery-3.6.4.js}"></script>
@@ -83,7 +84,7 @@
 
 <th:block layout:fragment="customContent">
   <form id="addMemberForm"  th:action="@{/user/member/addMember}" method="post">
-    <table>
+    <table class="table-center">
       <tbody>
         <tr>
           <td class="labeltd">
@@ -159,5 +160,6 @@
     </table>
   </form>
 
+  <br><br>
 </th:block>
 </html>

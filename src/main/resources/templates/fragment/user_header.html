@@ -125,12 +125,12 @@
 
                                     <li><a href="#">더보기</a>
                                         <ul class="dropdown">
-                                            <li><a th:href="blog-post.html">공지 게시판</a></li>
-                                            <li><a th:href="receipe-post.html">문의 게시판</a></li>
-                                            <li><a th:href="contact.html">신고 게시판</a></li>
+                                            <li><a th:href="@{/user/noticeList}">공지 게시판</a></li>
+                                            <li><a th:href="@{/user/inquiryList}">문의 게시판</a></li>
+                                            <li><a th:href="@{/user/reportList}">신고 게시판</a></li>
                                             <li><a th:if="${session.SID == null}"></a>
                                                 <a th:unless="${session.SID == null or session.SID != 'id1'}"
-                                                   th:href="@{/admin/index(memberId=${session.SID == 'id1' ? 'id1' : ''})}">관리자페이지</a>
+                                                   th:href="@{/user/member/memberList(memberId=${session.SID == 'id1' ? 'id1' : ''})}">관리자페이지</a>
                                             </li>
 <!--                                            <li><a th:if="${session.SID == null}"></a>-->
 <!--                                                <a th:unless="${session.SID == null}"-->
