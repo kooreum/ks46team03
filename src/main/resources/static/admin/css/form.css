@@ -22,8 +22,8 @@ input{
 	padding-left: 10px;
 }
 input::placeholder {
-  color: red;
-  font-style: italic;
+	color: red;
+	font-style: italic;
 }
 select{
 	width: 99%;
@@ -38,13 +38,11 @@ button:not(#submitBtn, #resetBtn){
 #submitBtn, #resetBtn{
 	width: 47%;
 }
-#submitBtn{
-	margin-right: 30px;
-}
+
 .labeltd{
 	background-color: cornflowerblue;
 	color: white;
 	font-weight: bold;
 	font-size: larger;
 }
-		
+

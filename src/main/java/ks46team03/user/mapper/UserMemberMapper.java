@@ -21,9 +21,14 @@ public interface UserMemberMapper {
     public int addMember(Member member);
     // 회원아이디 중복체크
     public boolean idCheck(String memberId);
+
+    // 회원닉네임 중복체크 **아직 제이쿼리x 수정해야할수도있음~~
+    public boolean nickCheck(String memberNickname);
+
     // 회원의 목록 조회
     public List<Member> getMemberList(String searchKey, String searchValue);
     // 회원등급 조회
     public List<MemberLevel> getMemberLevelList();
+
 
 }

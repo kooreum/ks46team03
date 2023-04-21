@@ -123,6 +123,15 @@ public class MemberController {
         return checked;
     }
 
+
+    @PostMapping("/nicknameCheck")
+    @ResponseBody
+    public boolean nicknameCheck(@RequestParam(name = "memberNickname") String memberNickname) {
+        boolean checked = memberMapper.idCheck(memberNickname);
+        return checked;
+    }
+
+
     @GetMapping("/addMember")
     public String addMember(Model model) {
 

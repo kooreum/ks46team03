@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks46team03.user.mapper.UserInquiryMapper">
+    <resultMap id="inquiryResultMap" type="Inquiry">
+        <id     column="inquiry_board_code"         property="inquiryBoardCode"/>
+        <result column="member_id"                  property="memberId"/>
+        <result column="inquiry_type_code"          property="inquiryTypeCode"/>
+        <result column="inquiry_board_title"        property="inquiryBoardTitle"/>
+        <result column="inquiry_board_content"      property="inquiryBoardContent"/>
+        <result column="inquiry_board_reg_time"     property="inquiryBoardRegTime"/>
+    </resultMap>
+    <select id="getInquiryList" resultMap="inquiryResultMap" parameterType="String">
+        /* 문의사항 목록조회 */
+        SELECT
+            i.inquiry_board_code,
+            i.member_id,
+            i.inquiry_type_code,
+            i.inquiry_board_title,
+            i.inquiry_board_reg_time
+        FROM
+            inquiry_board as i
+            INNER JOIN
+            member as m
+        ON
+            i.member_id = m.member_id
+        <where>
+            <if test="searchKey != null and searchKey != ''">
+                ${searchKey} = #{searchValue};
+            </if>
+        </where>
+            order by inquiry_board_code desc
+    </select>
+
+    <insert id="addInquiry" parameterType="Inquiry">
+        /* 문의 등록 */
+        INSERT INTO inquiry_board
+        (inquiry_board_code, member_id, inquiry_type_code, inquiry_board_title, inquiry_board_content, inquiry_board_reg_time)
+        VALUES
+        (#{inquiryBoardCode}, #{memberId}, #{inquiryTypeCode}, #{inquiryBoardTitle}, #{inquiryBoardContent}, SYSDATE());
+    </insert>
+
+
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks46team03.user.mapper.UserReportMapper">
+    <resultMap id="reportResultMap" type="Report">
+        <id     column="report_board_code"          property="reportBoardCode"/>
+        <result column="member_id"                  property="memberId"/>
+        <result column="report_type_code"           property="reportTypeCode"/>
+        <result column="recipe_code"                property="recipeCode"/>
+        <result column="report_state_code"          property="reportStateCode"/>
+        <result column="report_info_board_content"  property="reportInfoBoardContent"/>
+        <result column="report_datetime"            property="reportDatetime"/>
+    </resultMap>
+    <select id="getReportList" resultMap="reportResultMap" parameterType="String">
+        /* 신고목록조회 */
+        SELECT
+            r.report_board_code,
+            r.member_id,
+            r.report_type_code,
+            r.recipe_code,
+            r.report_state_code,
+            r.report_datetime
+        FROM
+            report_board as r
+            INNER JOIN
+            member as m
+            ON
+            r.member_id = m.member_id
+        <where>
+            <if test="searchKey != null and searchKey != ''">
+                ${searchKey} = #{searchValue};
+            </if>
+        </where>
+            order by report_board_code
+    </select>
+
+
+</mapper>

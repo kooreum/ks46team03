@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin_default}">
+<head>
+  <link rel="stylesheet" type="text/css" th:href="@{/admin/css/pjc.css}" />
+</head>
+
+<th:block layout:fragment="customContents">
+  <table>
+    <thead>
+    <tr>
+      <th>재료코드</th>
+      <th>재료등록아이디</th>
+      <th>재료카테고리코드</th>
+      <th>재료이름</th>
+      <th>재료등록일시</th>
+      <th>수정일시</th>
+      <th>삭제일시</th>
+      <th>수정</th>
+      <th>삭제</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:unless="${ingredientList == null}" th:each=" l : ${ingredientList}">
+      <td th:text="${l.ingredientCode}"></td>
+      <td th:text="${l.memberId}"></td>
+      <td th:text="${l.ingredientCategoryCode}"></td>
+      <td th:text="${l.ingredientName}"></td>
+      <td th:text="${l.regTime}"></td>
+      <td th:text="${l.updateTime}"></td>
+      <td th:text="${l.deleteTime}"></td>
+      <td>
+        <a th:href="@{/admin/ingredient/modifyIngredient(ingredientCode=${l.ingredientCode})}">수정</a>
+      </td>
+      <td>
+        <a th:href="@{/admin/ingredient/removeIngredient(ingredientCode=${l.ingredientCode})}">삭제</a>
+      </td>
+    </tr>
+    <tr th:if="${ingredientList == null}">
+      <td colspan="7">등록된 재료의 정보가 없습니다.</td>
+    </tr>
+
+
+
+
+
+
+    </tbody>
+  </table>
+</th:block>
+
+</html>

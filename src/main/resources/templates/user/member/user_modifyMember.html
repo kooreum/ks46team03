@@ -3,6 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/user_default}">
 <head>
+  <meta charset="UTF-8">
   <link rel="stylesheet" type="text/css" th:href="@{/user/css/form.css}">
 </head>
 <th:block layout:fragment="customJs">
@@ -18,7 +19,7 @@
 <th:block layout:fragment="customContent">
   <form id="modifyMemberForm" th:action="@{/user/member/modifyMember}" method="post">
 
-    <table th:object="${memberInfo}" class="table-center">
+    <table th:object="${memberInfo}">
       <tbody>
       <tr>
         <td class="labeltd">
