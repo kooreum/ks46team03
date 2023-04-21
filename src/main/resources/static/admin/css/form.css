@@ -1,50 +1,70 @@
 @charset "UTF-8";
 
+/*입력폼의 스타일*/
+
+/* 테이블 스타일 */
 table{
 	border: 1px solid black;
 	width: 600px;
 	table-layout: auto;
 	text-align: center;
 }
+
+/* 테이블 헤더 스타일 */
 th {
 	border: 1px solid black;
 	background-color: cornflowerblue;
 	color : azure;
 	height : 30px;
 }
+
+/* 테이블 셀 스타일 */
 td {
 	border: 1px solid black;
 	height: 30px;
 }
+
+/* 입력 폼 스타일 */
 input{
 	width: 95%;
 	height: 80%;
 	padding-left: 10px;
 }
+
+/* 입력 폼 placeholder 스타일 */
 input::placeholder {
-  color: red;
-  font-style: italic;
+	color: red;
+	font-style: italic;
 }
+
+/* 셀렉트 박스 스타일 */
 select{
 	width: 99%;
 	height: 90%;
 	text-align: center;
 	text-align-last: center;
 }
+
+/* 버튼 스타일 */
 button:not(#submitBtn, #resetBtn){
 	width: 98%;
 	height: 90%;
 }
+
+/* 제출 버튼과 리셋 버튼 스타일 */
 #submitBtn, #resetBtn{
 	width: 47%;
 }
+
+/* 제출 버튼 스타일 */
 #submitBtn{
 	margin-right: 30px;
 }
+
+/* 라벨 테이블 셀 스타일 */
 .labeltd{
 	background-color: cornflowerblue;
 	color: white;
 	font-weight: bold;
 	font-size: larger;
 }
-		
