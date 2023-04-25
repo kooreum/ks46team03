@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/user_default}">
+
+<th:block layout:fragment="customJs">
+    <script th:src="@{/js/jquery-3.6.4.js}"></script>
+    <script>
+        $('#submitBtn').click(function(){
+            const memberPwEle = $('#memberPw');
+            let memberPw =	memberPwEle.val();
+            if(typeof memberPw == 'undefined' || memberPw == null || memberPw == ''){
+                alert('회원비밀번호를 입력해주세요');
+                memberPwEle.focus();
+                return false;
+            }
+            $('#removeNoticeForm').submit();
+        });
+
+        $('#resetBtn').click(function(){
+            /*location.href = '/goods/goodsList';*/
+            history.go(-1);
+        });
+    </script>
+</th:block>
+
+<th:block layout:fragment="customContent">
+    <!-- ##### Breadcumb Area Start ##### -->
+    <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(/user/img/bg-img/breadcumb2.jpg);">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <div class="breadcumb-text text-center">
+                        <h2>공지 글 삭제</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Board Area Start ##### -->
+    <head>
+        <meta charset="UTF-8">
+        <title>공지 글 삭제</title>
+        <style>
+            .form-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 35vh;
+            }
+            /* 폼 요소 스타일 */
+
+            label {
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            input[type="text"], button {
+                padding: 5px 10px;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+                margin-bottom: 10px;
+            }
+
+            .btn-td {
+                text-align: right;
+            }
+
+            #submitBtn, #resetBtn {
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                border-radius: 3px;
+                padding: 5px 10px;
+                margin-right: 10px;
+                cursor: pointer;
+            }
+
+            #submitBtn:hover, #resetBtn:hover {
+                background-color: #0069d9;
+            }
+        </style>
+
+    </head>
+    <body>
+    <div class="form-container">
+        <form id="removeNoticeForm" th:action="@{/user/removeNotice}" method="post">
+            <table>
+                <tbody>
+                <tr>
+                    <td class="labeltd">
+                        <label for="noticeBoardCode">공지코드</label>
+                    </td>
+                    <td>
+                        <input type="text" id="noticeBoardCode" th:value="${noticeBoardCode}"
+                               name="noticeBoardCode" readonly="readonly" size="30" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="labeltd">
+                        <label for="memberId">회원아이디</label>
+                    </td>
+                    <td>
+                        <input type="text" id="memberId" th:value="${session.SID}"
+                               name="memberId" placeholder="회원아이디를 입력해주세요." readonly="readonly" size="30"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="labeltd">
+                        <label for="memberPw">회원비밀번호</label>
+                    </td>
+                    <td>
+                        <input type="text" id="memberPw"
+                               name="memberPw" placeholder="회원비밀번호를 입력해주세요." size="30"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="btn-td">
+                        <button type="button" id="submitBtn">공지삭제</button>
+                        <button type="button" id="resetBtn">입력취소</button>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </form>
+    </div>
+    </body>
+
+    <br><br>
+
+    <!-- ##### Board Area End ##### -->
+
+    <!-- ##### All Javascript Files ##### -->
+    <!-- jQuery-2.2.4 js -->
+    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="js/active.js"></script>
+
+</th:block>
+
+</html>

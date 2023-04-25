@@ -4,27 +4,6 @@
       layout:decorate="~{layout/user_default}">
 <head>
   <link rel="stylesheet" type="text/css" th:href="@{/user/css/table.css}" />
-  <script th:inline="javascript">
-    let msg = [[${msg}]];
-    if(msg) alert(msg);
-  </script>
-</head>
-
-<th:block layout:fragment="customContent">
-
-  <!-- ##### Breadcumb Area Start ##### -->
-  <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(/user/img/bg-img/breadcumb2.jpg);">
-    <div class="container h-100">
-      <div class="row h-100 align-items-center">
-        <div class="col-12">
-          <div class="breadcumb-text text-center">
-            <h2>문의사항</h2>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- ##### Breadcumb Area End ##### -->
 
   <style>
     #container {
@@ -87,6 +66,28 @@
     }
 
   </style>
+</head>
+
+<script th:inline="javascript">
+  let msg = [[${msg}]];
+  if(msg) alert(msg);
+</script>
+
+<th:block layout:fragment="customContent">
+
+  <!-- ##### Breadcumb Area Start ##### -->
+  <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(/user/img/bg-img/breadcumb2.jpg);">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center">
+        <div class="col-12">
+          <div class="breadcumb-text text-center">
+            <h2>문의사항</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ##### Breadcumb Area End ##### -->
 
   <div id="container">
     <h1>문의사항 게시판</h1>
@@ -110,10 +111,10 @@
           <td th:text="${l.inquiryBoardTitle}"></td>
           <td th:text="${l.inquiryBoardRegTime}"></td>
           <td>
-            <a th:href="@{#}">수정</a>
+            <a th:href="@{/user/modifyInquiry(inquiryBoardCode=${l.inquiryBoardCode})}">수정</a>
           </td>
           <td>
-            <a th:href="@{#}">삭제</a>
+            <a th:href="@{/user/removeInquiry(inquiryBoardCode=${l.inquiryBoardCode})}">삭제</a>
           </td>
         </tr>
         <tr th:if="${inquiryList == null}">

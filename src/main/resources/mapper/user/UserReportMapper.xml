@@ -12,6 +12,74 @@
         <result column="report_info_board_content"  property="reportInfoBoardContent"/>
         <result column="report_datetime"            property="reportDatetime"/>
     </resultMap>
+
+    <select id="getReportInfoByCode" parameterType="String" resultMap="reportResultMap">
+        /* 특정신고조회*/
+        SELECT
+        report_board_code
+        ,report_type_code
+        ,recipe_code
+        ,report_state_code
+        ,report_info_board_content
+        ,member_id
+        FROM
+        report_board
+        WHERE
+        report_board_code = #{reportBoardCode}
+    </select>
+
+    <update id="modifyReport" parameterType="Report">
+        /*신고글 수정*/
+        UPDATE report_board
+        <set>
+            <if test="reportBoardCode != null and reportBoardCode !=''">
+                report_board_code = #{reportBoardCode}
+            </if>
+            <if test="reportTypeCode != null and reportTypeCode !=''">
+                ,report_type_code = #{reportTypeCode}
+            </if>
+            <if test="recipeCode != null and recipeCode !=''">
+                ,recipe_code = #{recipeCode}
+            </if>
+            <if test="reportInfoBoardContent != null and reportInfoBoardContent !=''">
+                ,report_info_board_content = #{reportInfoBoardContent}
+            </if>
+        </set>
+        WHERE
+        report_board_code = #{reportBoardCode};
+    </update>
+
+    <delete id="removeReportByReportCode" parameterType="String">
+        /* 신고 삭제 */
+        DELETE
+        FROM
+        report_board
+        WHERE
+        report_board_code = #{reportBoardCode};
+    </delete>
+
+    <select id="isPosterByReportBoardCode" parameterType="String" resultType="boolean">
+        /* 문의 게시자 아이디 조회 */
+        IF(COUNT(1)=0, 0, 1)
+        FROM
+        member AS m
+        INNER JOIN
+        report_board AS r
+        ON m.member_id = r.member_id
+        WHERE
+        m.member_id = #{memberId}
+        AND
+        r.report_board_code = #{reportBoardCode};
+    </select>
+
+    <insert id="addReport" parameterType="Report">
+        /* 신고글 등록 */
+        INSERT INTO report_board
+        (report_board_code, member_id, report_type_code, recipe_code, report_state_code, report_info_board_content, report_datetime)
+        VALUES
+        (#{reportBoardCode}, #{memberId}, #{reportTypeCode}, #{recipeCode}, #{reportStateCode}, #{reportInfoBoardContent}, SYSDATE());
+    </insert>
+
     <select id="getReportList" resultMap="reportResultMap" parameterType="String">
         /* 신고목록조회 */
         SELECT
@@ -34,6 +102,8 @@
         </where>
             order by report_board_code
     </select>
+
+
 
 
 </mapper>

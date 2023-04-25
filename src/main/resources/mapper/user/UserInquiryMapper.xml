@@ -11,6 +11,70 @@
         <result column="inquiry_board_content"      property="inquiryBoardContent"/>
         <result column="inquiry_board_reg_time"     property="inquiryBoardRegTime"/>
     </resultMap>
+
+    <select id="getInquiryInfoByCode" parameterType="String" resultMap="inquiryResultMap">
+        /* 특정문의조회*/
+        SELECT
+        inquiry_board_code
+        ,inquiry_type_code
+        ,inquiry_board_title
+        ,inquiry_board_content
+        ,member_id
+        FROM
+        inquiry_board
+        WHERE
+        inquiry_board_code = #{inquiryBoardCode}
+    </select>
+
+    <update id="modifyInquiry" parameterType="Inquiry">
+        /*문의글 수정*/
+        UPDATE inquiry_board
+        <set>
+            <if test="inquiryTypeCode != null and inquiryTypeCode !=''">
+                inquiry_type_code = #{inquiryTypeCode}
+            </if>
+            <if test="inquiryBoardTitle != null and inquiryBoardTitle !=''">
+                ,inquiry_board_title = #{inquiryBoardTitle}
+            </if>
+            <if test="inquiryBoardContent != null and inquiryBoardContent !=''">
+                ,inquiry_board_content = #{inquiryBoardContent}
+            </if>
+        </set>
+        WHERE
+        inquiry_board_code = #{inquiryBoardCode};
+    </update>
+
+    <delete id="removeInquiryByInquiryCode" parameterType="String">
+        /* 문의 삭제 */
+        DELETE
+        FROM
+        inquiry_board
+        WHERE
+        inquiry_board_code = #{inquiryBoardCode};
+    </delete>
+
+    <select id="isPosterByInquiryBoardCode" parameterType="String" resultType="boolean">
+        /* 문의 게시자 아이디 조회 */
+        IF(COUNT(1)=0, 0, 1)
+        FROM
+        member AS m
+        INNER JOIN
+        inquiry_board AS i
+        ON m.member_id = i.member_id
+        WHERE
+        m.member_id = #{memberId}
+        AND
+        i.inquiry_board_code = #{inquiryBoardCode};
+    </select>
+
+    <insert id="addInquiry" parameterType="Inquiry">
+        /* 문의 등록 */
+        INSERT INTO inquiry_board
+        (inquiry_board_code, member_id, inquiry_type_code, inquiry_board_title, inquiry_board_content, inquiry_board_reg_time)
+        VALUES
+        (sf_new_inquiry_code(), #{memberId}, #{inquiryTypeCode}, #{inquiryBoardTitle}, #{inquiryBoardContent}, SYSDATE());
+    </insert>
+
     <select id="getInquiryList" resultMap="inquiryResultMap" parameterType="String">
         /* 문의사항 목록조회 */
         SELECT
@@ -33,13 +97,7 @@
             order by inquiry_board_code desc
     </select>
 
-    <insert id="addInquiry" parameterType="Inquiry">
-        /* 문의 등록 */
-        INSERT INTO inquiry_board
-        (inquiry_board_code, member_id, inquiry_type_code, inquiry_board_title, inquiry_board_content, inquiry_board_reg_time)
-        VALUES
-        (#{inquiryBoardCode}, #{memberId}, #{inquiryTypeCode}, #{inquiryBoardTitle}, #{inquiryBoardContent}, SYSDATE());
-    </insert>
+
 
 
 </mapper>
