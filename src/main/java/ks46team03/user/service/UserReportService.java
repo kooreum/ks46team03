@@ -26,4 +26,22 @@ public class UserReportService {
         return reportList;
     }
 
+    public int addReport(Report report) {
+        int result = userReportMapper.addReport(report);
+        return result;
+    }
+
+    public void removeReport(String reportBoardCode){
+        userReportMapper.removeReportByReportCode(reportBoardCode);
+    }
+
+    public void modifyReport(Report report){
+        userReportMapper.modifyReport(report);
+    }
+    public Report getReportInfoByCode(String reportBoardCode){
+        Report reportInfo = userReportMapper.getReportInfoByCode(reportBoardCode);
+        return reportInfo;
+    }
+
 }
+

@@ -31,4 +31,16 @@ public class UserInquiryService {
         return result;
     }
 
+    public void removeInquiry(String inquiryBoardCode){
+        userInquiryMapper.removeInquiryByInquiryCode(inquiryBoardCode);
+    }
+    public void modifyInquiry(Inquiry inquiry){
+        userInquiryMapper.modifyInquiry(inquiry);
+    }
+
+    public Inquiry getInquiryInfoByCode(String inquiryBoardCode){
+        Inquiry inquiryInfo = userInquiryMapper.getInquiryInfoByCode(inquiryBoardCode);
+        return inquiryInfo;
+    }
+
 }

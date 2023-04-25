@@ -10,20 +10,23 @@ import java.util.Map;
 @Mapper
 public interface UserInquiryMapper {
 
- /*   // 상품삭제
-    public int removeGoodsByGoodsCode(String goodsCode);
+ /*
 
     // 주문상품삭제
-    public int removeOrderByGoodsCode(String goodsCode);
-
-    // 상품수정
-    public int modifyGoods(Goods goods);
-
-    // 특정상품 판매자 여부 조회
-    public boolean isSellerByGoodsCode(String memberId, String goodsCode);
+    public int removeOrderByGoodsCode(String goodsCode); */
 
     // 특정 상품조회
-    public Goods getGoodsInfoByCode(String goodsCode);*/
+    public Inquiry getInquiryInfoByCode(String inquiryBoardCode);
+
+
+    // 특정상품 판매자 여부 조회
+    public boolean isPosterByInquiryBoardCode(String memberId, String inquiryBoardCode);
+
+    // 문의삭제
+    public int removeInquiryByInquiryCode(String inquiryCode);
+
+    // 문의수정
+    public int modifyInquiry(Inquiry inquiry);
 
     // 문의사항목록조회
     public List<Inquiry> getInquiryList(Map<String,Object> paramMap);

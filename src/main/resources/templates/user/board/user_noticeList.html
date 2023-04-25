@@ -4,11 +4,63 @@
       layout:decorate="~{layout/user_default}">
 <head>
   <link rel="stylesheet" type="text/css" th:href="@{/user/css/table.css}" />
-  <script th:inline="javascript">
-    let msg = [[${msg}]];
-    if(msg) alert(msg);
-  </script>
+    <style>
+      #container {
+        width: 80%;
+        margin: 0 auto;
+        padding-top: 50px;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th, td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #f5f5f5;
+        color: black;
+      }
+
+      /*td:nth-child(2) {
+          text-align: left;
+      }*/
+
+      .write-button {
+        text-align: right;
+        margin-top: 30px;
+      }
+
+      .write-button a {
+        display: inline-block;
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+      }
+
+      .write-button a:hover {
+        background-color: #0062cc;
+      }
+    </style>
 </head>
+
+<script th:inline="javascript">
+  let msg = [[${msg}]];
+  if(msg) alert(msg);
+</script>
 
 <th:block layout:fragment="customContent">
 
@@ -25,59 +77,6 @@
     </div>
   </div>
   <!-- ##### Breadcumb Area End ##### -->
-
-  <style>
-    #container {
-      width: 80%;
-      margin: 0 auto;
-      padding-top: 50px;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 50px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 10px;
-      text-align: center;
-      border: 1px solid #ddd;
-    }
-
-    th {
-      background-color: #f5f5f5;
-      color: black;
-    }
-
-    /*td:nth-child(2) {
-        text-align: left;
-    }*/
-
-    .write-button {
-      text-align: right;
-      margin-top: 30px;
-    }
-
-    .write-button a {
-      display: inline-block;
-      background-color: #007bff;
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 5px;
-      text-decoration: none;
-      transition: background-color 0.3s;
-    }
-
-    .write-button a:hover {
-      background-color: #0062cc;
-    }
-  </style>
-
   <div id="container">
     <h1>공지사항 게시판</h1>
       <table class="table-center" >
@@ -92,26 +91,32 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:unless="${boardList == null}" th:each=" l : ${boardList}">
+        <tr th:unless="${noticeList == null}" th:each=" l : ${noticeList}">
           <td th:text="${l.noticeBoardCode}"></td>
           <td th:text="${l.memberId}"></td>
           <td th:text="${l.noticeBoardTitle}"></td>
           <td th:text="${l.noticeBoardRegTime}"></td>
           <td>
-            <a th:href="@{#}">수정</a>
+            <a th:if="${session.SID == null}"></a>
+            <a th:unless="${session.SID == null or session.SID != 'id1'}"
+               th:href="@{/user/modifyNotice(noticeBoardCode=${l.noticeBoardCode})}">수정</a>
           </td>
           <td>
-            <a th:href="@{#}">삭제</a>
+            <a th:if="${session.SID == null}"></a>
+            <a th:unless="${session.SID == null or session.SID != 'id1'}"
+               th:href="@{/user/removeNotice(noticeBoardCode=${l.noticeBoardCode})}">삭제</a>
           </td>
         </tr>
-        <tr th:if="${boardList == null}">
-          <td colspan="7">등록된 상품의 정보가 없습니다.</td>
+        <tr th:if="${noticeList == null}">
+          <td colspan="7">등록된 공지사항이 없습니다.</td>
         </tr>
 
         </tbody>
       </table>
       <div class="write-button">
-        <a th:href="@{/user/addNotice}">공지사항 등록</a>
+        <a th:if="${session.SID == null}"></a>
+        <a th:unless="${session.SID == null or session.SID != 'id1'}"
+           th:href="@{/user/addNotice}">공지사항 등록</a>
       </div>
   </div>
 </th:block>
