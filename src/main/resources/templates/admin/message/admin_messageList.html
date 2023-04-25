@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin_default}">
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/admin/css/pjc.css}" />
+</head>
+
+<th:block layout:fragment="customContents">
+    <table>
+        <thead>
+        <tr>
+            <th>메세지코드</th>
+            <th>메세지상세내용</th>
+            <th>수정</th>
+            <th>삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:unless="${messageList == null}" th:each=" l : ${messageList}">
+            <td th:text="${l.messageCode}"></td>
+            <td th:text="${l.messageDetails}"></td>
+
+            <td>
+                <a th:href="@{/admin/message/admin_modifyMessage(messageCode=${l.messageCode})}">수정</a>
+            </td>
+            <td>
+                <a th:href="@{/admin/message/admin_removeMessage(messageCode=${l.messageCode})}">삭제</a>
+            </td>
+        </tr>
+        <tr th:if="${messageList == null}">
+            <td colspan="7">등록된 메세지의 정보가 없습니다.</td>
+        </tr>
+
+
+
+
+
+
+        </tbody>
+    </table>
+</th:block>
+
+</html>

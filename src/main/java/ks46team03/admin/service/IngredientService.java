@@ -14,6 +14,10 @@ import java.util.List;
 public class IngredientService {
     private final IngredientMapper ingredientMapper;
 
+    /**
+     * 재료삭제
+     * @param ingredientMapper
+     */
     public IngredientService(IngredientMapper ingredientMapper) {
         this.ingredientMapper = ingredientMapper;
     }
@@ -23,33 +27,50 @@ public class IngredientService {
         if(ingredientInfo != null) {
             String infoIngredientCode = ingredientInfo.getIngredientCode();
 
-
+            //재료이력삭제
             ingredientMapper.removeIngredientListById(ingredientCode);
-            //회원탈퇴
+            //재료삭제
             ingredientMapper.removeIngredientById(ingredientCode);
         }
 
     }
 
+    /**
+     * 재료정보수정
+     * @param ingredient
+     */
     public void modifyIngredient(Ingredient ingredient) {
             ingredientMapper.
                     modifyIngredient(ingredient);
         }
 
 
-        public Ingredient getIngredientInfoById(String ingredientCode) {
+    /**
+     * 특정 재료조회
+     * @param ingredientCode
+     * @return
+     */
+    public Ingredient getIngredientInfoById(String ingredientCode) {
             Ingredient ingredientInfo = ingredientMapper.getIngredientInfoById(ingredientCode);
             return ingredientInfo;
         }
 
-
-        public int addIngredient(Ingredient ingredient) {
+    /**
+     * 재료 등록
+     * @param ingredient
+     * @return
+     */
+    public int addIngredient(Ingredient ingredient) {
             int result =
                 ingredientMapper.addIngredient(ingredient);
 
             return result;
         }
 
+    /**
+     * 재료목록 조회
+     * @return
+     */
     public List<Ingredient> getIngredientList() {
         List<Ingredient> ingredientList = ingredientMapper.getIngredientList();
 

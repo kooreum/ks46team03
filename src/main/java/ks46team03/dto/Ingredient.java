@@ -7,7 +7,7 @@ public class Ingredient {
     private String ingredientName;
     private String regTime;
     private String updateTime;
-    private String deleteTime;
+    private String ingredientEndTime;
 
     public String getIngredientCode() {
         return ingredientCode;
@@ -57,12 +57,12 @@ public class Ingredient {
         this.updateTime = updateTime;
     }
 
-    public String getDeleteTime() {
-        return deleteTime;
+    public String getIngredientEndTime() {
+        return ingredientEndTime;
     }
 
-    public void setDeleteTime(String deleteTime) {
-        this.deleteTime = deleteTime;
+    public void setIngredientEndTime(String ingredientEndTime) {
+        this.ingredientEndTime = ingredientEndTime;
     }
 
     @Override
@@ -74,7 +74,7 @@ public class Ingredient {
                 ", ingredientName='" + ingredientName + '\'' +
                 ", regTime='" + regTime + '\'' +
                 ", updateTime='" + updateTime + '\'' +
-                ", deleteTime='" + deleteTime + '\'' +
+                ", ingredientEndTime='" + ingredientEndTime + '\'' +
                 '}';
     }
 }

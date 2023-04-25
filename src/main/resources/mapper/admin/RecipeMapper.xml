@@ -37,7 +37,7 @@
 
 
     <update id="modifyRecipe" parameterType="Recipe">
-        <!-- 레시피 수정 -->
+        /* 레시피 수정 */
         UPDATE recipe_reg
         <trim prefix="SET" suffixOverrides=",">
         <if test="recipeName != null and recipeName != ''">
@@ -88,11 +88,11 @@
 
 
     <insert id="addRecipe" parameterType="Recipe">
-        /* 회원가입 */
+        /* 레시피등록 */
         INSERT INTO recipe_reg
         (recipe_code, recipe_name, recipe_category_code, member_id, recipe_cal, recipe_quantity, image_url, reg_date)
         VALUES
-        (#{recipeCode}, #{recipeName}, #{recipeCategoryCode}, #{memberId}, #{recipeCal}, #{recipeQuantity}, #{imageUrl}, SYSDATE());
+        (sf_new_recipe_code(), #{recipeName}, #{recipeCategoryCode}, #{memberId}, #{recipeCal}, #{recipeQuantity}, #{imageUrl}, SYSDATE());
     </insert>
 
     <select id="getRecipeList" resultMap="recipeResultMap">

@@ -16,7 +16,7 @@
       <th>재료이름</th>
       <th>재료등록일시</th>
       <th>수정일시</th>
-      <th>삭제일시</th>
+      <th>소비기한</th>
       <th>수정</th>
       <th>삭제</th>
     </tr>
@@ -28,8 +28,8 @@
       <td th:text="${l.ingredientCategoryCode}"></td>
       <td th:text="${l.ingredientName}"></td>
       <td th:text="${l.regTime}"></td>
+      <td th:text="${l.ingredientEndTime}"></td>
       <td th:text="${l.updateTime}"></td>
-      <td th:text="${l.deleteTime}"></td>
       <td>
         <a th:href="@{/admin/ingredient/modifyIngredient(ingredientCode=${l.ingredientCode})}">수정</a>
       </td>

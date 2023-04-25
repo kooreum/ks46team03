@@ -13,7 +13,7 @@
 			<tr>
 				<th>레시피코드</th>
 				<th>레시피명</th>
-<!--				<th>카테고리코드</th>-->
+	<!--			<th>카테고리코드</th>   -->
 				<th>아이디</th>
 				<th>칼로리</th>
 				<th>레시피양</th>
@@ -26,21 +26,28 @@
 			<tr th:unless="${recipeList == null}" th:each=" l : ${recipeList}">
 				<td th:text="${l.recipeCode}"></td>
 				<td th:text="${l.recipeName}"></td>
-<!--				<td th:text="${l.recipeCategoryCode}"></td>-->
+ <!--				<td th:text="${l.recipeCategoryCode}"></td> -->
 				<td th:text="${l.memberId}"></td>
 				<td th:text="${l.recipeCal}"></td>
 				<td th:text="${l.recipeQuantity} + '인분'"></td>
 				<td th:text="${l.regDate}"></td>
 				<td>
-					<a th:href="@{/user/recipe/modifyRecipe(memberId=${l.memberId})}">수정</a>
+					<a th:href="@{/user/recipe/user_modifyRecipe(recipeCode=${l.recipeCode})}">수정</a>
 				</td>
 				<td>
-					<a th:href="@{/user/recipe/removeRecipe(memberId=${l.memberId})}">삭제</a>
+					<a th:href="@{/user/recipe/user_removeRecipe(recipeCode=${l.recipeCode})}">삭제</a>
 				</td>
 			</tr>
 			<tr th:if="${recipeList == null}">
-				<td colspan="7">등록된 상품의 정보가 없습니다.</td>
+				<td colspan="7">등록된 레시피의 정보가 없습니다.</td>
 			</tr>
+
+				<tr>
+<!--					<a href="/user/recipe/user_addRecipe">레시피등록</a>-->
+<!--					<a href="/user/recipe/user_addRecipe" class="btn btn-primary btn-lg">레시피등록</a>-->
+					<a class="btn-primary" href="/user/recipe/user_addRecipe" role="button">레시피등록</a>
+
+				</tr>
 
 		</tbody>
 	</table>	

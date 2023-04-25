@@ -24,6 +24,11 @@ public class IngredientController {
     }
 
 
+    /**
+     * 재료삭제 리다이렉트
+     * @param ingredientCode
+     * @return
+     */
     @PostMapping("/ingredient/removeIngredient")
     public String removeIngredient(String ingredientCode) {
 
@@ -33,18 +38,26 @@ public class IngredientController {
     }
 
 
-
-
+    /**
+     * 재료삭제화면
+     * @param ingredientCode
+     * @param model
+     * @return
+     */
     @GetMapping("/ingredient/removeIngredient")
     public String removeIngredient(@RequestParam(name = "ingredientCode") String ingredientCode, Model model){
-        model.addAttribute("title", "회원탈퇴");
+        model.addAttribute("title", "재료삭제화면");
         model.addAttribute("ingredientCode", ingredientCode);
 
         return "/admin/ingredient/admin_removeIngredient";
     }
 
 
-
+    /**
+     * 재료수정 리다이렉트
+     * @param ingredient
+     * @return
+     */
     @PostMapping("/ingredient/modifyIngredient")
     public String modifyIngredient(Ingredient ingredient) {
 
@@ -53,13 +66,19 @@ public class IngredientController {
         return "redirect:/admin/ingredient/admin_ingredientList";
     }
 
+    /**
+     * 재료수정화면
+     * @param ingredientCode
+     * @param model
+     * @return
+     */
     @GetMapping("/ingredient/modifyIngredient")
     public String modifyIngredient(
             @RequestParam(name="ingredientCode") String ingredientCode
             ,Model model) {
         Ingredient ingredientInfo = ingredientService.getIngredientInfoById(ingredientCode);
         List<Ingredient> ingredientList = ingredientService.getIngredientList();
-        model.addAttribute("title", "재료수정");
+        model.addAttribute("title", "재료수정화면");
         model.addAttribute("ingredientList", ingredientList);
         model.addAttribute("ingredientInfo", ingredientInfo);
 
@@ -67,32 +86,44 @@ public class IngredientController {
     }
 
 
-
+    /**
+     * 재료등록 리다이렉트
+     * @param ingredient
+     * @return
+     */
     @PostMapping("/ingredient/admin_addIngredient")
     public String addIngredient(Ingredient ingredient) {
         ingredientService.addIngredient(ingredient);
         return "redirect:/admin/ingredient/admin_ingredientList";
     }
 
-
+    /**
+     *재료등록
+     * @param model
+     * @return
+     */
     @GetMapping("/ingredient/admin_addIngredient")
     public String addIngredient(Model model) {
 
         List<Ingredient> IngredientList = ingredientService.getIngredientList();
 
-        model.addAttribute("title", "재료등록");
+        model.addAttribute("title", "재료등록화면");
         model.addAttribute("IngredientList", IngredientList);
 
         return "/admin/ingredient/admin_addIngredient";
     }
 
 
-
+    /**
+     * 재료리스트
+     * @param model
+     * @return
+     */
     @GetMapping("/ingredient/admin_ingredientList")
 
     public String getIngredientList(Model model) {
         List<Ingredient> ingredientList = ingredientService.getIngredientList();
-        model.addAttribute("title", "재료목록");
+        model.addAttribute("title", "재료목록화면");
         model.addAttribute("ingredientList", ingredientList);
 
         return "/admin/ingredient/admin_ingredientList";

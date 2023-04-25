@@ -9,6 +9,7 @@ import java.util.List;
 @Mapper
 public interface IngredientMapper {
 
+    //재료이력삭제
     public int removeIngredientListById(String ingredientCode);
     //재료삭제
     public int removeIngredientById(String ingredientCode);
@@ -16,9 +17,9 @@ public interface IngredientMapper {
     public int modifyIngredient(Ingredient ingredient);
     // 특정재료조회
     public Ingredient getIngredientInfoById(String ingredientCode);
-
+    //재료 목록 조회
     public List<Ingredient> getIngredientList();
-
+    //재료등록
     public int addIngredient(Ingredient ingredient);
 
 

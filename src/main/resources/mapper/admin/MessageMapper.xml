@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks46team03.admin.mapper.MessageMapper">
+    <resultMap id="messageResultMap" type="Message">
+        <id     column="message_code"            property="messageCode"/>
+        <result column="message_details"                  property="messageDetails"/>
+    </resultMap>
+
+    <delete id="removeMessageById" parameterType="String">
+        /* 메세지삭제 */
+        DELETE
+        FROM
+        message
+        WHERE
+        message_code = #{messageCode}
+    </delete>
+    <delete id="removeMessageListById" parameterType="String">
+        /*  메세지 이력 삭제 */
+        DELETE
+        FROM
+        message
+        WHERE
+        message_code = #{messageCode}
+    </delete>
+
+
+
+    <update id="modifyMessage" parameterType="Message">
+        /* 메세지 정보수정 */
+        UPDATE message
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="messageCode != null and messageCode != ''">
+                message_code = #{messageCode},
+            </if>
+            <if test="messageDetails != null and messageDetails != ''">
+                message_details = #{messageDetails}
+            </if>
+        </trim>
+        WHERE
+        message_code = #{messageCode};
+    </update>
+
+    <select id="getMessageInfoById" parameterType="String" resultMap="messageResultMap">
+        /* 특정메세지조회 */
+        SELECT
+        e.message_code
+        ,e.message_details
+        FROM
+        message as e
+        WHERE
+        e.message_code = #{messageCode};
+    </select>
+
+
+
+    <insert id="addMessage" parameterType="Message">
+        /* 메세지 등록 */
+        INSERT INTO message
+        (message_code, message_details)
+        VALUES
+        (sf_new_message_code(), #{messageDetails});
+    </insert>
+
+
+    <select id="getMessageList" resultMap="messageResultMap">
+        /* 메세지 목록 조회 */
+        SELECT
+        message_code
+        ,message_details
+        FROM
+        message
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+</mapper>
