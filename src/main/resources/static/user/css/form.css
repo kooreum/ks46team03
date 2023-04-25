@@ -6,7 +6,7 @@
 */
 #wrapper {
 	margin: 0 auto;
-	text-align: center;
+	/*text-align: center;*/
 }
 
 
@@ -108,15 +108,18 @@ table td.labeltd {
 
 
 /*체크박스 스타일*/
-/*input[type="checkbox"] {
+input[type="checkbox"] {
 	width: 12px;
 	height: 12px;
 	background-color: #fff;
 	border: 1px solid #ccc;
 	border-radius: 3px;
-	left: revert;
 }
 
 input[type="checkbox"]:checked {
 	background-color: #007bff;
-}*/
+	float: left;
+	margin-right: 7px; /* 체크박스와 텍스트 사이 간격 */
+
+}
+

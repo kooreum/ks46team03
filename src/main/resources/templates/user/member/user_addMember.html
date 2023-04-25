@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE>
 
 <!--유저 회원가입 페이지!-->
 <!--알러지정보, 성별, 다이어트 유무 정보가 DB에 들어가지 않음 230420:1530 !-->
@@ -7,6 +7,7 @@
       layout:decorate="~{layout/user_default}">
 
 <head>
+
   <meta charset="UTF-8">
   <link rel="stylesheet" type="text/css" th:href="@{/user/css/form.css}">
 </head>
@@ -58,6 +59,7 @@
 
 
 
+
       $(function () {
         // 닉네임 중복 체크
         //nickChkBtn 선택자
@@ -98,44 +100,49 @@
             alert(`Request failed: ${textStatus}`);
           });
         });
-
-        $('#submitBtn').click(function (){
-          const addMemberForm = $('#addMemberForm');
-          const inputGroup = $('#addMemberForm input');
-          let isSubmit = true;
-          inputGroup.each(function (idx, item){
-            isSubmit = validationCheck(item);
-            if(!isSubmit) {
-              let msg = $(item).parents('tr').find('label').text();
-              alert(msg + '입력해주세요.');
-              $(item).focus();
-              return false;
-            }
-          });
-          if (isSubmit) addMemberForm.submit();
+        //성별 체크박스 한쪽 누르면 한쪽 해제됨
+        // memberGender 체크박스 그룹에서 중복 체크 방지
+        $('input[name="memberGender"]').change(function () {
+          $('input[name="memberGender"]').not(this).prop('checked', false);
         });
+
+// memberAllergy 체크박스 그룹에서 중복 체크 방지
+        $('input[name="memberAllergy"]').change(function () {
+          $('input[name="memberAllergy"]').not(this).prop('checked', false);
+        });
+
+// memberDiet 체크박스 그룹에서 중복 체크 방지
+        $('input[name="memberDiet"]').change(function () {
+          $('input[name="memberDiet"]').not(this).prop('checked', false);
+        });
+
+
+
+
+
+
       });
 
-
-
-    });
-
-
-
-
-
-
-    //성별 체크박스 한쪽 누르면 한쪽 해제됨
-
-    /* $('input[type="checkbox"]').change(function () {
-       $('input[type="checkbox"]').not(this).prop('checked', false);
-
-     });*/
-
-    //
-
-
     //비밀번호 확인
+
+
+
+      $('#submitBtn').click(function (){
+        const addMemberForm = $('#addMemberForm');
+        const inputGroup = $('#addMemberForm input');
+        let isSubmit = true;
+        inputGroup.each(function (idx, item){
+          isSubmit = validationCheck(item);
+          if(!isSubmit) {
+            let msg = $(item).parents('tr').find('label').text();
+            alert(msg + '입력해주세요.');
+            $(item).focus();
+            return false;
+          }
+        });
+        if (isSubmit) addMemberForm.submit();
+      });
+
     $(document).ready(function () {
       $('#memberPw').on('input', function () {
         $('#passwordResult').html('');
@@ -147,38 +154,29 @@
         } else {
           $('#passwordResult').html('<p style="color: #199894b3; padding-right: 7px; text-align: right">비밀번호 일치함</p>');
         }
+
       });
 
     });
 
-    //추후수정
-    /*$(document).ready(function () {
-      $('#accountList').change(function(){
-        $('#accountLandingUrl').val($(this).find(':selected').attr('data-landUrl'));
-      });
-    });*/
 
-    //메일
-    /*$(function() {
-      $('#select').change(function() {
-        if ($('#select').val() == 'directly') {
-          $('#textEmail').attr("disabled", false);
-          $('#textEmail').val("");
-          $('#textEmail').focus();
-        } else {
-          $('#textEmail').val($('#select').val());
-        }
-      })
-    });*/
+
+    });
+
+
+
 
 
   </script>
+
+
 </th:block>
 
 <th:block layout:fragment="customContent">
   <form id="addMemberForm"th:action="@{/user/member/addMember}" method="post">
     <table>
       <tbody>
+
 
       <!--아이디!-->
       <tr>
@@ -198,6 +196,7 @@
         <td class="labeltd">
           <label for="memberPw">비밀번호</label>
         </td>
+
         <td colspan="2">
           <input type="password" id="memberPw" name="memberPw" plplaceholder="비밀번호를 입력해 주세요"/>
         </td>
@@ -215,6 +214,8 @@
           <div id="passwordResult"></div>
         </td>
       </tr>
+
+
 
 
       <!--이름!-->
@@ -250,50 +251,39 @@
 
 
 
+
       <!--성별선택!-->
-      <!--  <tr>
+        <tr>
         <td class="labeltd">
           <label for="memberGender">성별</label>
         </td>
         <td colspan="2">
           <label>
-            <input type="checkbox" id="memberGender" name="memberGender" value="남">남성
+            <input type="checkbox" id="memberGender" name="memberGender" value="남">남
           </label>
           <label>
-            <input type="checkbox" name="memberGender" value="여">여성
+            <input type="checkbox" name="memberGender" value="여">여
+          </label>
+          <label>
+            <input type="checkbox" name="memberGender" value="선택안함">선택안함
           </label>
 
-        </td>
-      </tr> !-->
-
-
-      <!--설별선택!-->
-      <tr>
-        <td class="labeltd">
-          <label for="memberGender">성별선택</label>
-        </td>
-        <td colspan="2">
-
-          <select id="memberGender" neme="memberGenderSelect">
-            <option value="gender">선택안함</option>
-            <option value="man"> 남 </option>
-            <option value="girl"> 여 </option>
-          </select>
         </td>
       </tr>
 
       <!--알러지 유무!-->
       <tr>
         <td class="labeltd">
-          <label for="memberAllergy">알러지유무</label>
+          <label for="memberAllergy">알러지</label>
         </td>
         <td colspan="2">
+          <label>
+            <input type="checkbox" id="memberAllergy" name="memberAllergy" value="T">있다
+          </label>
+          <label>
+            <input type="checkbox" name="memberGender" value="F">없다
+          </label>
 
-          <select id="memberAllergy" neme="memberAllergySelect">
-            <option value="allergy">선택안함</option>
-            <option value="allergytrue">T</option>
-            <option value="noneallergy">F</option>
-          </select>
         </td>
       </tr>
 
@@ -304,14 +294,15 @@
           <label for="memberDiet">다이어트유무</label>
         </td>
         <td colspan="2">
-
-          <select id="memberDiet" neme="memberDietSelect">
-            <option value="dite">선택안함</option>
-            <option value="ditetrue">T</option>
-            <option value="nonedite">F</option>
-          </select>
+          <label>
+            <input type="checkbox" id="memberDiet" name="memberDiet" value="<></>">YES
+          </label>
+          <label>
+            <input type="checkbox" name="memberDiet" value="F">NO
+          </label>
         </td>
       </tr>
+
 
 
       <!--전화번호!-->
@@ -338,14 +329,14 @@
        </tr>
 
       <!--회원등급!-->
-      <tr>
+       <tr>
         <td class="labeltd">
           <label for="levelNum">회원등급</label>
         </td>
-        <td colspan="2">
+       <td colspan="2">
           <select id="levelNum" name="levelNum" disabled="disabled">
             <th:block th:unless="${memberLevelList == null}" th:each="l : ${memberLevelList}">
-              <option th:value="${l.levelNum}">[[${l.memberLevel}]]</option>
+              <option th:value="${l.levelNum}">[[${l.memberLevel}]]</option>!
             </th:block>
             <th:block th:if="${memberLevelList == null}">
               <option>등록된 회원등급이 없습니다.</option>
