@@ -10,24 +10,26 @@ import java.util.Map;
 @Mapper
 public interface UserReportMapper {
 
- /*   // 상품삭제
-    public int removeGoodsByGoodsCode(String goodsCode);
+ /*
 
     // 주문상품삭제
-    public int removeOrderByGoodsCode(String goodsCode);
+    public int removeOrderByGoodsCode(String goodsCode); */
 
-    // 상품수정
-    public int modifyGoods(Goods goods);
+    // 신고글 수정
+    public int modifyReport(Report report);
 
-    // 특정상품 판매자 여부 조회
-    public boolean isSellerByGoodsCode(String memberId, String goodsCode);
+    // 특정 신고글 조회
+    public Report getReportInfoByCode(String reportBoardCode);
 
-    // 특정 상품조회
-    public Goods getGoodsInfoByCode(String goodsCode);*/
+    // 특정 신고글 게시자 여부 조회
+    public boolean isPosterByReportBoardCode(String memberId, String reportBoardCode);
 
-    // 공지목록조회
+    // 신고삭제
+    public int removeReportByReportCode(String reportBoardCode);
+
+    // 신고목록조회
     public List<Report> getReportList(Map<String,Object> paramMap);
 
-    // 문의등록
-    public int addInquiry(Inquiry inquiry);
+    // 신고등록
+    public int addReport(Report report);
 }

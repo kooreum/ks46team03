@@ -4,65 +4,33 @@
       layout:decorate="~{layout/user_default}">
 <th:block layout:fragment="customJs">
     <script th:src="@{/js/jquery-3.6.4.js}"></script>
-    <script th:inline="javascript">
-        $(function(){
-            //alert('제이쿼리')
-            function validationCheck(ele){
-                let data = $(ele).val();
-                let isValid = true;
-                if(typeof data == 'undefined' || data == null || data == ''){
-                    let msg = $(ele).parents('tr').find('label').text();
-                    alert(`${msg} 필수 항목입니다.`)
-                    $(ele).focus();
-                    isValid = false;
-                }
-                return isValid;
-            }
-
-            $('#submitBtn').click(function(){
-                let isSubmit = true;
-
-                if(memberLevel == '1'){
-                    const $selectEle = $('#sellerInfo');
-                    isSubmit = validationCheck($selectEle);
-                    $selectEle.focus();
-                    if(!isSubmit) return;
-                }
-
-                let $inputEles = $('#addNoticeForm input');
-                $inputEles.each(function(idx, item){
-                    isSubmit = validationCheck(item);
-                    return isSubmit;
-                });
-
-                if(isSubmit) $('#addNoticeForm').submit();
-
-            });
+    <script>
+        $('#resetBtn').click(function(){
+            //location.href = '/goods/goodsList';
+            history.go(-1);
         });
-
     </script>
 </th:block>
 
 <th:block layout:fragment="customContent">
-
-    <!-- ##### Breadcumb Area Start ##### -->
+    <!-- ##### Breadcrumb Area Start ##### -->
     <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(/user/img/bg-img/breadcumb2.jpg);">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="breadcumb-text text-center">
-                        <h2>공지 게시판</h2>
+                        <h2>문의 게시판</h2>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- ##### Breadcumb Area End ##### -->
+    <!-- ##### Breadcrumb Area End ##### -->
 
     <!-- ##### Board Area Start ##### -->
     <head>
         <meta charset="UTF-8">
-        <title>공지 글 등록</title>
+        <title>문의 글 수정</title>
         <style>
             body {
                 font-family: 'Noto Sans KR', sans-serif;
@@ -105,7 +73,7 @@
                 resize: none;
                 height: 200px;
             }
-            input[type="submit"] {
+            input[type="submit"], input[type="button"] {
                 background-color: #008CBA;
                 color: #FFFFFF;
                 border: none;
@@ -114,34 +82,49 @@
                 cursor: pointer;
                 transition: all 0.3s ease-in-out;
             }
-            input[type="submit"]:hover {
+            input[type="submit"]:hover, input[type="button"]:hover {
                 background-color: #006B8F;
+            }
+            .button-container {
+                display: flex;
+                justify-content: space-between;
             }
         </style>
     </head>
+
     <body>
     <div id="container">
-        <h1>공지 글 등록</h1>
-        <form id="addNoticeForm" th:action="@{/user/addNotice}" method="POST">
-            <label for="noticeBoardCode">공지사항코드:</label>
-            <input type="text" id="noticeBoardCode" name="noticeBoardCode" required>
-            <label for="noticeBoardTitle">제목:</label>
-            <input type="text" id="noticeBoardTitle" name="noticeBoardTitle" required>
-            <label for="memberId">작성자:</label>
-            <input type="text" id="memberId" name="memberId" th:value="${session.SID}" readonly="readonly">
-            <label for="noticeBoardContent">내용:</label>
-            <textarea id="noticeBoardContent" name="noticeBoardContent" rows="10" cols="50" required></textarea>
-            <input type="submit" id="submitBtn" value="글 등록">
+        <h1>문의 글 수정</h1>
+        <form id="modifyInquiryForm" th:object="${inquiryInfo}" th:action="@{/user/modifyInquiry}" method="post">
+            <label for="inquiryBoardCode">문의사항코드:</label>
+            <input type="text" id="inquiryBoardCode" name="inquiryBoardCode"
+                   th:value="*{inquiryBoardCode}" readonly="readonly"  required>
+            <label for="inquiryBoardTitle">제목:</label>
+            <input type="text" id="inquiryBoardTitle" name="inquiryBoardTitle"
+                   placeholder="제목을 입력해주세요." th:value="*{inquiryBoardTitle}" required>
+            <label for="memberId">작성자 ID:</label>
+            <input type="text" id="memberId" name="memberId" th:value="${session.SID}" readonly="readonly"/>
+            <!--<input type="text" id="memberId" name="memberId" required>-->
+            <label for="inquiryTypeCode">문의 카테고리:</label>
+            <input type="text" id="inquiryTypeCode" name="inquiryTypeCode"
+                   placeholder="카테고리를 입력해주세요." th:value="*{inquiryTypeCode}" required>
+            <label for="inquiryBoardContent">내용:</label>
+            <textarea id="inquiryBoardContent" name="inquiryBoardContent" rows="10" cols="50"
+                       th:text="*{inquiryBoardContent}" required></textarea>
+            <div class="button-container">
+                <input type="submit" id="submitBtn" value="글 수정">
+                <input type="reset" id="resetBtn" value="입력 취소">
+            </div>
         </form>
+        <br><br>
     </div>
     </body>
-
     <br><br>
 
     <!-- ##### Board Area End ##### -->
 
 
-     <!--##### All Javascript Files ##### -->
+    <!-- ##### All Javascript Files ##### -->
     <!-- jQuery-2.2.4 js -->
     <script src="js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->
@@ -154,4 +137,3 @@
     <script src="js/active.js"></script>
 
 </th:block>
-</html>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks46team03.user.mapper.UserNoticeMapper">
+    <resultMap id="noticeResultMap" type="Notice">
+        <id     column="notice_board_code"      property="noticeBoardCode"/>
+        <result column="member_id"              property="memberId"/>
+        <result column="notice_board_title"     property="noticeBoardTitle"/>
+        <result column="notice_board_content"   property="noticeBoardContent"/>
+        <result column="notice_board_reg_time"  property="noticeBoardRegTime"/>
+    </resultMap>
+
+    <select id="getNoticeInfoByCode" parameterType="String" resultMap="noticeResultMap">
+        /* 특정공지조회*/
+        SELECT
+        notice_board_code
+        ,notice_board_title
+        ,notice_board_content
+        ,member_id
+        FROM
+        notice_board
+        WHERE
+        notice_board_code = #{noticeBoardCode}
+    </select>
+    <update id="modifyNotice" parameterType="Notice">
+        /*공지글 수정*/
+        UPDATE notice_board
+        <set>
+            <if test="noticeBoardCode != null and noticeBoardCode !=''">
+                notice_board_code = #{noticeBoardCode}
+            </if>
+            <if test="noticeBoardTitle != null and noticeBoardTitle !=''">
+                ,notice_board_title = #{noticeBoardTitle}
+            </if>
+            <if test="noticeBoardContent != null and noticeBoardContent !=''">
+                ,notice_board_content = #{noticeBoardContent}
+            </if>
+        </set>
+        WHERE
+        notice_board_code = #{noticeBoardCode};
+    </update>
+    <delete id="removeNoticeByNoticeCode" parameterType="String">
+        /* 공지 삭제 */
+        DELETE
+        FROM
+        notice_board
+        WHERE
+        notice_board_code = #{noticeBoardCode};
+    </delete>
+
+    <select id="isPosterByNoticeBoardCode" parameterType="String" resultType="boolean">
+        /* 공지 게시자 아이디 조회 */
+        IF(COUNT(1)=0, 0, 1)
+        FROM
+        member AS m
+        INNER JOIN
+        notice_board AS n
+        ON m.member_id = n.member_id
+        WHERE
+        m.member_id = #{memberId}
+        AND
+        r.notice_board_code = #{noticeBoardCode};
+    </select>
+
+    <insert id="addNotice" parameterType="notice">
+        /* 공지글 등록 */
+        INSERT INTO notice_board
+        (notice_board_code, member_id, notice_board_title, notice_board_content, notice_board_reg_time)
+        VALUES
+        (#{noticeBoardCode}, #{memberId}, #{noticeBoardTitle}, #{noticeBoardContent}, SYSDATE());
+    </insert>
+
+    <select id="getNoticeList" resultMap="noticeResultMap" parameterType="String">
+        /* 공지사항목록조회 */
+        SELECT
+        n.notice_board_code,
+        n.member_id,
+        n.notice_board_title,
+        n.notice_board_reg_time
+        FROM
+        notice_board as n
+        INNER JOIN
+        member as m
+        ON
+        n.member_id = m.member_id
+        <where>
+            <if test="searchKey != null and searchKey != ''">
+                ${searchKey} = #{searchValue};
+            </if>
+        </where>
+        order by notice_board_code desc
+    </select>
+
+
+
+</mapper>

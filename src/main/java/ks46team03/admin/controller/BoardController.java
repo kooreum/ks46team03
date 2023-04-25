@@ -12,4 +12,6 @@ public class BoardController {
     public String bannedWordsList(){
         return"/admin/board/admin_bannedWords";
     }
+
+
 }
