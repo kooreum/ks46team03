@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin_default}">
+<head>
+  <link rel="stylesheet" type="text/css" th:href="@{/admin/css/pjc.css}" />
+
+  <th:block layout:fragment="customJs">
+  </th:block>
+
+  <style>
+    .write-button {
+      text-align: right;
+      margin-top: 30px;
+    }
+
+    .write-button a {
+      display: inline-block;
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .write-button a:hover {
+      background-color: #0062cc;
+    }
+  </style>
+</head>
+
+<th:block layout:fragment="customContents">
+  <div id="container">
+    <h1>공지사항 게시판</h1>
+    <table class="table-center" >
+      <thead>
+      <tr>
+        <th>공지사항번호</th>
+        <th>작성자</th>
+        <th>공지사항제목</th>
+        <th>글등록시간</th>
+        <th>수정</th>
+        <th>삭제</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:unless="${noticeList == null}" th:each=" l : ${noticeList}">
+        <td th:text="${l.noticeBoardCode}"></td>
+        <td th:text="${l.memberId}"></td>
+        <td th:text="${l.noticeBoardTitle}"></td>
+        <td th:text="${l.noticeBoardRegTime}"></td>
+        <td>
+          <a th:if="${session.SID == null}"></a>
+          <a th:unless="${session.SID == null or session.SID != 'id1'}"
+             th:href="@{/user/modifyNotice(noticeBoardCode=${l.noticeBoardCode})}">수정</a>
+        </td>
+        <td>
+          <a th:if="${session.SID == null}"></a>
+          <a th:unless="${session.SID == null or session.SID != 'id1'}"
+             th:href="@{/user/removeNotice(noticeBoardCode=${l.noticeBoardCode})}">삭제</a>
+        </td>
+      </tr>
+      <tr th:if="${noticeList == null}">
+        <td colspan="7">등록된 공지사항이 없습니다.</td>
+      </tr>
+
+      </tbody>
+    </table>
+    <div class="write-button">
+      <a th:if="${session.SID == null}"></a>
+      <a th:unless="${session.SID == null or session.SID != 'id1'}"
+         th:href="@{/user/addNotice}">공지사항 등록</a>
+    </div>
+  </div>
+</th:block>
+
+</html>

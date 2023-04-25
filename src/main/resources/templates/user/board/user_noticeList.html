@@ -86,8 +86,8 @@
           <th>작성자</th>
           <th>공지사항제목</th>
           <th>글등록시간</th>
-          <th>수정</th>
-          <th>삭제</th>
+          <!--<th>수정</th>
+          <th>삭제</th>-->
         </tr>
         </thead>
         <tbody>
@@ -96,7 +96,7 @@
           <td th:text="${l.memberId}"></td>
           <td th:text="${l.noticeBoardTitle}"></td>
           <td th:text="${l.noticeBoardRegTime}"></td>
-          <td>
+          <!--<td>
             <a th:if="${session.SID == null}"></a>
             <a th:unless="${session.SID == null or session.SID != 'id1'}"
                th:href="@{/user/modifyNotice(noticeBoardCode=${l.noticeBoardCode})}">수정</a>
@@ -105,7 +105,7 @@
             <a th:if="${session.SID == null}"></a>
             <a th:unless="${session.SID == null or session.SID != 'id1'}"
                th:href="@{/user/removeNotice(noticeBoardCode=${l.noticeBoardCode})}">삭제</a>
-          </td>
+          </td>-->
         </tr>
         <tr th:if="${noticeList == null}">
           <td colspan="7">등록된 공지사항이 없습니다.</td>

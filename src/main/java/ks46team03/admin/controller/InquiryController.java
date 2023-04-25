@@ -1,15 +1,15 @@
-package ks46team03.user.controller;
+package ks46team03.admin.controller;
 
 
 import groovy.util.logging.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import jakarta.servlet.http.HttpSession;
 import ks46team03.dto.Inquiry;
 import ks46team03.dto.Member;
 import ks46team03.user.mapper.UserInquiryMapper;
 import ks46team03.user.mapper.UserMemberMapper;
 import ks46team03.user.service.UserInquiryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@Controller("adminInquiryController")
 @RequestMapping("/user")
 @Slf4j
 public class InquiryController {
@@ -59,7 +59,7 @@ public class InquiryController {
 		model.addAttribute("inquiryList", inquiryList);
 		if(msg != null) model.addAttribute("msg", msg);
 
-		return "user/board/user_inquiryList";
+		return "admin/board/admin_inquiryList";
 	}
 
 	@GetMapping("/addInquiry")

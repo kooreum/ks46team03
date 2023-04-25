@@ -4,6 +4,20 @@
       layout:decorate="~{layout/user_default}">
 <head>
   <link rel="stylesheet" type="text/css" th:href="@{/user/css/table.css}" />
+
+  <th:block layout:fragment="customJs">
+    <script th:inline="javascript">
+      $(document).ready(function () {
+        let msg = /*[[${msg}]]*/ null;
+        console.log(msg);
+        if (msg) {
+          alert(msg);
+        }
+      });
+
+    </script>
+  </th:block>
+
   <style>
     #container {
       width: 80%;
