@@ -16,6 +16,9 @@
         <th>회원이름</th>
         <th>회원이메일</th>
         <th>회원생일</th>
+        <th>성별</th>
+        <th>다이어트유무</th>
+        <th>알러지유무</th>
         <th>수정</th>
         <th>삭제</th>
       </tr>
@@ -28,6 +31,9 @@
         <td th:text="${l.memberName}"></td>
         <td th:text="${l.memberEmail}"></td>
         <td th:text="${l.memberBirth}"></td>
+        <td th:text="${l.memberGender}"></td>
+        <td th:text="${l.memberDiet}"></td>
+        <td th:text="${l.memberAllergy}"></td>
         <td>
           <a th:href="@{/admin/member/modifyMember(memberId=${l.memberId})}">수정</a>
         </td>
