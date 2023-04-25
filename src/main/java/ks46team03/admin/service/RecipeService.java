@@ -14,35 +14,51 @@ import java.util.List;
 public class RecipeService {
     private final RecipeMapper recipeMapper;
 
+
     public RecipeService(RecipeMapper recipeMapper) {
         this.recipeMapper = recipeMapper;
     }
-
+    /**
+     * 레시피 삭제
+     */
     public void removeRecipe(String recipeCode) {
         Recipe recipeInfo = recipeMapper.getRecipeInfoById(recipeCode);
 
         if(recipeInfo != null) {
             String infoRecipeCode = recipeInfo.getRecipeCode();
 
-
+            //레시피이력삭제
             recipeMapper.removeRecipeListById(recipeCode);
-            //회원탈퇴
+            //레시피삭제
             recipeMapper.removeRecipeById(recipeCode);
         }
 
     }
 
+    /**
+     * 레시피 수정
+     * @param recipe
+     */
     public void modifyRecipe(Recipe recipe) {
         recipeMapper.modifyRecipe(recipe);
     }
 
-
+    /**
+     * 특정레시피 조회
+     * @param recipeCode
+     * @return
+     */
     public Recipe getRecipeInfoById(String recipeCode) {
         Recipe recipeInfo = recipeMapper.getRecipeInfoById(recipeCode);
         return recipeInfo;
     }
 
 
+    /**
+     * 레시피 등록
+     * @param recipe
+     * @return
+     */
     public int addRecipe(Recipe recipe) {
         int result =
                 recipeMapper.addRecipe(recipe);
@@ -50,6 +66,10 @@ public class RecipeService {
         return result;
     }
 
+    /**
+     * 레시피 목록 조회
+     * @return
+     */
     public List<Recipe> getRecipeList() {
         List <Recipe> recipeList = recipeMapper.getRecipeList();
 

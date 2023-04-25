@@ -14,21 +14,22 @@
 			<li><a><i class="fa fa-edit"></i> 재료 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a href="/admin/ingredient/admin_addIngredient">재료등록</a></li>
-					<li><a href="/admin/ingredient/admin_ingredientList">재료목록</a></li>
+					<li><a th:href="@{/admin/ingredient/admin_addIngredient}">재료등록</a></li>
+					<li><a th:href="@{/admin/ingredient/admin_ingredientList}">재료목록</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-desktop"></i> 레시피 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a href="/admin/recipe/admin_addRecipe">레시피등록</a></li>
-					<li><a href="/admin/recipe/admin_recipeList">레시피목록</a></li>
+					<li><a th:href="@{/admin/recipe/admin_addRecipe}">레시피등록</a></li>
+					<li><a th:href="@{/admin/recipe/admin_recipeList}">레시피목록</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-table"></i> 알림 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a href="#">알림 등록</a></li>
-					<li><a href="/admin/message/admin_messageDetailList">알림상세내용</a></li>
-					<li><a href="#">알림내용관리</a></li>
+					<li><a th:href="@{/admin/message/admin_messageList}">알림목록</a></li>
+					<li><a th:href="@{/admin/message/admin_messageManagementList}">알림내용관리</a></li>
+					<li><a th:href="@{/admin/message/admin_addMessage}">알림등록</a></li>
+					<li><a th:href="@{/admin/message/admin_messageManagementList}">알림내용관리</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-bar-chart-o"></i> 조효미 담당 <span
 					class="fa fa-chevron-down"></span></a>

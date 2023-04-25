@@ -10,11 +10,11 @@
         <result column="ingredient_name"            property="ingredientName"/>
         <result column="reg_time"                   property="regTime"/>
         <result column="update_time"                property="updateTime"/>
-        <result column="delete_time"                property="deleteTime"/>
+        <result column="ingredient_end_time"                property="ingredientEndTime"/>
     </resultMap>
 
     <delete id="removeIngredientById" parameterType="String">
-        /* 회원 탈퇴 */
+        /* 재료삭제 */
         DELETE
         FROM
         ingredient_registration
@@ -22,7 +22,7 @@
         ingredient_code = #{ingredientCode};
     </delete>
     <delete id="removeIngredientListById" parameterType="String">
-        /*  로그인 이력 삭제 */
+        /*  재료 이력 삭제 */
         DELETE
         FROM
         ingredient_registration
@@ -32,7 +32,7 @@
 
 
     <update id="modifyIngredient" parameterType="Ingredient">
-        /* 회원 정보 수정 */
+        /* 재료 정보 수정 */
         UPDATE ingredient_registration
         <trim prefix="SET" suffixOverrides=",">
             <if test="memberId != null and memberId != ''">
@@ -45,8 +45,8 @@
                 ingredient_name = #{ingredientName},
             </if>
             update_time = NOW(),
-            <if test="deleteTime != null and deleteTime != ''">
-                delete_time = #{deleteTime},
+            <if test="ingredientEndTime != null and ingredientEndTime != ''">
+                ingredient_end_time = #{ingredientEndTime},
             </if>
         </trim>
         WHERE
@@ -55,7 +55,7 @@
 
 
     <select id="getIngredientInfoById" parameterType="String" resultMap="ingredientResultMap">
-        /* 특정회원 조회 */
+        /* 특정재료 조회 */
         SELECT
         i.ingredient_code
         ,i.member_id
@@ -63,7 +63,7 @@
         ,i.ingredient_name
         ,i.reg_time
         ,i.update_time
-        ,i.delete_time
+        ,i.ingredient_end_time
         FROM
         ingredient_registration AS i
         WHERE
@@ -77,7 +77,7 @@
         INSERT INTO ingredient_registration
         (ingredient_code, member_id, ingredient_name, ingredient_category_code, reg_time)
         VALUES
-        (#{ingredientCode}, #{memberId}, #{ingredientName}, #{ingredientCategoryCode}, SYSDATE());
+        (sf_new_ingredient_code(), #{memberId}, #{ingredientName}, #{ingredientCategoryCode}, SYSDATE());
     </insert>
 
 
@@ -91,7 +91,7 @@
         ,ingredient_name
         ,reg_time
         ,update_time
-        ,delete_time
+        ,ingredient_end_time
 
         FROM
         ingredient_registration
