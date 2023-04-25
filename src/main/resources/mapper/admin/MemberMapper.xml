@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
+
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team03.admin.mapper.MemberMapper">
@@ -88,7 +89,7 @@
             INSERT INTO member
             (member_id, level_num, member_pw, member_name, member_gender, member_birth, member_diet, member_email, member_phone, member_nickname, member_allergy, member_remove, join_date)
             VALUES
-            (#{memberId}, #{levelNum}, #{memberPw}, #{memberName}, #{memberGender}, #{memberBirth}, #{memberDiet}, #{memberEmail}, #{memberPhone}, #{memberNickname}, #{memberAllergy}, #{memberRemove}, CURDATE());
+            (#{memberId}, #{levelNum}, #{memberPw}, #{memberName}, #{memberGender}, #{memberBirth}, #{memberDiet}, #{memberEmail}, #{memberPhone}, #{memberNickname}, #{memberAllergy}, #{memberRemove}, NOW());
         </insert>
         <select id="idCheck" parameterType="String" resultType="boolean">
             /* 회원아이디 중복체크 */
@@ -117,6 +118,11 @@
             ,member_name
             ,member_email
             ,member_birth
+            ,member_gender
+            ,member_diet
+            ,member_diet
+            ,member_allergy
+            ,join_date
         FROM
             member;
     </select>
