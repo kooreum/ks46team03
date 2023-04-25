@@ -68,7 +68,7 @@
         INSERT INTO notice_board
         (notice_board_code, member_id, notice_board_title, notice_board_content, notice_board_reg_time)
         VALUES
-        (#{noticeBoardCode}, #{memberId}, #{noticeBoardTitle}, #{noticeBoardContent}, SYSDATE());
+        (sf_new_notice_code(), #{memberId}, #{noticeBoardTitle}, #{noticeBoardContent}, SYSDATE());
     </insert>
 
     <select id="getNoticeList" resultMap="noticeResultMap" parameterType="String">
@@ -89,7 +89,7 @@
                 ${searchKey} = #{searchValue};
             </if>
         </where>
-        order by notice_board_code desc
+        order by CAST(SUBSTRING_INDEX(n.notice_board_code, 'notice_board_',-1) AS unsigned) desc
     </select>
 
 

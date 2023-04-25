@@ -100,7 +100,7 @@
                 ${searchKey} = #{searchValue};
             </if>
         </where>
-            order by report_board_code
+            order by CAST(SUBSTRING_INDEX(r.report_board_code, 'report_board_',-1) AS unsigned) desc
     </select>
 
 
