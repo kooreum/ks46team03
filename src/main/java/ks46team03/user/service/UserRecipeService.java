@@ -67,17 +67,20 @@ public class UserRecipeService {
      *
      * @return List<Member>
      */
-    public List<Recipe> getRecipeList(Map<String,Object> paramMap, String searchKey, String searchValue) {
+    public List<Recipe> getRecipeList(Map<String,Object> paramMap,String searchKey, String searchValue) {
         if (searchKey != null) {
             switch (searchKey) {
                 case "memberId":
                     searchKey = "r.member_id";
                     break;
-                case "recipeName":
-                    searchKey = "r.recipe_name";
+                case "recipeCategoryCode":
+                    searchKey = "r.recipe_category_code";
+                    break;
+                case "ingredientCategoryCode":
+                    searchKey = "ir.ingredient_category_code";
                     break;
                 default:
-                    searchKey = "r.recipe_category_code";
+                    searchKey = "r.recipe_name";
                     break;
             }
         }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks46team03.user.mapper.UserFridgeMapper">
+<!--    <resultMap id="inquiryResultMap" type="Inquiry">-->
+<!--        <id     column="inquiry_board_code"         property="inquiryBoardCode"/>-->
+<!--        <result column="member_id"                  property="memberId"/>-->
+<!--        <result column="inquiry_type_code"          property="inquiryTypeCode"/>-->
+<!--        <result column="inquiry_board_title"        property="inquiryBoardTitle"/>-->
+<!--        <result column="inquiry_board_content"      property="inquiryBoardContent"/>-->
+<!--        <result column="inquiry_board_reg_time"     property="inquiryBoardRegTime"/>-->
+<!--    </resultMap>-->
+
+    <select id="getFridgeList" resultType="Fridge" parameterType="map">
+        /* 나의재료 조회 */
+        SELECT
+        i.ingredient_code as ingredientCode,
+        i.member_id as memberId,
+        i.my_detail_location_code as myDetailLocationCode,
+        r.ingredient_name as ingredientName,
+        d.my_detail_location_name as myDetailLocationName
+        FROM
+        my_detail_location as d
+        INNER JOIN
+        my_ingredient as i
+        ON d.my_detail_location_code = i.my_detail_location_code
+        INNER JOIN
+        ingredient_registration as r
+        ON i.ingredient_code = r.ingredient_code
+        <where>
+            <if test="searchKey != null and searchKey != ''">
+                ${searchKey} = #{searchValue}
+            </if>
+        </where>
+            order by ingredientCode desc
+    </select>
+
+    <select id="getLocationList" resultType="Location">
+        /* 위치 조회 */
+        SELECT
+        d.my_detail_location_code 	as myDetailLocationCode
+        ,d.my_detail_location_name as myDetailLocationName
+        FROM
+        my_detail_location as d;
+    </select>
+
+    <select id="getIngredientList" resultType="Ingredient">
+        /* 재료 조회 */
+        SELECT
+        ir.ingredient_code 	as ingredientCode
+        ,ir.ingredient_name as ingredientName
+        FROM
+        ingredient_registration as ir;
+    </select>
+
+    <insert id="addFridge" parameterType="Fridge">
+        /* 나의재료 등록 */
+        INSERT INTO my_ingredient
+        (my_ingredient_code, member_id, my_detail_location_code, ingredient_code, ingredient_note)
+        VALUES
+        (sf_new_my_ingredient_code(), #{memberId}, #{myDetailLocationCode}, #{ingredientCode}, #{ingredientNote});
+    </insert>
+
+</mapper>
