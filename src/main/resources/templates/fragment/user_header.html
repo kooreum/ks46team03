@@ -92,34 +92,27 @@
                                                 <li>&nbsp</li>
                                                 <li>&nbsp</li>
                                                 <li>&nbsp</li>
-                                                <li><a href="index.html">소고기</a></li>
-                                                <li><a href="about.html">밀가루</a></li>
-                                                <li><a href="blog-post.html">건어물류</a></li>
-                                                <li><a href="receipe-post.html">버섯류</a></li>
-                                                <li><a href="contact.html">과일류</a></li>
-                                                <li><a href="index.html">콩&견과류</a></li>
-                                                <li><a href="about.html">곡류</a></li>
-                                                <li><a href="blog-post.html">돼지고기</a></li>
-                                                <li><a href="receipe-post.html">닭고기</a></li>
-                                                <li><a href="contact.html">육류</a></li>
-                                                <li><a href="index.html">채소류</a></li>
-                                                <li><a href="about.html">해물류</a></li>
-                                                <li><a href="blog-post.html">달걀&유제품</a></li>
-                                                <li><a href="receipe-post.html">가공식품류</a></li>
-                                                <li><a href="index.html">쌀</a></li>
-                                                <li><a href="index.html">기타</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='ingredientCategoryCode', searchValue='ingredient_category_1')}">소고기</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='ingredientCategoryCode', searchValue='ingredient_category_2')}">돼지고기</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='ingredientCategoryCode', searchValue='ingredient_category_3')}">닭고기</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='ingredientCategoryCode', searchValue='ingredient_category_4')}">육류</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='ingredientCategoryCode', searchValue='ingredient_category_5')}">채소류</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='ingredientCategoryCode', searchValue='ingredient_category_6')}">해물류</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='ingredientCategoryCode', searchValue='ingredient_category_7')}">달걀/유제품</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='ingredientCategoryCode', searchValue='ingredient_category_8')}">가공식품류</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='ingredientCategoryCode', searchValue='ingredient_category_9')}">쌀</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='ingredientCategoryCode', searchValue='ingredient_category_10')}">밀가루</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='ingredientCategoryCode', searchValue='ingredient_category_11')}">건어물류</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='ingredientCategoryCode', searchValue='ingredient_category_12')}">버섯류</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='ingredientCategoryCode', searchValue='ingredient_category_13')}">과일류</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='ingredientCategoryCode', searchValue='ingredient_category_14')}">콩/견과류</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='ingredientCategoryCode', searchValue='ingredient_category_15')}">곡류</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='ingredientCategoryCode', searchValue='ingredient_category_16')}">기타</a></li>
                                             </ul>
-
-<!--                                            <div class="single-mega cn-col-4">-->
-<!--                                                <div class="receipe-slider owl-carousel">-->
-<!--                                                    <a href="#"><img src="img/bg-img/bg1.jpg" alt=""></a>-->
-<!--                                                    <a href="#"><img src="img/bg-img/bg6.jpg" alt=""></a>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
                                         </div>
                                     </li>
 
-                                    <li><a th:href="@{/user/fridge}">냉장고</a></li>
+                                    <li><a th:if="${session.SLEVEL != null and (session.SLEVEL == 'member_code_2' or session.SLEVEL == 'member_code_1')}" th:href="@{/user/fridge/userFridge}">냉장고</a></li>
                                     <li><a th:href="@{/user/recipe/recipeList}">레시피</a></li>
                                     <li><a href="receipe-post.html">즐겨찾기</a></li>
 

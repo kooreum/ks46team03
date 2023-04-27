@@ -3,18 +3,18 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team03.admin.mapper.IngredientMapper">
-    <resultMap id="ingredientResultMap" type="ingredient">
+    <resultMap id="ingredientResultMap" type="Ingredient">
         <id     column="ingredient_code"            property="ingredientCode"/>
         <result column="member_id"                  property="memberId"/>
         <result column="ingredient_category_code"   property="ingredientCategoryCode"/>
         <result column="ingredient_name"            property="ingredientName"/>
         <result column="reg_time"                   property="regTime"/>
         <result column="update_time"                property="updateTime"/>
-        <result column="delete_time"                property="deleteTime"/>
+        <result column="ingredient_end_time"                property="ingredientEndTime"/>
     </resultMap>
 
     <delete id="removeIngredientById" parameterType="String">
-        /* 회원 탈퇴 */
+        /* 재료삭제 */
         DELETE
         FROM
         ingredient_registration
@@ -22,7 +22,7 @@
         ingredient_code = #{ingredientCode};
     </delete>
     <delete id="removeIngredientListById" parameterType="String">
-        /*  로그인 이력 삭제 */
+        /*  재료 이력 삭제 */
         DELETE
         FROM
         ingredient_registration
@@ -32,7 +32,7 @@
 
 
     <update id="modifyIngredient" parameterType="Ingredient">
-        /* 회원 정보 수정 */
+        /* 재료 정보 수정 */
         UPDATE ingredient_registration
         <trim prefix="SET" suffixOverrides=",">
             <if test="memberId != null and memberId != ''">
@@ -45,8 +45,8 @@
                 ingredient_name = #{ingredientName},
             </if>
             update_time = NOW(),
-            <if test="deleteTime != null and deleteTime != ''">
-                delete_time = #{deleteTime},
+            <if test="ingredientEndTime != null and ingredientEndTime != ''">
+                ingredient_end_time = #{ingredientEndTime},
             </if>
         </trim>
         WHERE
@@ -55,7 +55,7 @@
 
 
     <select id="getIngredientInfoById" parameterType="String" resultMap="ingredientResultMap">
-        /* 특정회원 조회 */
+        /* 특정재료 조회 */
         SELECT
         i.ingredient_code
         ,i.member_id
@@ -63,7 +63,7 @@
         ,i.ingredient_name
         ,i.reg_time
         ,i.update_time
-        ,i.delete_time
+        ,i.ingredient_end_time
         FROM
         ingredient_registration AS i
         WHERE
@@ -77,25 +77,40 @@
         INSERT INTO ingredient_registration
         (ingredient_code, member_id, ingredient_name, ingredient_category_code, reg_time)
         VALUES
-        (#{ingredientCode}, #{memberId}, #{ingredientName}, #{ingredientCategoryCode}, SYSDATE());
+        (sf_new_ingredient_code(), #{memberId}, #{ingredientName}, #{ingredientCategoryCode}, SYSDATE());
     </insert>
 
 
 
-    <select id="getIngredientList" resultMap="ingredientResultMap">
+    <select id="getIngredientList" parameterType="String" resultType="Ingredient">
         /* 재료 목록 조회 */
         SELECT
-        ingredient_code
-        ,member_id
-        ,ingredient_category_code
-        ,ingredient_name
-        ,reg_time
-        ,update_time
-        ,delete_time
+        i.ingredient_code            as ingredientCode
+        ,i.member_id                 as memberId
+        ,i.ingredient_category_code  as ingredientCategoryCode
+        ,i.ingredient_name           as ingredientName
+        ,i.reg_time                  as regTime
+        ,i.update_time               as updateTime
+        ,i.ingredient_end_time       as ingredientEndTime
 
         FROM
-        ingredient_registration
+        ingredient_registration AS i
+        INNER JOIN
+        member AS m
+        ON
+        i.member_id = m.member_id
+        <where>
+            <if test="searchKey != null and searchKey != ''">
+                ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+            </if>
+        </where>
+        order by CAST(SUBSTRING_INDEX(ingredient_code, 'ingredient_',-1) AS unsigned), i.ingredient_code
     </select>
+
+
+
+
+
 
 
 

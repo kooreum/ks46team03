@@ -53,7 +53,7 @@ public class InquiryController {
 			paramMap.put("searchKey", "g_seller_id");
 			paramMap.put("searchValue", sellerId);
 		}
-
+		log.info("msg={}", msg);
 		List<Inquiry> inquiryList = userInquiryService.getInquiryList(paramMap);
 		model.addAttribute("title", "신고사항");
 		model.addAttribute("inquiryList", inquiryList);

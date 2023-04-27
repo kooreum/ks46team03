@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin_default}">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/admin/css/form.css}">
+</head>
+<th:block layout:fragment="customJs">
+    <script th:src="@{/js/jquery-3.6.4.js}"></script>
+    <script>
+        $('#resetBtn').click(function (){
+            //location.href = '/member/memberList';
+            history.go(-1);
+        });
+    </script>
+</th:block>
+
+<th:block layout:fragment="customContents">
+    <form id="removeMessageManagementForm" th:action="@{/admin/message/admin_removeMessageManagement}" method="post">
+        <table th:object="${MessageManagementInfo}">
+            <tbody>
+            <tr>
+                <td class="labeltd">
+                    <label for="messageManagementCode">메세지관리코드</label>
+                </td>
+                <td>
+                    <input type="text" id="messageManagementCode" th:value="${messageManagementCode}" name="messageManagementCode"/>
+            </tr>
+            <tr>
+                <td class="labeltd">
+                    <label for="messageCode">메세지코드</label>
+                </td>
+                <td>
+                    <input type="text" id="messageCode" th:value="${messageCode}" name="messageCode" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button type="submit" id="submitBtn">상세메세지삭제</button>
+                    <button type="button" id="resetBtn">입력취소</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+</th:block>
+</html>

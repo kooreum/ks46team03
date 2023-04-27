@@ -1,0 +1,40 @@
+package ks46team03.dto;
+
+public class Location {
+    private String myDetailLocationCode;
+    private String fridgeCode;
+    private String myDetailLocationName;
+
+    public String getMyDetailLocationCode() {
+        return myDetailLocationCode;
+    }
+
+    public void setMyDetailLocationCode(String myDetailLocationCode) {
+        this.myDetailLocationCode = myDetailLocationCode;
+    }
+
+    public String getFridgeCode() {
+        return fridgeCode;
+    }
+
+    public void setFridgeCode(String fridgeCode) {
+        this.fridgeCode = fridgeCode;
+    }
+
+    public String getMyDetailLocationName() {
+        return myDetailLocationName;
+    }
+
+    public void setMyDetailLocationName(String myDetailLocationName) {
+        this.myDetailLocationName = myDetailLocationName;
+    }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "myDetailLocationCode='" + myDetailLocationCode + '\'' +
+                ", fridgeCode='" + fridgeCode + '\'' +
+                ", myDetailLocationName='" + myDetailLocationName + '\'' +
+                '}';
+    }
+}

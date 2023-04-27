@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin_default}">
+<head>
+  <link rel="stylesheet" type="text/css" th:href="@{/admin/css/pjc.css}" />
+</head>
+
+<th:block layout:fragment="customContents">
+  <div th:include="~{/admin/search/admin_search :: searchFragment3}"></div>
+  <table>
+    <thead>
+    <tr>
+      <th>메시지관리코드</th>
+      <th>메시지코드</th>
+      <th>발신아이디</th>
+      <th>수신아이디</th>
+      <th>메시지상세내용</th>
+      <th>전송시간</th>
+      <th>삭제</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:unless="${messageManagementList == null}" th:each=" l : ${messageManagementList}">
+      <td th:text="${l.messageManagementCode}"></td>
+      <td th:text="${l.messageCode}"></td>
+      <td th:text="${l.memberId}"></td>
+      <td th:text="${l.memberId2}"></td>
+      <td th:text="${l.messageDetails}"></td>
+      <td th:text="${l.messageSendTime}"></td>
+      <td>
+        <a th:href="@{/admin/message/admin_removeMessageManagement(messageManagementCode=${l.messageManagementCode})}">삭제</a>
+      </td>
+    </tr>
+    <tr th:if="${messageManagementList == null}">
+      <td colspan="7">등록된 상세메세지의 정보가 없습니다.</td>
+    </tr>
+
+
+
+
+
+
+    </tbody>
+  </table>
+</th:block>
+
+</html>

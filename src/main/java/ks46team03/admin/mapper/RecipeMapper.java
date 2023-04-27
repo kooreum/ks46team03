@@ -10,14 +10,16 @@ import java.util.List;
 @Mapper
 public interface RecipeMapper {
 
-
+    //레시피 이력 삭제
     public int removeRecipeListById(String recipeCode);
     //레시피삭제
     public int removeRecipeById(String recipeCode);
     // 레시피수정
     public int modifyRecipe(Recipe recipe);
-    // 레시피재료조회
+    // 특정레시피조회
     public Recipe getRecipeInfoById(String recipeCode);
+    //레시피 등록
     public int addRecipe(Recipe recipe);
-    public List<Recipe> getRecipeList();
+    //레시피 목록조회
+    public List<Recipe> getRecipeList(String searchKey, String searchValue);
 }

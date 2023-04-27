@@ -25,9 +25,32 @@
 <!--        </collection>-->
     </resultMap>
 
+<!--    <select id="getRecipeList" parameterType="String" resultType="Recipe">-->
+<!--        /* 상품목록조회 */-->
+<!--        SELECT-->
+<!--        r.recipe_code              as recipeCode-->
+<!--        ,r.recipe_name              as recipeName-->
+<!--        ,r.recipe_category_code     as recipeCategoryCode-->
+<!--        ,r.member_id                as memberId-->
+<!--        ,r.recipe_cal               as recipeCal-->
+<!--        ,r.recipe_quantity          as recipeQuantity-->
+<!--        ,r.reg_date                 as regDate-->
+<!--        FROM-->
+<!--        recipe_reg as r-->
+<!--        INNER JOIN-->
+<!--        member as m-->
+<!--        ON r.member_id = m.member_id-->
+<!--        <where>-->
+<!--            <if test="searchKey != null and searchKey != ''">-->
+<!--                ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        ORDER BY r.recipe_code;-->
+<!--    </select>-->
+
     <select id="getRecipeList" parameterType="String" resultType="Recipe">
-        /* 상품목록조회 */
-        SELECT
+        /* 레시피목록조회 */
+        SELECT distinct
         r.recipe_code              as recipeCode
         ,r.recipe_name              as recipeName
         ,r.recipe_category_code     as recipeCategoryCode
@@ -35,19 +58,25 @@
         ,r.recipe_cal               as recipeCal
         ,r.recipe_quantity          as recipeQuantity
         ,r.reg_date                 as regDate
+        ,ir.ingredient_category_code as ingredientCategoryCode
         FROM
         recipe_reg as r
         INNER JOIN
         member as m
-        ON
-        r.member_id = m.member_id
+        ON r.member_id = m.member_id
+        INNER JOIN
+        recipe_ingredient as ri
+        ON r.recipe_code = ri.recipe_code
+        INNER JOIN
+        ingredient_registration as ir
+        ON ri.ingredient_code = ir.ingredient_code
         <where>
             <if test="searchKey != null and searchKey != ''">
                 ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
             </if>
         </where>
+        GROUP BY r.recipe_code
         ORDER BY r.recipe_code;
     </select>
-
 
 </mapper>
