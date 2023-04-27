@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team03.admin.mapper.IngredientMapper">
-    <resultMap id="ingredientResultMap" type="ingredient">
+    <resultMap id="ingredientResultMap" type="Ingredient">
         <id     column="ingredient_code"            property="ingredientCode"/>
         <result column="member_id"                  property="memberId"/>
         <result column="ingredient_category_code"   property="ingredientCategoryCode"/>
@@ -82,20 +82,35 @@
 
 
 
-    <select id="getIngredientList" resultMap="ingredientResultMap">
+    <select id="getIngredientList" parameterType="String" resultType="Ingredient">
         /* 재료 목록 조회 */
         SELECT
-        ingredient_code
-        ,member_id
-        ,ingredient_category_code
-        ,ingredient_name
-        ,reg_time
-        ,update_time
-        ,ingredient_end_time
+        i.ingredient_code            as ingredientCode
+        ,i.member_id                 as memberId
+        ,i.ingredient_category_code  as ingredientCategoryCode
+        ,i.ingredient_name           as ingredientName
+        ,i.reg_time                  as regTime
+        ,i.update_time               as updateTime
+        ,i.ingredient_end_time       as ingredientEndTime
 
         FROM
-        ingredient_registration
+        ingredient_registration AS i
+        INNER JOIN
+        member AS m
+        ON
+        i.member_id = m.member_id
+        <where>
+            <if test="searchKey != null and searchKey != ''">
+                ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+            </if>
+        </where>
+        order by CAST(SUBSTRING_INDEX(ingredient_code, 'ingredient_',-1) AS unsigned), i.ingredient_code
     </select>
+
+
+
+
+
 
 
 

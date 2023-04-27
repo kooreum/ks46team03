@@ -5,6 +5,7 @@ import ks46team03.dto.Member;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface IngredientMapper {
@@ -18,7 +19,7 @@ public interface IngredientMapper {
     // 특정재료조회
     public Ingredient getIngredientInfoById(String ingredientCode);
     //재료 목록 조회
-    public List<Ingredient> getIngredientList();
+    public List<Ingredient> getIngredientList(String searchKey, String searchValue);
     //재료등록
     public int addIngredient(Ingredient ingredient);
 

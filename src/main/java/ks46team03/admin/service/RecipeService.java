@@ -18,13 +18,14 @@ public class RecipeService {
     public RecipeService(RecipeMapper recipeMapper) {
         this.recipeMapper = recipeMapper;
     }
+
     /**
      * 레시피 삭제
      */
     public void removeRecipe(String recipeCode) {
         Recipe recipeInfo = recipeMapper.getRecipeInfoById(recipeCode);
 
-        if(recipeInfo != null) {
+        if (recipeInfo != null) {
             String infoRecipeCode = recipeInfo.getRecipeCode();
 
             //레시피이력삭제
@@ -37,6 +38,7 @@ public class RecipeService {
 
     /**
      * 레시피 수정
+     *
      * @param recipe
      */
     public void modifyRecipe(Recipe recipe) {
@@ -45,6 +47,7 @@ public class RecipeService {
 
     /**
      * 특정레시피 조회
+     *
      * @param recipeCode
      * @return
      */
@@ -56,6 +59,7 @@ public class RecipeService {
 
     /**
      * 레시피 등록
+     *
      * @param recipe
      * @return
      */
@@ -68,13 +72,28 @@ public class RecipeService {
 
     /**
      * 레시피 목록 조회
+     *
      * @return
      */
-    public List<Recipe> getRecipeList() {
-        List <Recipe> recipeList = recipeMapper.getRecipeList();
+    public List<Recipe> getRecipeList(String searchKey, String searchValue) {
+        if (searchKey != null) {
+            switch (searchKey) {
+                case "memberId":
+                    searchKey = "r.member_id";
+                    break;
+                case "recipeCode":
+                    searchKey = "r.recipe_code";
+                    break;
+                case "recipeName":
+                    searchKey = "r.recipe_name";
+                    break;
+                default:
+                    searchKey = "r.recipe_category_code";
+                    break;
+            }
+        }
+            List<Recipe> recipeList = recipeMapper.getRecipeList(searchKey, searchValue);
 
         return recipeList;
-
-
     }
 }

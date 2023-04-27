@@ -44,8 +44,21 @@ public class MessageManagementService {
      * 메세지 상세목록조회
      * @return
      */
-    public List<MessageManagement> getMessageManagementList() {
-        List<MessageManagement> messageManagementList = messageManagementMapper.getMessageManagementList();
+    public List<MessageManagement> getMessageManagementList(String searchKey, String searchValue) {
+        if (searchKey != null){
+            switch (searchKey){
+                case "memberId2":
+                    searchKey = "me.member_id2";
+                    break;
+                default:
+                    searchKey = "me.message_code";
+                    break;
+
+            }
+        }
+
+
+        List<MessageManagement> messageManagementList = messageManagementMapper.getMessageManagementList(searchKey,searchValue);
 
         return messageManagementList;
 

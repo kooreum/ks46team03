@@ -3,11 +3,17 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/user_default}">
-<head>
-  <link rel="stylesheet" type="text/css" th:href="@{/user/css/form.css}">
-</head>
+<!--<head>-->
+<!--  <link rel="stylesheet" type="text/css" th:href="@{/user/css/form.css}">-->
+<!--</head>-->
 <th:block layout:fragment="customJs">
   <script th:src="@{/js/jquery-3.6.4.js}"></script>
+    <script>
+        $('#resetBtn').click(function(){
+            //location.href = '/goods/goodsList';
+            history.go(-1);
+        });
+    </script>
   <script th:inline="javascript">
     $(function (){
       //alert('제이쿼리')
@@ -51,91 +57,157 @@
     }*/
 
       $('#submitBtn').click(function (){
-        const addRecipeForm = $('#addRecipeForm');
-        const inputGroup = $('#addRecipeForm input');
         let isSubmit = true;
-        inputGroup.each(function (idx, item){
-          isSubmit = validationCheck(item);
-          if(!isSubmit) {
-            let msg = $(item).parents('tr').find('label').text();
-            alert(msg + '입력해주세요.');
-            $(item).focus();
-            return false;
-          }
+
+          if(memberLevel == '1'){
+              const $selectEle = $('#sellerInfo');
+              isSubmit = validationCheck($selectEle);
+              $selectEle.focus();
+              if (!isSubmit) return;
+        }
+            let $inputEles = $('#addRecipeForm input');
+          $inputEles.each(function (idx, item){
+              isSubmit = validationCheck(item);
+              return isSubmit;
+
         });
-        if (isSubmit) addRecipeForm.submit();
+        if (isSubmit) $('#addRecipeForm').submit();
       });
     });
   </script>
 </th:block>
 
 <th:block layout:fragment="customContent">
-  <form id="addRecipeForm"th:action="@{/user/recipe/user_addRecipe}" method="post">
-    <table>
-      <tbody>
-<!--      <tr>-->
-<!--        <td class="labeltd">-->
-<!--          <label for="recipeCode">레시피코드</label>-->
-<!--        </td>-->
-<!--        <td>-->
-<!--          <input type="text" id="recipeCode" name="recipeCode" placeholder="레시피코드를 입력해 주세요"/>-->
-<!--        </td>-->
-<!--      </tr>-->
-      <tr>
-        <td class="labeltd">
+    <!-- ##### Breadcrumb Area Start ##### -->
+    <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(/user/img/bg-img/breadcumb2.jpg);">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <div class="breadcumb-text text-center">
+                        <h2>레시피 게시판</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Breadcrumb Area End ##### -->
+
+    <!-- ##### Board Area Start ##### -->
+    <head>
+        <meta charset="UTF-8">
+        <title>레시피 등록</title>
+        <style>
+            body {
+                font-family: 'Noto Sans KR', sans-serif;
+                background-color: #F5F5F5;
+                margin: 0;
+                padding: 0;
+            }
+            #container {
+                max-width: 600px;
+                margin: 0 auto;
+                background-color: #FFFFFF;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                border-radius: 5px;
+                margin-top: 50px;
+            }
+            h1 {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            form {
+                display: flex;
+                flex-direction: column;
+            }
+            label {
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+            input[type="text"], textarea {
+                border: none;
+                border-radius: 5px;
+                padding: 10px;
+                margin-bottom: 20px;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            }
+            input[type="text"] {
+                height: 30px;
+            }
+            textarea {
+                resize: none;
+                height: 200px;
+            }
+            input[type="submit"] {
+                background-color: #008CBA;
+                color: #FFFFFF;
+                border: none;
+                border-radius: 5px;
+                padding: 10px 20px;
+                cursor: pointer;
+                transition: all 0.3s ease-in-out;
+            }
+            input[type="submit"]:hover {
+                background-color: #006B8F;
+            }
+            .button-container {
+                display: flex;
+                justify-content: space-between;
+            }
+        </style>
+    </head>
+
+
+
+
+
+      <body>
+      <div id="container">
+        <h1>레시피 등록</h1>
+        <form id="addRecipeForm"th:action="@{/user/recipe/user_addRecipe}" method="post">
           <label for="recipeName">레시피이름</label>
-        </td>
-        <td colspan="2">
-          <input type="text" id="recipeName" name="recipeName" placeholder="레시피이름을 입력해 주세요"/>
-        </td>
-      </tr>
-      <tr>
-        <td class="labeltd">
+          <input type="text" id="recipeName" name="recipeName" placeholder="레시피이름을 입력해 주세요" required/>
+
           <label for="recipeCategoryCode">레시피카테고리코드</label>
-        </td>
-        <td colspan="2">
-          <input type="text" id="recipeCategoryCode" name="recipeCategoryCode" placeholder="레시피카테고리를 입력해 주세요" />
-        </td>
-      <tr>
-        <td class="labeltd">
+          <input type="text" id="recipeCategoryCode" name="recipeCategoryCode" placeholder="레시피카테고리를 입력해 주세요" required/>
+
           <label for="memberId">레시피등록아이디</label>
-        </td>
-        <td colspan="2">
-          <input type="text" id="memberId" name="memberId" placeholder="레시피등록아이디를 입력해 주세요" />
-        </td>
-      <tr>
-        <td class="labeltd">
+          <input type="text" id="memberId" name="memberId" th:value="${session.SID}" readonly="readonly" />
+
           <label for="recipeCal">레시피칼로리</label>
-        </td>
-        <td colspan="2">
-          <input type="text" id="recipeCal" name="recipeCal" placeholder="레시피 칼로리를 입력해 주세요" />
-        </td>
-      </tr>
-      <tr>
-        <td class="labeltd">
+          <input type="text" id="recipeCal" name="recipeCal" placeholder="레시피 칼로리를 입력해 주세요" required/>
+
+
           <label for="recipeQuantity">음식의 양</label>
-        </td>
-        <td colspan="2">
-          <input type="text" id="recipeQuantity" name="recipeQuantity" placeholder="음식의 양을 입력해 주세요" />
-        </td>
-      </tr>
-      <tr>
-        <td class="labeltd">
+          <input type="text" id="recipeQuantity" name="recipeQuantity" placeholder="음식의 양을 입력해 주세요" required/>
+
+
           <label for="imageUrl">레시피 사진</label>
-        </td>
-        <td colspan="2">
-          <input type="text" id="imageUrl" name="imageUrl" placeholder="레시피 사진을 입력해 주세요" />
-        </td>
-      </tr>
-      <tr>
-        <td colspan="3">
-          <button type="button" id="submitBtn">레시피등록</button>
-          <button type="button" id="resetBtn">등록취소</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </form>
+          <input type="text" id="imageUrl" name="imageUrl" placeholder="레시피 사진을 입력해 주세요"required />
+
+
+            <label for="recipeSumm">레시피 내용</label>
+            <textarea id="recipeSumm" name="recipeSumm" rows="10" cols="50" required></textarea>
+
+            <div class="button-container">
+                <input type="submit" id="submitBtn" value="레시피 등록">
+                <input type="reset" id="resetBtn" value="입력 취소">
+            </div>
+        </form>
+     </div>
+    </body>
+    <br><br>
+    <!-- ##### All Javascript Files ##### -->
+    <!-- jQuery-2.2.4 js -->
+    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="js/active.js"></script>
 
 </th:block>
 </html>

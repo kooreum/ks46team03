@@ -4,7 +4,55 @@
 	  layout:decorate="~{layout/user_default}">
 <head>
 	<link rel="stylesheet" type="text/css" th:href="@{/user/css/table.css}" />
+
+
+	<th:block layout:fragment="customJs">
+		<script th:inline="javascript">
+			$(document).ready(function () {
+				let msg = /*[[${msg}]]*/ null;
+				console.log(msg);
+				if (msg) {
+					alert(msg);
+				}
+			});
+
+		</script>
+	</th:block>
+
+	<style>
+		.write-button {
+			text-align: center;
+			margin-top: 30px;
+		}
+
+		.write-button a {
+			display: inline-block;
+			background-color: #007bff;
+			color: #fff;
+			padding: 10px 20px;
+			border-radius: 5px;
+			text-decoration: none;
+			transition: background-color 0.3s;
+		}
+
+		.write-button a:hover {
+			background-color: #0062cc;
+		}
+
+		.write-button a {
+			background-color: #00AEEF;
+		}
+
+		.write-button a:hover {
+			background-color: #FFB6C1;
+		}
+	</style>
 </head>
+
+<script th:inline="javascript">
+	let msg = [[${msg}]];
+	if(msg) alert(msg);
+</script>
 
 <th:block layout:fragment="customContent">
 	<div th:include="~{/user/search/user_search :: searchFragment2}"></div>
@@ -17,7 +65,7 @@
 				<th>아이디</th>
 				<th>칼로리</th>
 				<th>레시피양</th>
-				<th>상품등록일자</th>
+				<th>레시피등록일자</th>
 				<th>수정</th>
 				<th>삭제</th>
 			</tr>
@@ -42,15 +90,12 @@
 				<td colspan="7">등록된 레시피의 정보가 없습니다.</td>
 			</tr>
 
-				<tr>
-<!--					<a href="/user/recipe/user_addRecipe">레시피등록</a>-->
-<!--					<a href="/user/recipe/user_addRecipe" class="btn btn-primary btn-lg">레시피등록</a>-->
-					<a class="btn-primary" href="/user/recipe/user_addRecipe" role="button">레시피등록</a>
-
-				</tr>
 
 		</tbody>
-	</table>	
+	</table>
+	<div class="write-button">
+		<a th:href="@{/user/recipe/user_addRecipe}">레시피 등록</a>
+	</div>
 </th:block>
 
 </html>

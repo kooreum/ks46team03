@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -66,7 +67,7 @@ public class UserRecipeService {
      *
      * @return List<Member>
      */
-    public List<Recipe> getRecipeList(String searchKey, String searchValue) {
+    public List<Recipe> getRecipeList(Map<String,Object> paramMap, String searchKey, String searchValue) {
         if (searchKey != null) {
             switch (searchKey) {
                 case "memberId":
@@ -80,7 +81,7 @@ public class UserRecipeService {
                     break;
             }
         }
-        List<Recipe> recipeList = userRecipeMapper.getRecipeList(searchKey, searchValue);
+        List<Recipe> recipeList = userRecipeMapper.getRecipeList(paramMap,searchKey, searchValue);
 
         return recipeList;
     }
