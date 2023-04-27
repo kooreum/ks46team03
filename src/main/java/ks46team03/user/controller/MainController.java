@@ -13,4 +13,10 @@ public class MainController {
 		
 		return "user/user_main";
 	}
+
+	@GetMapping("/home")
+	public String userHomePage() {
+
+		return "user/user_home";
+	}
 }
