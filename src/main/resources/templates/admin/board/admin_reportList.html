@@ -32,45 +32,42 @@
 
 <th:block layout:fragment="customContents">
   <div id="container">
-    <h1>공지사항 게시판</h1>
+    <h1>신고 게시판</h1>
     <table class="table-center" >
       <thead>
       <tr>
-        <th>공지사항번호</th>
+        <th>신고게시글번호</th>
         <th>작성자</th>
-        <th>공지사항제목</th>
+        <th>신고 유형</th>
+        <th>신고 레시피 글번호</th>
+        <th>신고처리상태</th>
         <th>글등록시간</th>
         <th>수정</th>
         <th>삭제</th>
       </tr>
       </thead>
       <tbody>
-      <tr th:unless="${noticeList == null}" th:each=" l : ${noticeList}">
-        <td th:text="${l.noticeBoardCode}"></td>
+      <tr th:unless="${reportList == null}" th:each=" l : ${reportList}">
+        <td th:text="${l.reportBoardCode}"></td>
         <td th:text="${l.memberId}"></td>
-        <td th:text="${l.noticeBoardTitle}"></td>
-        <td th:text="${l.noticeBoardRegTime}"></td>
+        <td th:text="${l.reportTypeCode}"></td>
+        <td th:text="${l.recipeCode}"></td>
+        <td th:text="${l.reportStateCode}"></td>
+        <td th:text="${l.reportDatetime}"></td>
         <td>
-          <a th:if="${session.SID == null}"></a>
-          <a th:unless="${session.SID == null or session.SID != 'id1'}"
-             th:href="@{/user/modifyNotice(noticeBoardCode=${l.noticeBoardCode})}">수정</a>
+          <a th:href="@{/user/modifyReport(reportBoardCode=${l.reportBoardCode})}">수정</a>
         </td>
         <td>
-          <a th:if="${session.SID == null}"></a>
-          <a th:unless="${session.SID == null or session.SID != 'id1'}"
-             th:href="@{/user/removeNotice(noticeBoardCode=${l.noticeBoardCode})}">삭제</a>
+          <a th:href="@{/user/removeReport(reportBoardCode=${l.reportBoardCode})}">삭제</a>
         </td>
       </tr>
-      <tr th:if="${noticeList == null}">
-        <td colspan="7">등록된 공지사항이 없습니다.</td>
+      <tr th:if="${reportList == null}">
+        <td colspan="7">등록된 신고글이 없습니다.</td>
       </tr>
-
       </tbody>
     </table>
     <div class="write-button">
-      <a th:if="${session.SID == null}"></a>
-      <a th:unless="${session.SID == null or session.SID != 'id1'}"
-         th:href="@{/user/addNotice}">공지사항 등록</a>
+      <a th:href="@{/user/addReport}">신고글 등록</a>
     </div>
   </div>
 </th:block>

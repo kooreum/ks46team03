@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin_default}">
+<head>
+  <link rel="stylesheet" type="text/css" th:href="@{/admin/css/pjc.css}" />
+<!--
+  <th:block layout:fragment="customJs">
+    <script th:inline="javascript">
+      $(document).ready(function () {
+        let msg = /*[[${msg}]]*/ null;
+        console.log(msg);
+        if (msg) {
+          alert(msg);
+        }
+      });
+
+    </script>
+  </th:block>-->
+
+  <style>
+    .write-button {
+      text-align: right;
+      margin-top: 30px;
+    }
+
+    .write-button a {
+      display: inline-block;
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .write-button a:hover {
+      background-color: #0062cc;
+    }
+  </style>
+</head>
+
+<script th:inline="javascript">
+  let msg = [[${msg}]];
+  if(msg) alert(msg);
+</script>
+
+<th:block layout:fragment="customContents">
+<div id="container">
+  <h1>문의사항 게시판</h1>
+  <table class="table-center" >
+    <thead>
+    <tr>
+      <th>문의사항번호</th>
+      <th>작성자</th>
+      <th>문의사항 카테고리</th>
+      <th>문의사항 제목</th>
+      <th>글등록시간</th>
+      <th>삭제</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:unless="${inquiryList == null}" th:each=" l : ${inquiryList}">
+      <td th:text="${l.inquiryBoardCode}"></td>
+      <td th:text="${l.memberId}"></td>
+      <td th:text="${l.inquiryTypeCode}"></td>
+      <td th:text="${l.inquiryBoardTitle}"></td>
+      <td th:text="${l.inquiryBoardRegTime}"></td>
+      <!--<td>
+        <a th:href="@{/user/modifyInquiry(inquiryBoardCode=${l.inquiryBoardCode})}">수정</a>
+      </td>-->
+      <td>
+        <a th:href="@{/user/removeInquiry(inquiryBoardCode=${l.inquiryBoardCode})}">삭제</a>
+      </td>
+    </tr>
+    <tr th:if="${inquiryList == null}">
+      <td colspan="7">등록된 문의사항이 없습니다.</td>
+    </tr>
+
+    </tbody>
+  </table>
+  <div class="write-button">
+    <a th:href="@{/user/addInquiry}">문의사항 등록</a>
+  </div>
+</div>
+</th:block>
+
+</html>

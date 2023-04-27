@@ -3,138 +3,62 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/admin_default}">
 <head>
-  <link rel="stylesheet" type="text/css" th:href="@{/admin/css/form.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/admin/css/pjc.css}" />
+
+  <style>
+    .write-button {
+      text-align: right;
+      margin-top: 30px;
+    }
+
+    .write-button a {
+      display: inline-block;
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .write-button a:hover {
+      background-color: #0062cc;
+    }
+  </style>
 </head>
 
 <th:block layout:fragment="customContents">
+  <div id="container">
+    <h1>금칙어 등록</h1>
+    <table class="table-center" >
+      <thead>
+      <tr>
+        <th>금칙어 코드</th>
+        <th>금칙어 리스트</th>
+        <th>삭제</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:unless="${bannedWordsList == null}" th:each=" l : ${bannedWordsList}">
+        <td th:text="${l.bannedWordsCode}"></td>
+        <td th:text="${l.bannedWordList}"></td>
+        <td>
+          <a th:if="${session.SID == null}"></a>
+          <a th:unless="${session.SID == null or session.SID != 'id1'}"
+             th:href="@{#}">삭제</a>
+        </td>
+      </tr>
+      <tr th:if="${bannedWordsList == null}">
+        <td colspan="7">등록된 금칙어가 없습니다.</td>
+      </tr>
 
-  <head>
-    <title>금칙어 목록 등록</title>
-    <style>
-      body {
-        background-color: #f2f2f2;
-        font-family: Arial, sans-serif;
-        font-size: 16px;
-        margin: 0 auto;
-        padding: 0;
-      }
-
-      .container {
-        margin: 0 auto;
-      }
-
-      h1 {
-        text-align: center;
-        margin-top: 50px;
-        color: #333;
-      }
-
-      p {
-        text-align: center;
-        margin-bottom: 50px;
-        color: #666;
-      }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 50px;
-      }
-
-      th, td {
-        border: 1px solid #ccc;
-        padding: 10px;
-        text-align: center;
-        vertical-align: middle;
-      }
-
-      th {
-        background-color: #eee;
-        font-weight: bold;
-        color: #333;
-      }
-
-      form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
-      }
-
-      label {
-        display: block;
-        margin-bottom: 10px;
-        color: #666;
-      }
-
-      input[type="text"] {
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        margin-bottom: 20px;
-        font-size: 16px;
-      }
-
-      input[type="submit"] {
-        padding: 10px 20px;
-        background-color: #4CAF50;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
-
-      input[type="submit"]:hover {
-        background-color: #3e8e41;
-      }
-    </style>
-  </head>
-  <body>
-  <h1>금칙어 목록 등록</h1>
-  <p>새로운 금칙어를 등록하세요.</p>
-
-  <table>
-    <thead>
-    <tr>
-      <th>번호</th>
-      <th>금칙어</th>
-      <th>등록자</th>
-      <th>등록 시간</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td>1</td>
-      <td>금지단어1</td>
-      <td>관리자1</td>
-      <td>2023-04-18 14:30:00</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>금지단어2</td>
-      <td>관리자2</td>
-      <td>2023-04-18 14:31:00</td>
-    </tr>
-    </tbody>
-  </table>
-
-  <form>
-    <label for="금칙어">금칙어:</label>
-    <input type="text" id="금칙어" name="금칙어" required>
-
-    <label for="등록자">등록자:</label>
-    <input type="text" id="등록자" name="등록자" required>
-
-    <input type="submit" value="금칙어 등록">
-  </form>
-  </body>
-
-
-
+      </tbody>
+    </table>
+    <div class="write-button">
+      <a th:if="${session.SID == null}"></a>
+      <a th:unless="${session.SID == null or session.SID != 'id1'}"
+         th:href="@{/user/addNotice}">금칙어 등록</a>
+    </div>
+  </div>
 </th:block>
 </html>
