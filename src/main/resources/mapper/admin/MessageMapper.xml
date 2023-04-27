@@ -71,6 +71,7 @@
         ,message_details
         FROM
         message
+        order by CAST(SUBSTRING_INDEX(message_code, 'message_',-1) AS unsigned)
     </select>
 
 

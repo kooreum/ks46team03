@@ -55,8 +55,8 @@ public class MessageManagementController {
      * @return
      */
     @GetMapping("/message/admin_messageManagementList")
-    public String getMessageManagementList(Model model) {
-        List<MessageManagement> messageManagementList = messageManagementService.getMessageManagementList();
+    public String getMessageManagementList(Model model,String searchKey,String searchValue) {
+        List<MessageManagement> messageManagementList = messageManagementService.getMessageManagementList(searchKey,searchValue);
         model.addAttribute("title","메세지상세목록조회");
         model.addAttribute("messageManagementList",messageManagementList);
         return "/admin/message/admin_messageManagementList";

@@ -13,5 +13,5 @@ public interface MessageManagementMapper {
     // 회원탈퇴
     public int removeMessageManagementById(String massageManagementCode);
     public MessageManagement getMessageManagementInfoById(String massageManagementCode);
-    public List<MessageManagement> getMessageManagementList();
+    public List<MessageManagement> getMessageManagementList(String searchKey, String searchValue);
 }

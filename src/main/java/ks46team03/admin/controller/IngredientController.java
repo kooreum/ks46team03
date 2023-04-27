@@ -74,10 +74,12 @@ public class IngredientController {
      */
     @GetMapping("/ingredient/modifyIngredient")
     public String modifyIngredient(
-            @RequestParam(name="ingredientCode") String ingredientCode
+            @RequestParam(name="ingredientCode") String ingredientCode,
+            @RequestParam(name="searchKey", required = false) String searchKey
+            ,@RequestParam(name="searchValue", required = false) String searchValue
             ,Model model) {
         Ingredient ingredientInfo = ingredientService.getIngredientInfoById(ingredientCode);
-        List<Ingredient> ingredientList = ingredientService.getIngredientList();
+        List<Ingredient> ingredientList = ingredientService.getIngredientList(searchKey, searchValue);
         model.addAttribute("title", "재료수정화면");
         model.addAttribute("ingredientList", ingredientList);
         model.addAttribute("ingredientInfo", ingredientInfo);
@@ -103,9 +105,9 @@ public class IngredientController {
      * @return
      */
     @GetMapping("/ingredient/admin_addIngredient")
-    public String addIngredient(Model model) {
+    public String addIngredient(Model model,String searchKey,String searchValue) {
 
-        List<Ingredient> IngredientList = ingredientService.getIngredientList();
+        List<Ingredient> IngredientList = ingredientService.getIngredientList(searchKey,searchValue);
 
         model.addAttribute("title", "재료등록화면");
         model.addAttribute("IngredientList", IngredientList);
@@ -121,8 +123,9 @@ public class IngredientController {
      */
     @GetMapping("/ingredient/admin_ingredientList")
 
-    public String getIngredientList(Model model) {
-        List<Ingredient> ingredientList = ingredientService.getIngredientList();
+    public String getIngredientList(Model model,String searchKey,String searchValue) {
+
+        List<Ingredient> ingredientList = ingredientService.getIngredientList(searchKey,searchValue);
         model.addAttribute("title", "재료목록화면");
         model.addAttribute("ingredientList", ingredientList);
 

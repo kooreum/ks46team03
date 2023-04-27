@@ -5,8 +5,13 @@
 <head>
   <link rel="stylesheet" type="text/css" th:href="@{/admin/css/pjc.css}" />
 </head>
+<script th:inline="javascript">
+  let msg = [[${msg}]];
+  if(msg) alert(msg);
+</script>
 
 <th:block layout:fragment="customContents">
+  <div th:include="~{/admin/search/admin_search :: searchFragment}"></div>
   <table>
     <thead>
     <tr>
@@ -28,8 +33,9 @@
       <td th:text="${l.ingredientCategoryCode}"></td>
       <td th:text="${l.ingredientName}"></td>
       <td th:text="${l.regTime}"></td>
-      <td th:text="${l.ingredientEndTime}"></td>
       <td th:text="${l.updateTime}"></td>
+      <td th:text="${l.ingredientEndTime}"></td>
+
       <td>
         <a th:href="@{/admin/ingredient/modifyIngredient(ingredientCode=${l.ingredientCode})}">수정</a>
       </td>
@@ -38,7 +44,7 @@
       </td>
     </tr>
     <tr th:if="${ingredientList == null}">
-      <td colspan="7">등록된 재료의 정보가 없습니다.</td>
+      <td colspan="9">등록된 재료의 정보가 없습니다.</td>
     </tr>
 
 

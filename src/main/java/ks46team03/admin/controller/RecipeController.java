@@ -77,9 +77,11 @@ public class RecipeController {
     @GetMapping("/recipe/modifyRecipe")
     public String modifyRecipe(
             @RequestParam(name="recipeCode") String recipeCode
+            ,@RequestParam(name="searchKey", required = false) String searchKey
+            ,@RequestParam(name="searchValue", required = false) String searchValue
             ,Model model) {
         Recipe recipeInfo = recipeService.getRecipeInfoById(recipeCode);
-        List<Recipe> recipeList = recipeService.getRecipeList();
+        List<Recipe> recipeList = recipeService.getRecipeList(searchKey, searchValue);
         model.addAttribute("title", "레시피수정화면");
         model.addAttribute("recipeList", recipeList);
         model.addAttribute("recipeInfo", recipeInfo);
@@ -106,9 +108,9 @@ public class RecipeController {
      * @return
      */
     @GetMapping("/recipe/admin_addRecipe")
-    public String addRecipe(Model model) {
+    public String addRecipe(Model model,String searchKey,String searchValue) {
 
-        List<Recipe> RecipeList = recipeService.getRecipeList();
+        List<Recipe> RecipeList = recipeService.getRecipeList(searchKey,searchValue);
 
         model.addAttribute("title", "레시피등록화면");
         model.addAttribute("RecipeList", RecipeList);
@@ -131,8 +133,8 @@ public class RecipeController {
      * @return
      */
     @GetMapping("/recipe/admin_recipeList")
-    public String getRecipeList(Model model) {
-        List<Recipe> recipeList = recipeService.getRecipeList();
+    public String getRecipeList(Model model,String searchKey,String searchValue) {
+        List<Recipe> recipeList = recipeService.getRecipeList(searchKey,searchValue);
         model.addAttribute("title", "레시피목록조회");
         model.addAttribute("recipeList", recipeList);
 

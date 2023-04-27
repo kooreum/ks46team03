@@ -31,7 +31,7 @@
         message_management_code = #{messageManagementCode}
     </delete>
 
-    <select id="getMessageManagementInfoById" parameterType="String" resultMap="messageManagementResultMap">
+    <select id="getRecipeList" parameterType="String" resultType="Recipe">
         /* 특정메세지조회 */
         SELECT
         me.message_management_code
@@ -47,18 +47,27 @@
         e.message_code = #{messageCode};
     </select>
 
-    <select id="getMessageManagementList" resultMap="messageManagementResultMap">
+    <select id="getMessageManagementList" parameterType="String" resultType="MessageManagement">
         /* 메세지 목록 조회 */
         SELECT
-        message_management_code
-        ,message_code
-        ,member_id
-        ,member_id2
-        ,message_details
-        ,message_send_time
-        ,message_delete_time
+        me.message_management_code AS messageManagementCode
+        ,me.message_code         AS messageCode
+        ,me.member_id            AS memberId
+        ,me.member_id2           AS memberId2
+        ,me.message_details      AS messageDetails
+        ,me.message_send_time    AS messageSendTime
+        ,me.message_delete_time  AS messageDeleteTime
         FROM
-        message_management
+        message_management AS me
+        INNER JOIN
+        member AS m
+        on
+        me.member_id2 = m.member_id
+        <where>
+            <if test="searchKey != null and searchKey != ''">
+                ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+            </if>
+        </where>
     </select>
 
 
