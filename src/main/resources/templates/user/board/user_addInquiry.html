@@ -19,32 +19,6 @@
                         return isValid;
                     }
 
-                    /*const memberLevel = [[${session.SLEVEL}]];
-
-                    if(memberLevel == '1'){
-                        let request = $.ajax({
-                            url: '/goods/sellersInfo',
-                            method: 'POST',
-                            dataType: 'json'
-                        });
-
-                        request.done(function( data ) {
-                            const sellerList = data;
-                            if(sellerList != null){
-                                $(sellerList).each(function(idx, item){
-                                    let memberId = item.memberId;
-                                    let memberName = item.memberName;
-                                    const newEle = $(`<option value="${memberId}"> ${memberId} &emsp; :::: &emsp; ${memberName}</option>`);
-                                    $('#sellerInfo').append(newEle);
-                                })
-                            }
-                        });
-
-                        request.fail(function( jqXHR, textStatus ) {
-                            alert(`Request failed: ${textStatus}`);
-                        });
-                    }*/
-
 
                     $('#submitBtn').click(function(){
                         let isSubmit = true;
