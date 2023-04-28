@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/ingredient")
 public class IngredientController {
 
 
@@ -29,7 +29,7 @@ public class IngredientController {
      * @param ingredientCode
      * @return
      */
-    @PostMapping("/ingredient/removeIngredient")
+    @PostMapping("/removeIngredient")
     public String removeIngredient(String ingredientCode) {
 
         ingredientMapper.removeIngredientById(ingredientCode);
@@ -121,7 +121,7 @@ public class IngredientController {
      * @param model
      * @return
      */
-    @GetMapping("/ingredient/admin_ingredientList")
+    @GetMapping("/ingredientList")
 
     public String getIngredientList(Model model,String searchKey,String searchValue) {
 
