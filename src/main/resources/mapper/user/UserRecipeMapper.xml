@@ -16,37 +16,7 @@
         <result column="view_count" property="viewCount"/>
         <result column="recommendation_count" property="recommendationCount"/>
         <result column="recipe_use_number" property="recipeUseNumber"/>
-<!--        <collection property="sellerList" ofType="Goods">-->
-<!--            <id     column="g_code" property="goodsCode"/>-->
-<!--            <result column="g_name" property="goodsName"/>-->
-<!--            <result column="g_price" property="goodsPrice"/>-->
-<!--            <result column="g_seller_id" property="goodsSellerId"/>-->
-<!--            <result column="g_reg_date" property="goodsRegDate"/>-->
-<!--        </collection>-->
     </resultMap>
-
-<!--    <select id="getRecipeList" parameterType="String" resultType="Recipe">-->
-<!--        /* 상품목록조회 */-->
-<!--        SELECT-->
-<!--        r.recipe_code              as recipeCode-->
-<!--        ,r.recipe_name              as recipeName-->
-<!--        ,r.recipe_category_code     as recipeCategoryCode-->
-<!--        ,r.member_id                as memberId-->
-<!--        ,r.recipe_cal               as recipeCal-->
-<!--        ,r.recipe_quantity          as recipeQuantity-->
-<!--        ,r.reg_date                 as regDate-->
-<!--        FROM-->
-<!--        recipe_reg as r-->
-<!--        INNER JOIN-->
-<!--        member as m-->
-<!--        ON r.member_id = m.member_id-->
-<!--        <where>-->
-<!--            <if test="searchKey != null and searchKey != ''">-->
-<!--                ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')-->
-<!--            </if>-->
-<!--        </where>-->
-<!--        ORDER BY r.recipe_code;-->
-<!--    </select>-->
 
     <select id="getRecipeList" parameterType="String" resultType="Recipe">
         /* 레시피목록조회 */
@@ -58,6 +28,7 @@
         ,r.recipe_cal               as recipeCal
         ,r.recipe_quantity          as recipeQuantity
         ,r.reg_date                 as regDate
+        ,r.view_count               as viewCount
         ,ir.ingredient_category_code as ingredientCategoryCode
         FROM
         recipe_reg as r
@@ -79,4 +50,76 @@
         ORDER BY r.recipe_code;
     </select>
 
+    <select id="getBookmarkList" parameterType="String" resultType="Bookmark">
+        /* 즐겨찾기 목록조회 */
+        SELECT
+        rb.recipe_code              as recipeCode
+        ,r.recipe_name              as recipeName
+        ,r.recipe_cal               as recipeCal
+        ,r.recipe_quantity          as recipeQuantity
+        ,r.member_id                as memberId
+        ,rb.member_id                as memberId
+        ,rb.recipe_bookmarks_code as recipeBookmarksCode
+        FROM
+        recipe_bookmarks as rb
+        INNER JOIN
+        recipe_reg as r
+        ON rb.recipe_code= r.recipe_code
+        WHERE
+        rb.member_id = #{SID}
+<!--        <where>-->
+<!--            rb.member_id = '#{SID}'-->
+<!--            <if test="searchKey != null and searchKey != ''">-->
+<!--                ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')-->
+<!--            </if>-->
+<!--        </where>-->
+        ORDER BY rb.recipe_bookmarks_code
+    </select>
+
+    <delete id="removeBookmark" parameterType="String">
+        /* 즐겨찾기삭제 */
+        DELETE
+        FROM
+        recipe_bookmarks
+        WHERE
+        recipe_bookmarks_code = #{recipeBookmarksCode};
+    </delete>
+
+    <select id="getRecipeInfoByCode" parameterType="String" resultMap="recipeResultMap">
+        /* 특정 레시피 조회 */
+        SELECT
+        r.recipe_code
+        ,r.recipe_name
+        ,r.recipe_cal
+        ,r.recipe_quantity
+        ,r.image_url
+        ,r.recipe_step1
+        ,r.recipe_step2
+        ,r.recipe_step3
+        ,IFNULL(r.update_at, r.reg_date) AS reg_date
+        FROM
+        recipe_reg AS r
+        WHERE
+        r.recipe_code = #{recipeCode}
+    </select>
+
+    <update id="getViewCount" parameterType="String">
+        UPDATE recipe_reg
+        SET view_count = view_count + 1
+        WHERE recipe_code = #{recipeCode}
+    </update>
+
+    <select id="getViewRank" parameterType="String" resultMap="recipeResultMap">
+    SELECT
+        rr.recipe_name
+        ,rr.view_count
+        ,rr.recipe_code
+    FROM
+        recipe_reg rr
+    WHERE
+        rr.reg_date >= CURDATE() - INTERVAL 1 WEEK
+        and rr.view_count > 0
+    order by view_count DESC
+    LIMIT 3;
+    </select>
 </mapper>

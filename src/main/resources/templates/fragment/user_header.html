@@ -58,7 +58,7 @@
                             <!-- Nav Start -->
                             <div class="classynav">
                                 <ul>
-                                    <li><a href="/user/index">Home</a></li>
+                                    <li><a href="/user/home">Home</a></li>
 
                                     <li><a href="#">카테고리</a>
                                         <div class="megamenu">
@@ -69,20 +69,20 @@
                                                 <li>&nbsp</li>
                                                 <li>&nbsp</li>
                                                 <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_1')}">밥요리</a></li>
-                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_2')}">샐러드</a></li>
-                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_3')}">야식&술안주</a></li>
-                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_4')}">스파게티</a></li>
-                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_5')}">간식&분식</a></li>
-                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_6')}">토스트&샌드위치</a></li>
-                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_7')}">디저트</a></li>
-                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_8')}">국&탕</a></li>
-                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_9')}">찌개&전골</a></li>
-                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_10')}">밑반찬</a></li>
-                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_11')}">볶음요리</a></li>
-                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_12')}">구이</a></li>
-                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_13')}">찜&조림</a></li>
-                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_14')}">튀김</a></li>
-                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_15')}">면요리</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_10')}">샐러드</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_11')}">야식&술안주</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_12')}">스파게티</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_13')}">간식&분식</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_14')}">토스트&샌드위치</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_15')}">디저트</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_2')}">국&탕</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_3')}">찌개&전골</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_4')}">밑반찬</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_5')}">볶음요리</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_6')}">구이</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_7')}">찜&조림</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_8')}">튀김</a></li>
+                                                <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_9')}">면요리</a></li>
                                                 <li><a th:href="@{/user/recipe/recipeList(searchKey='recipeCategoryCode', searchValue='recipe_category_16')}">기타</a></li>
                                             </ul>
                                             <br>
@@ -114,7 +114,7 @@
 
                                     <li><a th:if="${session.SLEVEL != null and (session.SLEVEL == 'member_code_2' or session.SLEVEL == 'member_code_1')}" th:href="@{/user/fridge/userFridge}">냉장고</a></li>
                                     <li><a th:href="@{/user/recipe/recipeList}">레시피</a></li>
-                                    <li><a href="receipe-post.html">즐겨찾기</a></li>
+                                    <li><a th:href="@{/user/recipe/bookmarkList}">즐겨찾기</a></li>
 
                                     <li><a href="#">더보기</a>
                                         <ul class="dropdown">
@@ -125,21 +125,14 @@
                                                 <a th:unless="${session.SID == null or session.SID != 'id1'}"
                                                    th:href="@{/admin/index(memberId=${session.SID == 'id1' ? 'id1' : ''})}">관리자페이지</a>
                                             </li>
-<!--                                            <li><a th:if="${session.SID == null}"></a>-->
-<!--                                                <a th:unless="${session.SID == null}"-->
-<!--                                                   th:href="@{/user/member/modifyMember(memberId=${session.SID == 'id1' ? 'id1' : ''})}">관리자페이지</a>-->
-<!--                                            </li>-->
                                         </ul>
                                     </li>
-
-<!--                                    <li><a href="receipe-post.html">4 Vegans</a></li>-->
-<!--                                    <li><a href="contact.html">고객센터</a></li>-->
                                 </ul>
 
                                 <!-- Newsletter Form -->
-                                <div class="search-btn">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                </div>
+<!--                                <div class="search-btn">-->
+<!--                                    <i class="fa fa-search" aria-hidden="true"></i>-->
+<!--                                </div>-->
 
                             </div>
                             <!-- Nav End -->

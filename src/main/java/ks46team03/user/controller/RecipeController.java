@@ -2,8 +2,8 @@ package ks46team03.user.controller;
 
 
 import jakarta.servlet.http.HttpSession;
+import ks46team03.dto.Bookmark;
 import ks46team03.dto.Member;
-import ks46team03.dto.Message;
 import ks46team03.dto.Recipe;
 import ks46team03.user.mapper.UserMemberMapper;
 import ks46team03.user.mapper.UserRecipeMapper;
@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -140,21 +138,42 @@ public class RecipeController {
 	public String getRecipeList(Model model
 								, @RequestParam(name="searchKey", required = false) String searchKey
 								, @RequestParam(name="searchValue", required = false) String searchValue
-								, HttpSession session
-								, @RequestParam(name="msg", required = false)String msg) {
-			String memberLevel = (String) session.getAttribute("SLEVEL");
-			Map<String, Object> paramMap = null;
-			if(memberLevel != null && "2".equals(memberLevel)) {
-				String sellerId = (String)session.getAttribute("SID");
-				paramMap = new HashMap<String, Object>();
-				paramMap.put("searchKey" , "g_seller_id");
-				paramMap.put("searchValue", sellerId);
-			}
-		log.info("msg={}", msg);
+								, HttpSession session, Map<String,Object> paramMap) {
+
 		List<Recipe> recipeList = userRecipeService.getRecipeList(paramMap, searchKey, searchValue);
 		model.addAttribute("title", "레시피조회");
 		model.addAttribute("recipeList", recipeList);
-		if(msg != null) model.addAttribute("msg", msg);
 		return "user/recipe/user_recipeList";
+	}
+
+	@GetMapping("/recipe/bookmarkList")
+	public String getBookmarkList(Model model
+			, @RequestParam(name="searchKey", required = false) String searchKey
+			, @RequestParam(name="searchValue", required = false) String searchValue
+			, HttpSession session) {
+			String SID = (String)session.getAttribute("SID");
+
+			List<Bookmark> bookmarkList = userRecipeService.getBookmarkList(searchKey, searchValue, SID);
+			model.addAttribute("title", "즐겨찾기조회");
+			model.addAttribute("bookmarkList", bookmarkList);
+
+		return "/user/recipe/user_bookmarkList";
+	}
+
+	@PostMapping("/removeBookmark")
+	public String removeBookmark(@RequestParam(name = "recipeBookmarksCode") String recipeBookmarksCode) {
+
+		userRecipeService.removeBookmark(recipeBookmarksCode);
+
+		return "redirect:/user/recipe/bookmarkList";
+	}
+
+	@GetMapping("/recipe/recipeDetail")
+	public String getRecipeInfoByCode(Model model, String recipeCode) {
+		Recipe recipeDetail = userRecipeService.getRecipeInfoByCode(recipeCode);
+		int viewCount = userRecipeService.getViewCount(recipeCode);
+		model.addAttribute("recipeDetail", recipeDetail);
+		model.addAttribute("viewCount", viewCount);
+		return "user/recipe/user_recipe";
 	}
 }
