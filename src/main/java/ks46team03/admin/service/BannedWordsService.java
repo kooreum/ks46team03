@@ -23,5 +23,26 @@ public class BannedWordsService {
         return bannedWordsList;
     }
 
+    /*
+    금칙어 삭제
+     */
+    public void removeBannedWords(String bannedWordsCode){
+
+        bannedWordsMapper.removeBannedWordsByCode(bannedWordsCode);
+
+    }
+
+    /* 금칙어 등록 */
+
+    public int addBannedWords(BannedWords bannedWords){
+        int result = bannedWordsMapper.addBannedWords(bannedWords);
+        return result;
+    }
+
+    public void removeCheckedBannedWords(List<String> valueArr) {
+        for (int i = 0; i < valueArr.size(); i++) {
+            bannedWordsMapper.removeBannedWordsByCode(valueArr.get(i));
+        }
+    }
 
 }

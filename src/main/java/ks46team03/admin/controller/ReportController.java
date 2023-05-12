@@ -9,10 +9,7 @@ import ks46team03.user.mapper.UserReportMapper;
 import ks46team03.user.service.UserReportService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
@@ -34,7 +31,7 @@ public class ReportController {
 	}
 
 	@GetMapping("/reportList") //noticeList 복사함
-	public String getReportList(Model model
+	public String getReportList(Model model ,String searchKey,String searchValue
 			, HttpSession session
 			, @RequestParam(name="msg", required = false) String msg) {
 		String memberLevel = (String) session.getAttribute("SLEVEL");
@@ -48,7 +45,7 @@ public class ReportController {
 			paramMap.put("searchValue", sellerId);
 		}
 
-		List<Report> reportList = userReportService.getReportList(paramMap);
+		List<Report> reportList = userReportService.getReportList(paramMap, searchKey, searchValue);
 		model.addAttribute("title", "신고사항");
 		model.addAttribute("reportList", reportList);
 		if(msg != null) model.addAttribute("msg", msg);
@@ -119,4 +116,13 @@ public class ReportController {
 		userReportService.modifyReport(report);
 		return "redirect:/user/reportList";
 	}
+
+	@GetMapping("/updateReportState")
+	public String updateReportState(@RequestParam("reportBoardCode") String reportBoardCode,
+									@RequestParam("reportStateCode") String reportStateCode) {
+		userReportService.updateReportState(reportBoardCode, reportStateCode);
+
+		return "redirect:/admin/reportList";
+	}
+
 }

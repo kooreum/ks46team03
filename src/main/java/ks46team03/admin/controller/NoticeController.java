@@ -34,7 +34,7 @@ public class NoticeController {
 	}
 
 	@GetMapping("/noticeList") //GoodsList에서 가져옴
-	public String getNoticeList(Model model
+	public String getNoticeList(Model model,String searchKey,String searchValue
 			, HttpSession session
 			, @RequestParam(name="msg", required = false) String msg) {
 		String memberLevel = (String) session.getAttribute("SLEVEL");
@@ -48,7 +48,7 @@ public class NoticeController {
 			paramMap.put("searchValue", sellerId);
 		}
 
-		List<Notice> noticeList = userNoticeService.getNoticeList(paramMap);
+		List<Notice> noticeList = userNoticeService.getNoticeList(paramMap, searchKey,searchValue);
 		model.addAttribute("title", "공지사항");
 		model.addAttribute("noticeList", noticeList);
 		if(msg != null) model.addAttribute("msg", msg);
@@ -58,12 +58,12 @@ public class NoticeController {
 	@GetMapping("/addNotice")
 	public String addNotice(Model model){
 		model.addAttribute("title","공지게시판");
-		return "user/board/user_addNotice";
+		return "admin/board/admin_addNotice";
 	}
 	@PostMapping("/addNotice")
 	public String addNotice(Notice notice){
 		userNoticeService.addNotice(notice);
-		return "redirect:/user/noticeList";
+		return "redirect:/admin/noticeList";
 	}
 	@GetMapping("/removeNotice")
 	public String removeNotice(Model model, @RequestParam(name="noticeBoardCode") String noticeBoardCode){
@@ -114,6 +114,13 @@ public class NoticeController {
 	public String modifyNotice(Notice notice){
 		userNoticeService.modifyNotice(notice);
 		return "redirect:/user/noticeList";
+	}
+	/* 체크박스에 선택한 공지사항 삭제 */
+	public List<String> removeCheckedNotice(@RequestParam(value="valueArr[]") List<String> valueArr){
+
+		userNoticeService.removeCheckedNotice(valueArr);
+
+		return valueArr;
 	}
 
 

@@ -27,8 +27,9 @@ public interface UserNoticeMapper {
      public int removeNoticeByNoticeCode(String noticeBoardCode);
 
     // 공지목록조회
-    public List<Notice> getNoticeList(Map<String,Object> paramMap);
+    public List<Notice> getNoticeList(Map<String,Object> paramMap, String searchKey, String searchValue);
 
     // 공지등록
     public int addNotice(Notice notice);
+
 }

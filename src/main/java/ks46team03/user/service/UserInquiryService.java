@@ -21,8 +21,26 @@ public class UserInquiryService {
         this.userMemberMapper = userMemberMapper;
     }
 
-    public List<Inquiry> getInquiryList(Map<String,Object> paramMap){
-        List<Inquiry> inquiryList = userInquiryMapper.getInquiryList(paramMap);
+    public List<Inquiry> getInquiryList(Map<String,Object> paramMap, String searchKey, String searchValue){
+
+        if (searchKey != null) {
+            switch (searchKey) {
+                case "memberId":
+                    searchKey = "i.member_id";
+                    break;
+                case "inquiryBoardCode":
+                    searchKey = "i.inquiry_board_code";
+                    break;
+                case "inquiryTypeCode":
+                    searchKey = "i.inquiry_type_code";
+                    break;
+                default:
+                    searchKey = "i.inquiry_board_title";
+                    break;
+            }
+        }
+
+        List<Inquiry> inquiryList = userInquiryMapper.getInquiryList(paramMap, searchKey, searchValue);
         return inquiryList;
     }
 
@@ -41,6 +59,16 @@ public class UserInquiryService {
     public Inquiry getInquiryInfoByCode(String inquiryBoardCode){
         Inquiry inquiryInfo = userInquiryMapper.getInquiryInfoByCode(inquiryBoardCode);
         return inquiryInfo;
+    }
+
+    /**
+     * 상품 삭제
+     * @param
+     */
+    public void removeCheckedInquiry(List<String> valueArr) {
+        for (int i = 0; i < valueArr.size(); i++) {
+            userInquiryMapper.removeInquiryByInquiryCode(valueArr.get(i));
+        }
     }
 
 }

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks46team03.user.mapper.UserAllergyMapper">
+<!--    <resultMap id="inquiryResultMap" type="Inquiry">-->
+<!--        <id     column="inquiry_board_code"         property="inquiryBoardCode"/>-->
+<!--        <result column="member_id"                  property="memberId"/>-->
+<!--        <result column="inquiry_type_code"          property="inquiryTypeCode"/>-->
+<!--        <result column="inquiry_board_title"        property="inquiryBoardTitle"/>-->
+<!--        <result column="inquiry_board_content"      property="inquiryBoardContent"/>-->
+<!--        <result column="inquiry_board_reg_time"     property="inquiryBoardRegTime"/>-->
+<!--    </resultMap>-->
+    <delete id="removeAllergyByCode">
+        /* 알러지 재료삭제 */
+        DELETE
+        FROM
+        allergy
+        WHERE
+        allergy_code = #{allergyCode};
+    </delete>
+
+    <select id="getAllergyList" resultType="Allergy" parameterType="map">
+        /* 나의 알러지 재료 조회 */
+        SELECT
+        a.allergy_code as allergyCode,
+        a.ingredient_code as ingredientCode,
+        a.member_id as memberId,
+        ir.ingredient_name as ingredientName
+        FROM
+        allergy AS a
+        INNER JOIN member AS m
+        ON a.member_id = m.member_id
+        INNER JOIN ingredient_registration AS ir
+        ON a.ingredient_code = ir.ingredient_code
+        <where>
+            <if test="searchKey != null and searchKey != ''">
+                ${searchKey} = #{searchValue}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addAllergy" parameterType="Allergy">
+        /* 나의 알러지 재료 등록 */
+        INSERT INTO allergy
+        (allergy_code, member_id, ingredient_code)
+        VALUES
+        (sf_new_allergy_code(), #{memberId}, #{ingredientCode});
+    </insert>
+
+    <select id="getLocationList" resultType="Location">
+        /* 위치 조회 */
+        SELECT
+        d.my_detail_location_code 	as myDetailLocationCode
+        ,d.my_detail_location_name as myDetailLocationName
+        FROM
+        my_detail_location as d;
+    </select>
+
+    <select id="getIngredientList" resultType="Ingredient">
+        /* 재료 조회 */
+        SELECT
+        ir.ingredient_code 	as ingredientCode
+        ,ir.ingredient_name as ingredientName
+        FROM
+        ingredient_registration as ir;
+    </select>
+
+
+
+</mapper>

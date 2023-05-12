@@ -108,27 +108,28 @@
         <thead>
         <tr>
           <th>문의사항번호</th>
-          <th>작성자</th>
           <th>문의사항 카테고리</th>
           <th>문의사항 제목</th>
+          <th>작성자</th>
           <th>글등록시간</th>
-          <th>수정</th>
-          <th>삭제</th>
+
         </tr>
         </thead>
         <tbody>
         <tr th:unless="${inquiryList == null}" th:each=" l : ${inquiryList}">
           <td th:text="${l.inquiryBoardCode}"></td>
-          <td th:text="${l.memberId}"></td>
           <td th:text="${l.inquiryTypeCode}"></td>
-          <td th:text="${l.inquiryBoardTitle}"></td>
-          <td th:text="${l.inquiryBoardRegTime}"></td>
           <td>
+            <a th:href="@{/user/inquiryContent(inquiryBoardCode=${l.inquiryBoardCode})}" th:text="${l.inquiryBoardTitle}"></a>
+          </td>
+          <td th:text="${l.memberId}"></td>
+          <td th:text="${l.inquiryBoardRegTime}"></td>
+          <!--<td>
             <a th:href="@{/user/modifyInquiry(inquiryBoardCode=${l.inquiryBoardCode})}">수정</a>
           </td>
           <td>
             <a th:href="@{/user/removeInquiry(inquiryBoardCode=${l.inquiryBoardCode})}">삭제</a>
-          </td>
+          </td>-->
         </tr>
         <tr th:if="${inquiryList == null}">
           <td colspan="7">등록된 문의사항이 없습니다.</td>
@@ -139,7 +140,10 @@
       <div class="write-button">
         <a th:href="@{/user/addInquiry}">문의사항 등록</a>
       </div>
+    <br><br>
+    <div th:include="~{/user/search/user_search :: inquirySearchFragment}"></div>
   </div>
+
 </th:block>
 
 </html>

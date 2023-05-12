@@ -5,13 +5,13 @@ import ks46team03.admin.service.BannedWordsService;
 import ks46team03.dto.BannedWords;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller("adminBoardController")
-@RequestMapping("/admin/board")
+@RequestMapping("/admin")
 public class BoardController {
 
     private final BannedWordsService bannedWordsService;
@@ -29,6 +29,30 @@ public class BoardController {
         model.addAttribute("bannedWordsList", bannedWordsList);
 
         return"/admin/board/admin_bannedWords";
+    }
+
+    @GetMapping("/removeBannedWords")
+    public String removeBannedWords(@RequestParam("bannedWordsCode") String bannedWordsCode){
+        bannedWordsService.removeBannedWords(bannedWordsCode);
+        return "redirect:/admin/bannedWords";
+    }
+    @PostMapping("/addBannedWords")
+    public String addBannedWords(BannedWords bannedWords){
+
+        System.out.println(bannedWords + "<- bannedWords addBannedWords BoardController");
+
+        bannedWordsService.addBannedWords(bannedWords);
+        return "redirect:/admin/bannedWords";
+        /*return"/admin/board/admin_bannedWords";*/
+    }
+
+    @PostMapping("/removeCheckedBannedWords")
+    @ResponseBody
+    public List<String> removeCheckedBannedWords(@RequestParam(value="valueArr[]") List<String> valueArr) {
+
+        bannedWordsService.removeCheckedBannedWords(valueArr);
+
+        return valueArr;
     }
 
 

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/user_default}">
+<th:block layout:fragment="customJs">
+  <script th:src="@{/js/jquery-3.6.4.js}"></script>
+  <script>
+    $('#resetBtn').click(function(){
+      //location.href = '/goods/goodsList';
+      history.go(-1);
+    });
+
+    $('#modifyBtn').click(function(event){
+      event.preventDefault();
+      let reportBoardCode = $(this).data('reportBoardCode');
+      if (confirm("수정하시겠습니까?")) {
+        location.href = "/user/modifyReport?reportBoardCode=" + reportBoardCode;
+      }
+    })
+
+    $('#deleteBtn').click(function(event){
+      event.preventDefault();
+      let reportBoardCode = $(this).data('reportBoardCode');
+      if (confirm("삭제하시겠습니까?")) {
+        location.href = "/user/removeReport?reportBoardCode=" + reportBoardCode;
+      }
+    })
+
+
+  </script>
+</th:block>
+
+<head>
+  <link rel="stylesheet" type="text/css" th:href="@{/user/css/table.css}" />
+
+  <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #f5f5f5;
+    }
+    h1 {
+      text-align: center;
+      margin: 50px 0;
+    }
+    table {
+      border-collapse: collapse;
+      margin: 0 auto;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 1000px; /* 테이블 전체 크기 */
+      border: 2px solid black; /* 테이블 전체 굵은 테두리 */
+    }
+    th {
+      background-color: #f5f5f5;
+      padding: 10px;
+      text-align: left;
+      font-weight: bold;
+      border-bottom: 1px solid #ddd;
+      color: black;
+      width: 200px; /* 컬럼 너비 */
+    }
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      width: 650px; /* 컬럼 너비 */
+    }
+    #content {
+      margin: 50px auto;
+      width: 1000px; /* 전체 폭 */
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
+    #content h2 {
+      margin-bottom: 20px;
+    }
+    button[type="reset"], button[type="button"] {
+      background-color: #008CBA;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+
+    button[type="reset"]:hover, button[type="button"]:hover {
+      background-color: #006B8F;
+    }
+
+    .write-button {
+      display: flex;
+      justify-content: center;
+      flex-direction: row; /* 아이템들을 수평으로 배치 */
+      gap: 30px; /* 각 아이템 간격 */
+    }
+
+    #article-body {
+      width: 100%;
+      height: 500px;
+      font-size: 1.2rem;
+      resize: none;
+    }
+    .write-button a {
+      display: inline-block;
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .write-button a:hover {
+      background-color: #0062cc;
+    }
+
+    .write-button a {
+      background-color: #FFC0CB;
+    }
+
+    .write-button a:hover {
+      background-color: #FFB6C1;
+    }
+
+  </style>
+
+</head>
+
+
+<th:block layout:fragment="customContent">
+
+  <!-- ##### Breadcumb Area Start ##### -->
+  <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(/user/img/bg-img/breadcumb2.jpg);">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center">
+        <div class="col-12">
+          <div class="breadcumb-text text-center">
+            <h2>신고</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ##### Breadcumb Area End ##### -->
+  <body>
+  <h1 class="con">게시글 상세</h1>
+  <section class="article-detail table-common con row">
+    <table class="cell" border="1">
+      <colgroup>
+        <col width="100px">
+      </colgroup>
+      <tbody>
+      <tr class="article-title">
+        <th>제목</th>
+        <td colspan="3" th:text="${report.reportBoardTitle}"></td>
+      </tr>
+      <tr class="article-info">
+        <th>날짜</th>
+        <td th:text="${report.reportDatetime}"></td>
+        <th>작성자 ID</th>
+        <td th:text="${report.memberId}"></td>
+      </tr>
+      <tr>
+        <th>신고 번호</th>
+        <td th:text="${report.reportBoardCode}"></td>
+        <th>카테고리</th>
+        <td th:text="${report.reportTypeCode}"></td>
+      </tr>
+      <tr>
+        <th>신고 게시글 번호</th>
+        <td th:text="${report.recipeCode}"></td>
+        <th>처리상태</th>
+        <td th:text="${report.reportStateCode}"></td>
+      </tr>
+      <tr>
+        <th>내용</th>
+        <td colspan="3">
+          <textarea id="article-body" th:text="${report.reportInfoBoardContent}" style="border: none;" readonly></textarea>
+        </td>
+      </tr>
+
+      <!--<tr class="article-body">
+        <td colspan="4" th:text="${inquiry.inquiryBoardContent}"></td>
+      </tr>-->
+      </tbody>
+    </table>
+  </section>
+
+  <br>
+  <div class="write-button">
+    <button type="reset" id="resetBtn">목록 보기</button>
+    <div th:if="${isOwner}">
+      <button type="button" id="modifyBtn" th:data-report-board-code="${report.reportBoardCode}">수정</button>
+      <button type="button" id="deleteBtn" th:data-report-board-code="${report.reportBoardCode}">삭제</button>
+    </div>
+  </div>
+
+  </body>
+  <br><br>
+</th:block>
+
+
+
+</html>

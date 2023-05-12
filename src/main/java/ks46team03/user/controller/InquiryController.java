@@ -38,9 +38,36 @@ public class InquiryController {
 		this.userMemberMapper = userMemberMapper;
 		this.userInquiryMapper = userInquiryMapper;
 	}
+	@GetMapping("/inquiryContent")
+	public String inquiryContent(@RequestParam("inquiryBoardCode") String inquiryBoardCode, Model model, HttpSession session) {
+		Inquiry inquiry = userInquiryService.getInquiryInfoByCode(inquiryBoardCode);
+		model.addAttribute("inquiry", inquiry);
+		model.addAttribute("title","문의글 내용");
+
+		// 세션에서 로그인한 사용자 ID를 가져옴
+		String userId = (String) session.getAttribute("SID");
+
+		// 글쓴이와 로그인한 사용자 ID가 같을 경우, 수정 및 삭제 버튼을 보이도록 설정
+		if (inquiry.getMemberId().equals(userId)) {
+			model.addAttribute("isOwner", true);
+		} else {
+			model.addAttribute("isOwner", false);
+		}
+
+		return "user/board/user_inquiryContent";
+	}
+
+	/*@GetMapping("/inquiryContent")
+	public String inquiryContent(@RequestParam("inquiryBoardCode") String inquiryBoardCode, Model model) {
+		Inquiry inquiry = userInquiryService.getInquiryInfoByCode(inquiryBoardCode);
+		model.addAttribute("inquiry", inquiry);
+		model.addAttribute("title","문의글 내용");
+		return "user/board/user_inquiryContent";
+	}*/
+
 
 	@GetMapping("/inquiryList") //noticeList 복사함
-	public String getInquiryList(Model model
+	public String getInquiryList(Model model ,String searchKey, String searchValue
 			, HttpSession session
 			, @RequestParam(name="msg", required = false) String msg) {
 		String memberLevel = (String) session.getAttribute("SLEVEL");
@@ -54,7 +81,7 @@ public class InquiryController {
 			paramMap.put("searchValue", sellerId);
 		}
 		log.info("msg={}", msg);
-		List<Inquiry> inquiryList = userInquiryService.getInquiryList(paramMap);
+		List<Inquiry> inquiryList = userInquiryService.getInquiryList(paramMap, searchKey, searchValue);
 		model.addAttribute("title", "신고사항");
 		model.addAttribute("inquiryList", inquiryList);
 		if(msg != null) model.addAttribute("msg", msg);
@@ -65,6 +92,7 @@ public class InquiryController {
 	@GetMapping("/addInquiry")
 	public String addInquiry(Model model){
 		model.addAttribute("title", "문의사항");
+		model.addAttribute("inquiryTypeList", userInquiryMapper.getInquiryTypeList());
 		return "user/board/user_addInquiry";
 	}
 

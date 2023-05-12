@@ -4,6 +4,7 @@ public class Report {
 
     private String reportBoardCode;
     private String memberId;
+    private String reportBoardTitle;
     private String reportTypeCode;
     private String recipeCode;
     private String reportStateCode;
@@ -24,6 +25,14 @@ public class Report {
 
     public void setMemberId(String memberId) {
         this.memberId = memberId;
+    }
+
+    public String getReportBoardTitle() {
+        return reportBoardTitle;
+    }
+
+    public void setReportBoardTitle(String reportBoardTitle) {
+        this.reportBoardTitle = reportBoardTitle;
     }
 
     public String getReportTypeCode() {
@@ -71,6 +80,7 @@ public class Report {
         return "Report{" +
                 "reportBoardCode='" + reportBoardCode + '\'' +
                 ", memberId='" + memberId + '\'' +
+                ", reportBoardTitle='" + reportBoardTitle + '\'' +
                 ", reportTypeCode='" + reportTypeCode + '\'' +
                 ", recipeCode='" + recipeCode + '\'' +
                 ", reportStateCode='" + reportStateCode + '\'' +
