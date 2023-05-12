@@ -1,9 +1,22 @@
 package ks46team03.dto;
 
+import java.util.List;
+
 public class Location {
     private String myDetailLocationCode;
     private String fridgeCode;
     private String myDetailLocationName;
+    private List<Fridge> fridgeList;
+
+
+
+    public List<Fridge> getFridgeList() {
+        return fridgeList;
+    }
+
+    public void setFridgeList(List<Fridge> fridgeList) {
+        this.fridgeList = fridgeList;
+    }
 
     public String getMyDetailLocationCode() {
         return myDetailLocationCode;
@@ -35,6 +48,7 @@ public class Location {
                 "myDetailLocationCode='" + myDetailLocationCode + '\'' +
                 ", fridgeCode='" + fridgeCode + '\'' +
                 ", myDetailLocationName='" + myDetailLocationName + '\'' +
+                ", fridgeList=" + fridgeList +
                 '}';
     }
 }

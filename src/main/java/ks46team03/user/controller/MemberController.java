@@ -128,7 +128,7 @@ public class MemberController {
     public String modifyMember(Member member) {
         userMemberMapper.modifyMember(member);
 
-        return "redirect:/user/member/memberList";
+        return "redirect:/user/index";
     }
 
     @GetMapping("/modifyMember")

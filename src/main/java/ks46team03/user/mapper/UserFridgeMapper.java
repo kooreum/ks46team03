@@ -11,21 +11,15 @@ import java.util.Map;
 @Mapper
 public interface UserFridgeMapper {
 
-    public int removeIngredientListById(String ingredientCode);
-    //재료삭제
-    public int removeIngredientById(String ingredientCode);
-    // 재료수정
-    public int modifyIngredient(Ingredient ingredient);
-    // 특정재료조회
-    public Ingredient getIngredientInfoById(String ingredientCode);
-
-    public List<Fridge> getFridgeList(Map<String,Object> paramMap);
-
+    // 냉장고재료조회
+    public List<Location> getFridgeList(Map<String,Object> paramMap);
+    // 냉장고세부위치조회
     public List<Location> getLocationList();
-
+    // 재료조회
     public List<Ingredient> getIngredientList();
-
+    // 냉장고재료등록
     public int addFridge(Fridge fridge);
-
+    //재료삭제
+    public int removeIngredient(String myIngredientCode);
 
 }
