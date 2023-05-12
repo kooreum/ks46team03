@@ -1,6 +1,7 @@
 package ks46team03.user.controller;
 
 
+
 import jakarta.servlet.http.HttpSession;
 import ks46team03.dto.Bookmark;
 import ks46team03.dto.Member;
@@ -79,7 +80,7 @@ public class RecipeController {
 		model.addAttribute("title", "레시피삭제화면");
 		model.addAttribute("recipeCode", recipeCode);
 
-		return "/user/recipe/user_removeRecipe";
+		return "user/recipe/user_removeRecipe";
 	}
 
 

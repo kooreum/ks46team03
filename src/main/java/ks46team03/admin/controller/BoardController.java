@@ -28,7 +28,7 @@ public class BoardController {
         model.addAttribute("title","금칙어 목록");
         model.addAttribute("bannedWordsList", bannedWordsList);
 
-        return"/admin/board/admin_bannedWords";
+        return"admin/board/admin_bannedWords";
     }
 
     @GetMapping("/removeBannedWords")
