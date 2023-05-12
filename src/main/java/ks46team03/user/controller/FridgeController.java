@@ -38,7 +38,7 @@ public class FridgeController {
 			paramMap.put("searchValue", memberId);
 
 		List<Location> fridgeList = userFridgeService.getFridgeList(paramMap);
-//		System.out.println("fridgeList = " + fridgeList);
+
 		model.addAttribute("fridgeList", fridgeList);
 
 		return "user/fridge/user_fridge";

@@ -70,7 +70,7 @@
 		<thead>
 			<tr>
 				<th>레시피명</th>
-				<th>아이디</th>
+				<th>작성자 아이디</th>
 				<th>칼로리</th>
 				<th>레시피양</th>
 				<th>레시피등록일자</th>
@@ -85,7 +85,7 @@
 					<a th:href="@{/user/recipe/recipeDetail(recipeCode=${l.recipeCode})}" th:text="${l.recipeName}"></a>
 				</td>
 				<td th:text="${l.memberId}"></td>
-				<td th:text="${l.recipeCal}"></td>
+				<td th:text="${l.recipeCal} + ' kcal'"></td>
 				<td th:text="${l.recipeQuantity} + '인분'"></td>
 				<td th:text="${l.regDate}"></td>
 				<td th:text="${l.viewCount}"></td>
