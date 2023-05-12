@@ -2,6 +2,7 @@ package ks46team03.user.controller;
 
 
 import jakarta.servlet.http.HttpSession;
+import ks46team03.dto.Inquiry;
 import ks46team03.dto.Member;
 import ks46team03.dto.Report;
 import ks46team03.user.mapper.UserMemberMapper;
@@ -32,9 +33,26 @@ public class ReportController {
 		this.userMemberMapper = userMemberMapper;
 		this.userReportMapper = userReportMapper;
 	}
+	@GetMapping("/reportContent")
+	public String reportContent(@RequestParam("reportBoardCode") String reportBoardCode, Model model, HttpSession session) {
+		Report report = userReportService.getReportInfoByCode(reportBoardCode);
+		model.addAttribute("report", report);
+		model.addAttribute("title","신고 내용");
+
+		// 세션에서 로그인한 사용자 ID를 가져옴
+		String userId = (String) session.getAttribute("SID");
+
+		// 글쓴이와 로그인한 사용자 ID가 같을 경우, 수정 및 삭제 버튼을 보이도록 설정
+		if (report.getMemberId().equals(userId)) {
+			model.addAttribute("isOwner", true);
+		} else {
+			model.addAttribute("isOwner", false);
+		}
+		return "user/board/user_reportContent";
+	}
 
 	@GetMapping("/reportList") //noticeList 복사함
-	public String getReportList(Model model
+	public String getReportList(Model model ,String searchKey,String searchValue
 			, HttpSession session
 			, @RequestParam(name="msg", required = false) String msg) {
 		String memberLevel = (String) session.getAttribute("SLEVEL");
@@ -48,7 +66,7 @@ public class ReportController {
 			paramMap.put("searchValue", sellerId);
 		}
 
-		List<Report> reportList = userReportService.getReportList(paramMap);
+		List<Report> reportList = userReportService.getReportList(paramMap, searchKey,searchValue);
 		model.addAttribute("title", "신고사항");
 		model.addAttribute("reportList", reportList);
 		if(msg != null) model.addAttribute("msg", msg);
@@ -59,6 +77,7 @@ public class ReportController {
 	@GetMapping("/addReport")
 	public String addReport(Model model){
 		model.addAttribute("title", "신고게시판");
+		model.addAttribute("reportTypeList",userReportMapper.getReportTypeList());
 		return "user/board/user_addReport";
 	}
 

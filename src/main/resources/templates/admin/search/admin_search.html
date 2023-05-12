@@ -37,5 +37,86 @@
 
 </div>
 
+<div th:fragment="adminNoticeSearchFragment">
+  <style>
+    .form-group select {
+      width: 150px;
+    }
+    .form-group input,
+    .form-group button {
+      display: inline-block;
+    }
+    .form-group {
+      text-align: center;
+    }
+  </style>
+
+  <form th:action="@{/admin/noticeList}" method="get">
+    <div class="form-group">
+      <select name="searchKey">
+        <option value="memberId">회원아이디</option>
+        <option value="noticeBoardCode">공지 번호</option>
+        <option value="noticeBoardTitle">공지 제목</option>
+      </select>
+      <input type="text" name="searchValue" placeholder="검색어를 입력해주세요." />
+      <button type="submit">검색</button>
+    </div>
+  </form>
+</div>
+
+<div th:fragment="adminReportSearchFragment">
+  <style>
+    .form-group select {
+      width: 150px;
+    }
+    .form-group input,
+    .form-group button {
+      display: inline-block;
+    }
+    .form-group {
+      text-align: center;
+    }
+  </style>
+  <form th:action="@{/admin/reportList}" method="get">
+    <div class="form-group">
+      <select name="searchKey">
+        <option value="memberId">회원아이디</option>
+        <option value="reportBoardCode">신고 번호</option>
+        <option value="reportTypeCode">신고 유형</option>
+      </select>
+      <input type="text" name="searchValue" placeholder="검색어를 입력해주세요." />
+      <button type="submit">검색</button>
+    </div>
+  </form>
+</div>
+
+<div th:fragment="adminInquirySearchFragment">
+  <style>
+    .form-group select {
+      width: 150px;
+    }
+
+    .form-group input,
+    .form-group button {
+      display: inline-block;
+    }
+    .form-group {
+      text-align: center;
+    }
+  </style>
+  <form th:action="@{/admin/inquiryList}" method="get">
+    <div class="form-group">
+      <select name="searchKey">
+        <option value="memberId">회원아이디</option>
+        <option value="inquiryBoardCode">문의 번호</option>
+        <option value="inquiryTypeCode">문의 카테고리</option>
+        <option value="inquiryBoardTitle">문의사항 제목</option>
+      </select>
+      <input type="text" name="searchValue" placeholder="검색어를 입력해주세요." />
+      <button type="submit">검색</button>
+    </div>
+  </form>
+</div>
+
 
 </html>

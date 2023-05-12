@@ -21,8 +21,22 @@ public class UserReportService {
         this.userMemberMapper = userMemberMapper;
     }
 
-    public List<Report> getReportList(Map<String,Object> paramMap){
-        List<Report> reportList = userReportMapper.getReportList(paramMap);
+    public List<Report> getReportList(Map<String,Object> paramMap, String searchKey, String searchValue){
+
+        if (searchKey != null) {
+            switch (searchKey) {
+                case "memberId":
+                    searchKey = "r.member_id";
+                    break;
+                case "reportTypeCode":
+                    searchKey = "r.report_type_code";
+                    break;
+                default:
+                    searchKey = "r.report_board_code";
+                    break;
+            }
+        }
+        List<Report> reportList = userReportMapper.getReportList(paramMap, searchKey, searchValue);
         return reportList;
     }
 
@@ -41,6 +55,10 @@ public class UserReportService {
     public Report getReportInfoByCode(String reportBoardCode){
         Report reportInfo = userReportMapper.getReportInfoByCode(reportBoardCode);
         return reportInfo;
+    }
+
+    public void updateReportState(String reportBoardCode, String reportStateCode) {
+        userReportMapper.updateReportState(reportBoardCode, reportStateCode);
     }
 
 }

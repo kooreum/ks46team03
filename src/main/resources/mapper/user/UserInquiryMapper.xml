@@ -12,6 +12,15 @@
         <result column="inquiry_board_reg_time"     property="inquiryBoardRegTime"/>
     </resultMap>
 
+    <select id="getInquiryTypeList" resultType="map">
+        /* 문의 유형 조회 */
+        SELECT
+             inquiry_type_code AS inquiryTypeCode
+            ,inquiry_category AS inquiryCategory
+        FROM
+            inquiry_type;
+    </select>
+
     <select id="getInquiryInfoByCode" parameterType="String" resultMap="inquiryResultMap">
         /* 특정문의조회*/
         SELECT
@@ -20,6 +29,7 @@
         ,inquiry_board_title
         ,inquiry_board_content
         ,member_id
+        ,inquiry_board_reg_time
         FROM
         inquiry_board
         WHERE
@@ -91,7 +101,7 @@
             i.member_id = m.member_id
         <where>
             <if test="searchKey != null and searchKey != ''">
-            ${searchKey} = #{searchValue};
+                ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
         </if>
         </where>
         order by CAST(SUBSTRING_INDEX(i.inquiry_board_code, 'inquiry_board',-1) AS unsigned) desc

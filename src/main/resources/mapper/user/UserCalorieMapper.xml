@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks46team03.user.mapper.UserCalorieMapper">
+
+    <delete id="deleteUserCalorie">
+        /* 등록된 한끼 제한 칼로리 삭제 */
+        DELETE FROM one_meal_cal
+        WHERE one_meal_cal_code = #{oneMealCalCode}
+    </delete>
+
+
+    <select id="getCalorieList" resultType="Calorie" parameterType="map">
+        /* 나의 등록된 칼로리 조회 */
+        SELECT
+        om.one_meal_cal_code as oneMealCalCode,
+        om.member_id as memberId,
+        om.meal_max_calorie as mealMaxCalorie,
+        om.unit as unit
+        FROM
+        one_meal_cal as om
+        INNER JOIN member as m
+        ON om.member_id = m.member_id
+        <where>
+            <if test="searchKey != null and searchKey != ''">
+                ${searchKey} = #{searchValue}
+            </if>
+        </where>
+    </select>
+
+<!--
+    <insert id="addAllergy" parameterType="Allergy">
+        /* 나의 알러지 재료 등록 */
+        INSERT INTO allergy
+        (allergy_code, member_id, ingredient_code)
+        VALUES
+        (sf_new_allergy_code(), #{memberId}, #{ingredientCode});
+    </insert>
+
+    <select id="getLocationList" resultType="Location">
+        /* 위치 조회 */
+        SELECT
+        d.my_detail_location_code 	as myDetailLocationCode
+        ,d.my_detail_location_name as myDetailLocationName
+        FROM
+        my_detail_location as d;
+    </select>
+
+    <select id="getIngredientList" resultType="Ingredient">
+        /* 재료 조회 */
+        SELECT
+        ir.ingredient_code 	as ingredientCode
+        ,ir.ingredient_name as ingredientName
+        FROM
+        ingredient_registration as ir;
+    </select>
+-->
+
+
+
+</mapper>

@@ -12,10 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
@@ -40,7 +37,7 @@ public class InquiryController {
 	}
 
 	@GetMapping("/inquiryList") //noticeList 복사함
-	public String getInquiryList(Model model
+	public String getInquiryList(Model model,String searchKey,String searchValue
 			, HttpSession session
 			, @RequestParam(name="msg", required = false) String msg) {
 		String memberLevel = (String) session.getAttribute("SLEVEL");
@@ -54,7 +51,7 @@ public class InquiryController {
 			paramMap.put("searchValue", sellerId);
 		}
 		log.info("msg={}", msg);
-		List<Inquiry> inquiryList = userInquiryService.getInquiryList(paramMap);
+		List<Inquiry> inquiryList = userInquiryService.getInquiryList(paramMap, searchKey,searchValue );
 		model.addAttribute("title", "신고사항");
 		model.addAttribute("inquiryList", inquiryList);
 		if(msg != null) model.addAttribute("msg", msg);
@@ -126,6 +123,21 @@ public class InquiryController {
 	public String modifyInquiry(Inquiry inquiry) {
 		userInquiryService.modifyInquiry(inquiry);
 		return "redirect:/user/inquiryList";
+	}
+
+	/**
+	 * 선택한 문의 삭제
+	 * @param
+	 * @return
+	 */
+	@PostMapping("/removeCheckedInquiry")
+	@ResponseBody
+	public List<String> removeCheckedInquiry(@RequestParam(value="valueArr[]") List<String> valueArr) {
+
+		log.info("valueArr: {}", valueArr);
+		userInquiryService.removeCheckedInquiry(valueArr);
+
+		return valueArr;
 	}
 
 

@@ -4,9 +4,8 @@
       layout:decorate="~{layout/admin_default}">
 <head>
   <link rel="stylesheet" type="text/css" th:href="@{/admin/css/pjc.css}" />
-<!--
   <th:block layout:fragment="customJs">
-    <script th:inline="javascript">
+    <!--<script th:inline="javascript">
       $(document).ready(function () {
         let msg = /*[[${msg}]]*/ null;
         console.log(msg);
@@ -15,11 +14,81 @@
         }
       });
 
+    </script>-->
+    <script th:inline="javascript">
+
+      /**
+       * 전체 선택
+       */
+      $('#allCheck').click(function () {
+        $('.checks').prop('checked', $(this).prop('checked'));
+      });
+      $('.checks').click(function () {
+        let length = $('.checks').length;
+        let checkedLength = $('.checks:checked').length;
+        if (length == checkedLength) {
+          $('#allCheck').prop('checked', true);
+        } else {
+          $('#allCheck').prop('checked', false);
+        }
+      });
+      /**
+       * 체크박스 선택 후 deleteBtn 버튼
+       */
+      $('#delCheckBtn').click(function () {
+
+        const checkedArr = $('.checks:checked');
+        console.log(checkedArr);
+
+        let length = checkedArr.length;
+
+        const valueArr = [];
+        let msg = '삭제하시겠습니까?';
+
+        if (length == 0) {
+          alert("선택된 항목이 없습니다.");
+        }
+        else {
+          let result = confirm(msg);
+
+          if(result == true){
+
+            $(checkedArr).each(function() {
+              valueArr.push($(this).attr('value'));
+            });
+            console.log(valueArr);
+
+            let request = $.ajax({
+              url: '/admin/removeCheckedInquiry',
+              method: 'POST',
+              data: { valueArr : valueArr },
+              dataType: 'json'
+            });
+
+            request.done(function(result){
+              if(result){
+                alert('삭제되었습니다.');
+                location.reload();
+              }
+            });
+
+            request.fail(function(jqXHR, textStatus){
+              alert(`Request failed: ${textStatus}`);
+            });
+          }else{
+            location.reload();
+          }
+        }
+      });
     </script>
-  </th:block>-->
+  </th:block>
 
   <style>
-    .write-button {
+    #container {
+      padding: 0 20px;
+    }
+
+    /*.write-button {
       text-align: right;
       margin-top: 30px;
     }
@@ -36,7 +105,7 @@
 
     .write-button a:hover {
       background-color: #0062cc;
-    }
+    } 관리자 문의사항 등록 버튼 불필요*/
   </style>
 </head>
 
@@ -48,30 +117,41 @@
 <th:block layout:fragment="customContents">
 <div id="container">
   <h1>문의사항 게시판</h1>
+  <br>
+  <button type="submit" id="delCheckBtn" class="btn btn-secondary btn-icon-split">
+    <span class="text">선택삭제</span>
+  </button>
+  <br>
   <table class="table-center" >
     <thead>
     <tr>
+      <th><input type="checkbox" id="allCheck"></th>
+      <th>No</th>
       <th>문의사항번호</th>
-      <th>작성자</th>
       <th>문의사항 카테고리</th>
       <th>문의사항 제목</th>
+      <th>작성자</th>
       <th>글등록시간</th>
-      <th>삭제</th>
+      <!--<th>삭제</th>-->
     </tr>
     </thead>
     <tbody>
     <tr th:unless="${inquiryList == null}" th:each=" l : ${inquiryList}">
+      <td><input class="checks" type="checkbox" th:value="${l.inquiryBoardCode}"></td>
+      <th th:text="${lStat.count}"></th>
       <td th:text="${l.inquiryBoardCode}"></td>
-      <td th:text="${l.memberId}"></td>
       <td th:text="${l.inquiryTypeCode}"></td>
-      <td th:text="${l.inquiryBoardTitle}"></td>
+      <td>
+        <a th:href="@{/user/inquiryContent(inquiryBoardCode=${l.inquiryBoardCode})}" th:text="${l.inquiryBoardTitle}"></a>
+      </td>
+      <td th:text="${l.memberId}"></td>
       <td th:text="${l.inquiryBoardRegTime}"></td>
       <!--<td>
         <a th:href="@{/user/modifyInquiry(inquiryBoardCode=${l.inquiryBoardCode})}">수정</a>
       </td>-->
-      <td>
+      <!--<td>
         <a th:href="@{/user/removeInquiry(inquiryBoardCode=${l.inquiryBoardCode})}">삭제</a>
-      </td>
+      </td>-->
     </tr>
     <tr th:if="${inquiryList == null}">
       <td colspan="7">등록된 문의사항이 없습니다.</td>
@@ -79,9 +159,11 @@
 
     </tbody>
   </table>
-  <div class="write-button">
-    <a th:href="@{/user/addInquiry}">문의사항 등록</a>
-  </div>
+  <!--<div class="write-button">
+    <a th:href="@{/admin/addInquiry}">문의사항 등록</a>
+  </div> 관리자는 문의사항을 등록할 필요가 없음 -->
+  <br><br>
+  <div th:include="~{/admin/search/admin_search :: adminInquirySearchFragment}"></div>
 </div>
 </th:block>
 
