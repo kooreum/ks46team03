@@ -7,10 +7,10 @@
       layout:decorate="~{layout/user_default}">
 
 <head>
-
   <meta charset="UTF-8">
   <link rel="stylesheet" type="text/css" th:href="@{/user/css/form.css}">
 </head>
+
 <th:block layout:fragment="customJs">
   <script th:src="@{/js/jquery-3.6.4.js}"></script>
   <script>
@@ -116,11 +116,6 @@
           $('input[name="memberDiet"]').not(this).prop('checked', false);
         });
 
-
-
-
-
-
       });
 
     //비밀번호 확인
@@ -159,13 +154,7 @@
 
     });
 
-
-
     });
-
-
-
-
 
   </script>
 
@@ -336,7 +325,7 @@
        <td colspan="2">
           <select id="levelNum" name="levelNum" disabled="disabled">
             <th:block th:unless="${memberLevelList == null}" th:each="l : ${memberLevelList}">
-              <option th:value="${l.levelNum}">[[${l.memberLevel}]]</option>!
+              <option th:value="${l.levelNum}">[[${l.memberLevel}]]</option>
             </th:block>
             <th:block th:if="${memberLevelList == null}">
               <option>등록된 회원등급이 없습니다.</option>

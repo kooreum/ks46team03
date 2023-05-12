@@ -1,12 +1,15 @@
 package ks46team03.user.service;
 
-
 import ks46team03.dto.Fridge;
+import ks46team03.dto.Location;
+import ks46team03.dto.Member;
 import ks46team03.user.mapper.UserFridgeMapper;
 import ks46team03.user.mapper.UserMemberMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,15 +17,13 @@ import java.util.Map;
 @Transactional
 public class UserFridgeService {
     private final UserFridgeMapper userFridgeMapper;
-    private final UserMemberMapper userMemberMapper;
 
-    public UserFridgeService(UserFridgeMapper userFridgeMapper, UserMemberMapper userMemberMapper) {
+    public UserFridgeService(UserFridgeMapper userFridgeMapper) {
         this.userFridgeMapper = userFridgeMapper;
-        this.userMemberMapper = userMemberMapper;
     }
 
-    public List<Fridge> getFridgeList(Map<String,Object> paramMap){
-        List<Fridge> fridgeList = userFridgeMapper.getFridgeList(paramMap);
+    public List<Location> getFridgeList(Map<String,Object> paramMap){
+        List<Location> fridgeList = userFridgeMapper.getFridgeList(paramMap);
         return fridgeList;
     }
 
@@ -30,5 +31,10 @@ public class UserFridgeService {
         int result = userFridgeMapper.addFridge(fridge);
         return result;
     }
+
+    public int removeIngredient(String myIngredientCode) {
+       int result = userFridgeMapper.removeIngredient(myIngredientCode);
+       return result;
+        }
 
 }

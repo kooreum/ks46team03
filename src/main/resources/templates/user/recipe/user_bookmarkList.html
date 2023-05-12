@@ -7,9 +7,28 @@
 
 
 	<th:block layout:fragment="customJs">
-		<script th:inline="javascript">
-			let msg = [[${msg}]];
-			if(msg) alert(msg);
+		<script th:src="@{/js/jquery-3.6.4.js}"></script>
+		<script>
+			$(document).on('click', '.removeBookmarkBtn', function(e) {
+				e.preventDefault();
+				var recipeBookmarksCode = $(this).data('recipe-bookmarks-code');
+
+				$.ajax({
+					type: 'POST',
+					url: '/user/removeBookmark',
+					data: {
+						recipeBookmarksCode: recipeBookmarksCode
+					},
+					success: function(data) {
+						// 삭제 처리가 완료되면 페이지를 리로드합니다.
+						location.reload();
+					},
+					error: function(xhr, status, error) {
+						console.log('AJAX Error: ' + error);
+					}
+				});
+			});
+
 		</script>
 	</th:block>
 
@@ -51,12 +70,12 @@
 
 <th:block layout:fragment="customContent">
 	<!-- ##### Breadcumb Area Start ##### -->
-	<div class="breadcumb-area bg-img bg-overlay" style="background-image: url(/user/img/bg-img/breadcumb2.jpg);">
+	<div class="breadcumb-area bg-img bg-overlay" style="background-image: url(/user/img/bg-img/breadcumb4.jpg);">
 		<div class="container h-100">
 			<div class="row h-100 align-items-center">
 				<div class="col-12">
 					<div class="breadcumb-text text-center">
-						<h2>레시피</h2>
+						<h2>즐겨찾기</h2>
 					</div>
 				</div>
 			</div>
@@ -64,48 +83,36 @@
 	</div><br>
 	<!-- ##### Breadcumb Area End ##### -->
 
+	<h2 class="mt-4" th:align="center">즐겨찾 목록</h2><br>
 
-	<div th:include="~{/user/search/user_search :: searchFragment2}" class="search-btn"></div>
 	<table class="table-center">
 		<thead>
 			<tr>
 				<th>레시피명</th>
-				<th>아이디</th>
+				<th>레시피 작성자</th>
 				<th>칼로리</th>
 				<th>레시피양</th>
-				<th>레시피등록일자</th>
-				<th>조회수</th>
-				<th>수정</th>
 				<th>삭제</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:unless="${recipeList == null}" th:each=" l : ${recipeList}">
-				<td>
-					<a th:href="@{/user/recipe/recipeDetail(recipeCode=${l.recipeCode})}" th:text="${l.recipeName}"></a>
-				</td>
+			<tr th:unless="${bookmarkList == null}" th:each=" l : ${bookmarkList}">
+				<td th:text="${l.recipeName}"></td>
+ <!--				<td th:text="${l.recipeCategoryCode}"></td> -->
 				<td th:text="${l.memberId}"></td>
 				<td th:text="${l.recipeCal}"></td>
 				<td th:text="${l.recipeQuantity} + '인분'"></td>
-				<td th:text="${l.regDate}"></td>
-				<td th:text="${l.viewCount}"></td>
 				<td>
-					<a th:href="@{/user/recipe/user_modifyRecipe(recipeCode=${l.recipeCode})}">수정</a>
-				</td>
-				<td>
-					<a th:href="@{/user/recipe/user_removeRecipe(recipeCode=${l.recipeCode})}">삭제</a>
+					<a class="removeBookmarkBtn" th:data-recipe-bookmarks-code="${l.recipeBookmarksCode}" href="#">삭제</a>
 				</td>
 			</tr>
-			<tr th:if="${recipeList == null}">
+			<tr th:if="${bookmarkList == null}">
 				<td colspan="7">등록된 레시피의 정보가 없습니다.</td>
 			</tr>
 
-
 		</tbody>
 	</table>
-	<div class="write-button">
-		<a th:href="@{/user/recipe/user_addRecipe}">레시피 등록</a>
-	</div>
+
 </th:block>
 
 </html>

@@ -1,8 +1,6 @@
 package ks46team03.dto;
 
-import java.util.List;
-
-public class Recipe {
+public class Bookmark {
     private String recipeCode;
     private String recipeName;
     private String recipeCategoryCode;
@@ -15,43 +13,7 @@ public class Recipe {
     private String viewCount;
     private String recommendationCount;
     private String recipeUseNumber;
-    private String recipeStep1;
-    private String recipeStep2;
-    private String recipeStep3;
-
-    private List<Recipe> viewRank;
-
-    public List<Recipe> getViewRank() {
-        return viewRank;
-    }
-
-    public void setViewRank(List<Recipe> viewRank) {
-        this.viewRank = viewRank;
-    }
-
-    public String getRecipeStep1() {
-        return recipeStep1;
-    }
-
-    public void setRecipeStep1(String recipeStep1) {
-        this.recipeStep1 = recipeStep1;
-    }
-
-    public String getRecipeStep2() {
-        return recipeStep2;
-    }
-
-    public void setRecipeStep2(String recipeStep2) {
-        this.recipeStep2 = recipeStep2;
-    }
-
-    public String getRecipeStep3() {
-        return recipeStep3;
-    }
-
-    public void setRecipeStep3(String recipeStep3) {
-        this.recipeStep3 = recipeStep3;
-    }
+    private String recipeBookmarksCode;
 
     public String getRecipeCode() {
         return recipeCode;
@@ -149,9 +111,17 @@ public class Recipe {
         this.recipeUseNumber = recipeUseNumber;
     }
 
+    public String getRecipeBookmarksCode() {
+        return recipeBookmarksCode;
+    }
+
+    public void setRecipeBookmarksCode(String recipeBookmarksCode) {
+        this.recipeBookmarksCode = recipeBookmarksCode;
+    }
+
     @Override
     public String toString() {
-        return "Recipe{" +
+        return "Bookmark{" +
                 "recipeCode='" + recipeCode + '\'' +
                 ", recipeName='" + recipeName + '\'' +
                 ", recipeCategoryCode='" + recipeCategoryCode + '\'' +
@@ -164,10 +134,7 @@ public class Recipe {
                 ", viewCount='" + viewCount + '\'' +
                 ", recommendationCount='" + recommendationCount + '\'' +
                 ", recipeUseNumber='" + recipeUseNumber + '\'' +
-                ", recipeStep1='" + recipeStep1 + '\'' +
-                ", recipeStep2='" + recipeStep2 + '\'' +
-                ", recipeStep3='" + recipeStep3 + '\'' +
-                ", viewRank=" + viewRank +
+                ", recipeBookmarksCode='" + recipeBookmarksCode + '\'' +
                 '}';
     }
 }

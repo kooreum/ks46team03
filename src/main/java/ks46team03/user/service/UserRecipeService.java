@@ -1,11 +1,13 @@
 package ks46team03.user.service;
 
+import ks46team03.dto.Bookmark;
 import ks46team03.user.mapper.UserMemberMapper;
 import ks46team03.dto.Recipe;
 import ks46team03.user.mapper.UserRecipeMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.View;
 import java.util.List;
 import java.util.Map;
 
@@ -36,19 +38,14 @@ public class UserRecipeService {
 
 
 
-    /**
-     * 레시피 수정
-     * @param recipe
-     */
+
+    //레시피 수정
     public void modifyRecipe(Recipe recipe) {
         userRecipeMapper.modifyRecipe(recipe);
     }
 
-    /**
-     * 특정레시피 조회
-     * @param recipeCode
-     * @return
-     */
+
+    //특정레시피 조회
     public Recipe getRecipeInfoById(String recipeCode) {
         Recipe recipeInfo = userRecipeMapper.getRecipeInfoById(recipeCode);
         return recipeInfo;
@@ -62,11 +59,6 @@ public class UserRecipeService {
         return result;
     }
 
-    /**
-     * 회원목록 조회
-     *
-     * @return List<Member>
-     */
     public List<Recipe> getRecipeList(Map<String,Object> paramMap,String searchKey, String searchValue) {
         if (searchKey != null) {
             switch (searchKey) {
@@ -88,5 +80,46 @@ public class UserRecipeService {
 
         return recipeList;
     }
+
+    public List<Bookmark> getBookmarkList(String searchKey, String searchValue, String SID) {
+        if (searchKey != null) {
+            switch (searchKey) {
+                case "memberId":
+                    searchKey = "r.member_id";
+                    break;
+                default:
+                    searchKey = "r.recipe_name";
+                    break;
+            }
+        }
+        List<Bookmark> bookmarkList = userRecipeMapper.getBookmarkList(searchKey, searchValue, SID);
+
+        return bookmarkList;
+    }
+
+    public int removeBookmark(String recipeBookmarksCode) {
+        int result = userRecipeMapper.removeBookmark(recipeBookmarksCode);
+        return result;
+    }
+
+    public Recipe getRecipeInfoByCode(String recipeCode) {
+
+        Recipe recipeDetail = userRecipeMapper.getRecipeInfoByCode(recipeCode);
+
+        return recipeDetail;
+    }
+    public int getViewCount(String recipeCode) {
+        int viewCount = userRecipeMapper.getViewCount(recipeCode);
+
+        return viewCount;
+    }
+
+    public List<Recipe> getViewRank(Map<String, Object> paramMap) {
+        List<Recipe> viewRank = userRecipeMapper.getViewRank(paramMap);
+
+        return viewRank;
+    }
+
+
 
 }

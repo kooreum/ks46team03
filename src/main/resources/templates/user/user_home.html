@@ -7,9 +7,6 @@
 </head>
 
 <th:block layout:fragment="customContent">
-	<!-- ##### slider Area Start ##### -->
-	<section th:replace="~{fragment/user_slider :: sliderFragment}"></section>
-	<!-- ##### slider Area End ##### -->
 
 	<!-- ##### Best Receipe Area Start ##### -->
 	<section class="best-receipe-area">
@@ -17,128 +14,28 @@
 			<div class="row">
 				<div class="col-12">
 					<div class="section-heading"><br><br><br>
-						<h3>금주의 베스트 레시피</h3>
+						<h2>금주의 베스트 레시피</h2>
 					</div>
 				</div>
 			</div>
-
-			<div class="row">
-				<!-- Single Best Receipe Area -->
-				<div class="col-12 col-sm-6 col-lg-4">
-					<div class="single-best-receipe-area mb-30">
-						<img src="/user/img/bg-img/r1.jpg" alt="">
-						<div class="receipe-content">
-							<a href="receipe-post.html">
-								<h5>Sushi Easy Receipy</h5>
-							</a>
-							<div class="ratings">
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star-o" aria-hidden="true"></i>
+			<th:block th:unless="${viewRank ==  null}">
+				<div class="row">
+					<!-- Single Best Recipe Area -->
+					<div class="col-12 col-sm-6 col-lg-4" th:each="l, status:${viewRank}">
+						<div class="single-best-receipe-area mb-30">
+							<img src="/user/img/bg-img/r1.jpg" alt="">
+							<div class="receipe-content">
+								<a th:href="@{/user/recipe/recipeDetail(recipeCode=${l.recipeCode})}">
+									<h5 th:text="${l.recipeName}"></h5>
+								</a>
 							</div>
 						</div>
 					</div>
 				</div>
-				<!-- Single Best Receipe Area -->
-				<div class="col-12 col-sm-6 col-lg-4">
-					<div class="single-best-receipe-area mb-30">
-						<img src="img/bg-img/r2.jpg" alt="">
-						<div class="receipe-content">
-							<a href="receipe-post.html">
-								<h5>Homemade Burger</h5>
-							</a>
-							<div class="ratings">
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star-o" aria-hidden="true"></i>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Single Best Receipe Area -->
-				<div class="col-12 col-sm-6 col-lg-4">
-					<div class="single-best-receipe-area mb-30">
-						<img src="img/bg-img/r3.jpg" alt="">
-						<div class="receipe-content">
-							<a href="receipe-post.html">
-								<h5>Vegan Smoothie</h5>
-							</a>
-							<div class="ratings">
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star-o" aria-hidden="true"></i>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Single Best Receipe Area -->
-				<div class="col-12 col-sm-6 col-lg-4">
-					<div class="single-best-receipe-area mb-30">
-						<img src="img/bg-img/r4.jpg" alt="">
-						<div class="receipe-content">
-							<a href="receipe-post.html">
-								<h5>Calabasa soup</h5>
-							</a>
-							<div class="ratings">
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star-o" aria-hidden="true"></i>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Single Best Receipe Area -->
-				<div class="col-12 col-sm-6 col-lg-4">
-					<div class="single-best-receipe-area mb-30">
-						<img src="img/bg-img/r5.jpg" alt="">
-						<div class="receipe-content">
-							<a href="receipe-post.html">
-								<h5>Homemade Breakfast</h5>
-							</a>
-							<div class="ratings">
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star-o" aria-hidden="true"></i>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Single Best Receipe Area -->
-				<div class="col-12 col-sm-6 col-lg-4">
-					<div class="single-best-receipe-area mb-30">
-						<img src="img/bg-img/r6.jpg" alt="">
-						<div class="receipe-content">
-							<a href="receipe-post.html">
-								<h5>Healthy Fruit Desert</h5>
-							</a>
-							<div class="ratings">
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star-o" aria-hidden="true"></i>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+			</th:block>
 		</div>
 	</section>
-	<!-- ##### Best Receipe Area End ##### -->
+	<!-- ##### Best Recipe Area End ##### -->
 
 </th:block>
 

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks46team03.user.mapper.UserFridgeMapper">
+    <resultMap id="locationResultMap" type="Location">
+        <id column="my_detail_location_code" property="myDetailLocationCode"/>
+        <result column="fridge_code" property="fridgeCode"/>
+        <result column="my_detail_location_name" property="myDetailLocationName"/>
+        <collection property="fridgeList" ofType="Fridge">
+            <id column="my_ingredient_code" property="myIngredientCode"/>
+            <result column="fridge_code" property="fridgeCode"/>
+            <result column="ingredient_code" property="ingredientCode"/>
+            <result column="member_id" property="memberId"/>
+            <result column="ingredient_note" property="ingredientNote"/>
+            <result column="ingredient_price" property="ingredientPrice"/>
+            <result column="ea" property="ea"/>
+            <result column="use_ea" property="useEa"/>
+            <result column="remain_ea" property="remainEa"/>
+            <result column="use_time" property="useTime"/>
+            <result column="ingredient_status" property="ingredientStatus"/>
+            <result column="gram" property="gram"/>
+            <result column="reg_time" property="regTime"/>
+            <result column="expiration_date" property="expirationDate"/>
+            <result column="ingredient_name" property="ingredientName"/>
+        </collection>
+    </resultMap>
+
+    <select id="getFridgeList" resultMap="locationResultMap" parameterType="map">
+        /* 나의재료 조회 */
+        SELECT
+            d.my_detail_location_code,
+            d.my_detail_location_name,
+            ir.ingredient_code,
+            ir.member_id,
+            ir.ingredient_note,
+            ir.my_ingredient_code,
+            ir.ingredient_name
+        FROM
+            my_detail_location as d
+            LEFT JOIN
+            (
+                SELECT
+                    i.ingredient_code,
+                    i.member_id,
+                    i.ingredient_note,
+                    i.my_ingredient_code,
+                    r.ingredient_name,
+                    i.my_detail_location_code
+                FROM
+                    my_ingredient as i
+                    LEFT JOIN
+                    ingredient_registration as r
+                    ON i.ingredient_code = r.ingredient_code
+                <where>
+                    <if test="searchKey != null and searchKey != ''">
+                        ${searchKey} = #{searchValue}
+                    </if>
+                </where>
+            )as ir
+            ON d.my_detail_location_code = ir.my_detail_location_code
+        ORDER BY my_detail_location_name DESC;
+    </select>
+
+    <select id="getLocationList" resultType="Location">
+        /* 재료등록 화면 위치 조회 */
+        SELECT
+            d.my_detail_location_code 	as myDetailLocationCode
+            ,d.my_detail_location_name as myDetailLocationName
+        FROM
+            my_detail_location as d;
+    </select>
+
+    <select id="getIngredientList" resultType="Ingredient">
+        /* 재료등록 화면 재료 조회 */
+        SELECT
+            ir.ingredient_code 	as ingredientCode
+            ,ir.ingredient_name as ingredientName
+        FROM
+            ingredient_registration as ir;
+    </select>
+
+    <insert id="addFridge" parameterType="Fridge">
+        /* 나의재료 등록 */
+        INSERT INTO my_ingredient
+            (my_ingredient_code, member_id, my_detail_location_code, ingredient_code, ingredient_note)
+        VALUES
+            (sf_new_my_ingredient_code(), #{memberId}, #{myDetailLocationCode}, #{ingredientCode}, #{ingredientNote});
+    </insert>
+
+    <delete id="removeIngredient" parameterType="String">
+        /* 재료삭제 */
+        DELETE
+        FROM
+            my_ingredient
+        WHERE
+            my_ingredient_code = #{myIngredientCode};
+    </delete>
+
+</mapper>
