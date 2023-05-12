@@ -2,244 +2,254 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/admin_default}">
+
 <head>
-    <link rel="stylesheet" type="text/css" th:href="@{/admin/css/pjc.css}"/>
-    <script th:src="@{/js/jquery-3.6.4.js}"></script>
-    <th:block layout:fragment="customJs">
-        <script th:inline="javascript">
+  <link rel="stylesheet" type="text/css" th:href="@{/admin/css/pjc.css}"/>
+  <style>
+      input[type="submit"] {
+          display: inline-block;
+          background-color: #008CBA;
+          color: #FFFFFF !important;;
+          border-radius: 5px;
+          padding: 10px 20px;
+          cursor: pointer;
+          transition: all 0.3s ease-in-out;
+          margin-left: 10px;
+          border: 1px solid #008CBA;
+      }
 
-            /**
-             * 전체 선택
-             */
-            $('#allCheck').click(function () {
-                $('.checks').prop('checked', $(this).prop('checked'));
-            });
-            $('.checks').click(function () {
-                let length = $('.checks').length;
-                let checkedLength = $('.checks:checked').length;
-                if (length == checkedLength) {
-                    $('#allCheck').prop('checked', true);
-                } else {
-                    $('#allCheck').prop('checked', false);
-                }
-            });
-            /**
-             * 체크박스 선택 후 deleteBtn 버튼
-             */
-            $('#delCheckBtn').click(function () {
+      input[type="submit"]:hover {
+          background-color: #006B8F;
+      }
 
-                const checkedArr = $('.checks:checked');
-                console.log(checkedArr);
+      #container {
+          padding: 0 20px;
+      }
 
-                let length = checkedArr.length;
+      #container2 {
+          padding: 0 20px;
+      }
 
-                const valueArr = [];
-                let msg = '삭제하시겠습니까?';
-
-                if (length == 0) {
-                    alert("선택된 항목이 없습니다.");
-                } else {
-                    let result = confirm(msg);
-
-                    if (result == true) {
-
-                        $(checkedArr).each(function () {
-                            valueArr.push($(this).attr('value'));
-                        });
-                        console.log(valueArr);
-
-                        let request = $.ajax({
-                            url: '/admin/removeCheckedInquiry', //<--- 여기 수정해야 함 !!!!!
-                            method: 'POST',
-                            data: {valueArr: valueArr},
-                            dataType: 'json'
-                        });
-
-                        request.done(function (result) {
-                            if (result) {
-                                alert('삭제되었습니다.');
-                                location.reload();
-                            }
-                        });
-
-                        request.fail(function (jqXHR, textStatus) {
-                            alert(`Request failed: ${textStatus}`);
-                        });
-                    } else {
-                        location.reload();
-                    }
-                }
-            });
-
-
-            $('.delete-btn').click(function (event) {
-                event.preventDefault();
-                let bannedWordsCode = $(this).data('bannedWordsCode');
-                if (confirm("정말 삭제하시겠습니까?")) {
-                    location.href = "/admin/removeBannedWords?bannedWordsCode=" + bannedWordsCode;
-                }
-            })
-
-            $(function () {
-                //alert('제이쿼리')
-                function validationCheck(ele) {
-                    let data = $(ele).val();
-                    let isValid = true;
-                    if (typeof data == 'undefined' || data == null || data == '') {
-                        let msg = $(ele).parents('tr').find('label').text();
-                        alert(`${msg} 필수 항목입니다.`)
-                        $(ele).focus();
-                        isValid = false;
-                    }
-                    return isValid;
-                }
-
-                $('#submitBtn').click(function () {
-                    let isSubmit = true;
-
-                    if (memberLevel == '1') {
-                        const $selectEle = $('#memberId');
-                        isSubmit = validationCheck($selectEle);
-                        $selectEle.focus();
-                        if (!isSubmit) return;
-                    }
-
-                    let $inputEles = $('#addBannedWordsForm input');
-                    $inputEles.each(function (idx, item) {
-                        isSubmit = validationCheck(item);
-                        return isSubmit;
-                    });
-
-                    if (isSubmit) $('#addBannedWordsForm').submit();
-
-                });
-            });
-
-        </script>
-
-        <style>
-            input[type="submit"] {
-                display: inline-block;
-                background-color: #008CBA;
-                color: #FFFFFF !important;;
-                border-radius: 5px;
-                padding: 10px 20px;
-                cursor: pointer;
-                transition: all 0.3s ease-in-out;
-                margin-left: 10px;
-                border: 1px solid #008CBA;
-            }
-
-            input[type="submit"]:hover {
-                background-color: #006B8F;
-            }
-
-            #container {
-                padding: 0 20px;
-            }
-
-            #container2 {
-                padding: 0 20px;
-            }
-
-        </style>
-
-    </th:block>
+  </style>
 </head>
+<th:block layout:fragment="customJs">
+  <script th:inline="javascript">
+
+      /**
+       * 전체 선택
+       */
+      $('#allCheck').click(function () {
+          $('.checks').prop('checked', $(this).prop('checked'));
+      });
+      $('.checks').click(function () {
+          let length = $('.checks').length;
+          let checkedLength = $('.checks:checked').length;
+          if (length == checkedLength) {
+              $('#allCheck').prop('checked', true);
+          } else {
+              $('#allCheck').prop('checked', false);
+          }
+      });
+      /**
+       * 체크박스 선택 후 deleteBtn 버튼
+       */
+      $('#delCheckBtn').click(function () {
+
+          const checkedArr = $('.checks:checked');
+          console.log(checkedArr);
+
+          let length = checkedArr.length;
+
+          const valueArr = [];
+          let msg = '삭제하시겠습니까?';
+
+          if (length == 0) {
+              alert("선택된 항목이 없습니다.");
+          } else {
+              let result = confirm(msg);
+
+              if (result == true) {
+
+                  $(checkedArr).each(function () {
+                      valueArr.push($(this).attr('value'));
+                  });
+                  console.log(valueArr);
+
+                  let request = $.ajax({
+                      url: '/admin/removeCheckedInquiry', //<--- 여기 수정해야 함 !!!!!
+                      method: 'POST',
+                      data: {valueArr: valueArr},
+                      dataType: 'json'
+                  });
+
+                  request.done(function (result) {
+                      if (result) {
+                          alert('삭제되었습니다.');
+                          location.reload();
+                      }
+                  });
+
+                  request.fail(function (jqXHR, textStatus) {
+                      alert(`Request failed: ${textStatus}`);
+                  });
+              } else {
+                  location.reload();
+              }
+          }
+      });
+
+
+      $('.delete-btn').click(function (event) {
+          event.preventDefault();
+          let bannedWordsCode = $(this).data('bannedWordsCode');
+          if (confirm("정말 삭제하시겠습니까?")) {
+              location.href = "/admin/removeBannedWords?bannedWordsCode=" + bannedWordsCode;
+          }
+      })
+
+      $(function () {
+          //alert('제이쿼리')
+          function validationCheck(ele) {
+              let data = $(ele).val();
+              let isValid = true;
+              if (typeof data == 'undefined' || data == null || data == '') {
+                  let msg = $(ele).parents('tr').find('label').text();
+                  alert(`${msg} 필수 항목입니다.`)
+                  $(ele).focus();
+                  isValid = false;
+              }
+              return isValid;
+          }
+
+          $('#submitBtn').click(function () {
+              let isSubmit = true;
+
+              if (memberLevel == '1') {
+                  const $selectEle = $('#memberId');
+                  isSubmit = validationCheck($selectEle);
+                  $selectEle.focus();
+                  if (!isSubmit) return;
+              }
+
+              let $inputEles = $('#addBannedWordsForm input');
+              $inputEles.each(function (idx, item) {
+                  isSubmit = validationCheck(item);
+                  return isSubmit;
+              });
+
+              if (isSubmit) $('#addBannedWordsForm').submit();
+
+          });
+      });
+
+      $('#datatable-custom').DataTable({
+          pagination: true,
+          searching: true,
+          lengthChange: true,
+          dom: "<'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'>>" +
+              "<'row'<'col-sm-12'tr>>" +
+              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>"
+      });
+  </script>
+</th:block>
 
 <th:block layout:fragment="customContents">
-    <div id="container">
-        <h1>금칙어 목록</h1>
-        <label>Show <select name="datatable_length" aria-controls="datatable" class="form-control input-sm">
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-        </select> entries</label>
-        <br>
+      <div class="x_panel">
+        <div class="x_title">
+          <h2 class="my-4">금칙어 목록</h2>
+
+          <ul class="nav navbar-right panel_toolbox" style="flex-direction: row-reverse">
+            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </li>
+            <li class="dropdown">
+              <div aria-labelledby="dropdownMenuButton" class="dropdown-menu">
+              </div>
+            </li>
+          </ul>
+
+          <div class="clearfix"></div>
+        </div>
+
         <button type="submit" id="delCheckBtn" class="btn btn-secondary btn-icon-split">
-            <span class="text">선택삭제</span>
+          <span class="text">선택삭제</span>
         </button>
-        <br>
-        <table class="table-center">
-            <thead>
-            <tr>
-                <th><input type="checkbox" id="allCheck"></th>
-                <th>No</th>
-                <th>금칙어 코드</th>
-                <th>금칙어 리스트</th>
-                <th>작성자 ID</th>
-                <th>등록 시간</th>
-                <th>삭제</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:unless="${bannedWordsList == null}" th:each=" l : ${bannedWordsList}">
-                <td><input class="checks" type="checkbox" th:value="${l.bannedWordsCode}"></td>
-                <th th:text="${lStat.count}"></th>
-                <td th:text="${l.bannedWordsCode}"></td>
-                <td th:text="${l.bannedWordsList}"></td>
-                <td th:text="${l.memberId}"></td>
-                <td th:text="${l.bannedWordsRegTime}"></td>
-                <td>
-                    <a th:if="${session.SID == null}"></a>
-                    <a th:unless="${session.SID == null or session.SID != 'id1'}"
-                       class="delete-btn" th:data-banned-words-code="${l.bannedWordsCode}" href="#">삭제</a>
-                </td>
-            </tr>
-            <tr th:if="${bannedWordsList == null}">
-                <td colspan="7">등록된 금칙어가 없습니다.</td>
-            </tr>
 
-            </tbody>
-        </table>
-        <br>
-        <div class="row">
-            <div class="col-sm-5">
-                <div class="dataTables_info" id="datatable_info" role="status" aria-live="polite">Showing 1 to 10 of 57
-                    entries
-                </div>
+        <div class="x_content">
+          <div class="row mb-3">
+            <div class="col-md-6">
             </div>
-            <div class="col-sm-7">
-                <div class="dataTables_paginate paging_simple_numbers" id="datatable_paginate">
-                    <ul class="pagination">
-                        <li class="paginate_button previous disabled" id="datatable_previous"><a href="#"
-                                                                                                 aria-controls="datatable"
-                                                                                                 data-dt-idx="0"
-                                                                                                 tabindex="0">Previous</a>
-                        </li>
-                        <li class="paginate_button active"><a href="#" aria-controls="datatable" data-dt-idx="1"
-                                                              tabindex="0">1</a></li>
-                        <li class="paginate_button "><a href="#" aria-controls="datatable" data-dt-idx="2" tabindex="0">2</a>
-                        </li>
-                        <li class="paginate_button "><a href="#" aria-controls="datatable" data-dt-idx="3" tabindex="0">3</a>
-                        </li>
-                        <li class="paginate_button "><a href="#" aria-controls="datatable" data-dt-idx="4" tabindex="0">4</a>
-                        </li>
-                        <li class="paginate_button "><a href="#" aria-controls="datatable" data-dt-idx="5" tabindex="0">5</a>
-                        </li>
-                        <li class="paginate_button "><a href="#" aria-controls="datatable" data-dt-idx="6" tabindex="0">6</a>
-                        </li>
-                        <li class="paginate_button next" id="datatable_next"><a href="#" aria-controls="datatable"
-                                                                                data-dt-idx="7" tabindex="0">Next</a>
-                        </li>
-                    </ul>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="card-box table-responsive">
+                <div class="col-sm-12">
+                  <div class="dataTables_wrapper container-fluid dt-bootstrap no-footer"
+                       id="datatable-buttons_wrapper">
+
+
+                    <br>
+                    <table aria-describedby="datatable-buttons_info"
+                           class="table table-striped table-bordered dataTable no-footer dtr-inline"
+                           id="datatable-custom" role="grid"
+                           style="width: 100%;">
+                      <thead>
+                      <tr role="row">
+                        <th><input type="checkbox" id="allCheck"></th>
+                        <th>No</th>
+                        <th>금칙어 코드</th>
+                        <th>금칙어 리스트</th>
+                        <th>작성자 ID</th>
+                        <th>등록 시간</th>
+                        <th>삭제</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr class="odd" role="row" th:unless="${bannedWordsList == null}"
+                          th:each=" l : ${bannedWordsList}">
+                        <td><input class="checks" type="checkbox"
+                                   th:value="${l.bannedWordsCode}"></td>
+                        <th th:text="${lStat.count}"></th>
+                        <td th:text="${l.bannedWordsCode}"></td>
+                        <td th:text="${l.bannedWordsList}"></td>
+                        <td th:text="${l.memberId}"></td>
+                        <td th:text="${l.bannedWordsRegTime}"></td>
+                        <td>
+                          <a th:if="${session.SID == null}"></a>
+                          <a th:unless="${session.SID == null or session.SID != 'id1'}"
+                             class="delete-btn"
+                             th:data-banned-words-code="${l.bannedWordsCode}" href="#">삭제</a>
+                        </td>
+                      </tr>
+                      <tr th:if="${bannedWordsList == null}">
+                        <td colspan="7">등록된 금칙어가 없습니다.</td>
+                      </tr>
+
+                      </tbody>
+                    </table>
+
+                    <div id="container2">
+                      <h1>금칙어 등록</h1>
+                      <form id="addBannedWordsForm" th:action="@{/admin/addBannedWords}"
+                            method="POST">
+                        <label for="memberId">작성자:</label>
+                        <input type="text" id="memberId" name="memberId"
+                               th:value="${session.SID}" readonly="readonly">
+                        <label for="bannedWordsList">금칙어:</label>
+                        <input type="text" id="bannedWordsList" name="bannedWordsList" required>
+                        <input type="submit" id="submitBtn" value="글 등록">
+                      </form>
+
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
-
-        <br>
-        <div id="container2">
-            <h1>금칙어 등록</h1>
-            <form id="addBannedWordsForm" th:action="@{/admin/addBannedWords}" method="POST">
-                <label for="memberId">작성자:</label>
-                <input type="text" id="memberId" name="memberId" th:value="${session.SID}" readonly="readonly">
-                <label for="bannedWordsList">금칙어:</label>
-                <input type="text" id="bannedWordsList" name="bannedWordsList" required>
-                <input type="submit" id="submitBtn" value="글 등록">
-
-            </form>
-        </div>
+      </div>
     </div>
+  </div>
 </th:block>
+
 </html>

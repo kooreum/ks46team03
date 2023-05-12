@@ -1,5 +1,6 @@
 package ks46team03.admin.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import ks46team03.admin.mapper.BannedWordsMapper;
 import ks46team03.admin.service.BannedWordsService;
 import ks46team03.dto.BannedWords;
@@ -12,6 +13,7 @@ import java.util.Map;
 
 @Controller("adminBoardController")
 @RequestMapping("/admin")
+@Slf4j
 public class BoardController {
 
     private final BannedWordsService bannedWordsService;
@@ -28,7 +30,7 @@ public class BoardController {
         model.addAttribute("title","금칙어 목록");
         model.addAttribute("bannedWordsList", bannedWordsList);
 
-        return"/admin/board/admin_bannedWords";
+        return"admin/board/admin_bannedWords";
     }
 
     @GetMapping("/removeBannedWords")
@@ -39,7 +41,7 @@ public class BoardController {
     @PostMapping("/addBannedWords")
     public String addBannedWords(BannedWords bannedWords){
 
-        System.out.println(bannedWords + "<- bannedWords addBannedWords BoardController");
+       log.info("bannedWords addBannedWords BoardController={}", bannedWords);
 
         bannedWordsService.addBannedWords(bannedWords);
         return "redirect:/admin/bannedWords";
