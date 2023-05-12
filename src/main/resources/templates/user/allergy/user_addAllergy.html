@@ -5,49 +5,37 @@
         <th:block layout:fragment="customJs">
             <script th:src="@{/js/jquery-3.6.4.js}"></script>
             <script th:inline="javascript">
-
-                $('#resetBtn').click(function (){
-                    history.go(-1);
-                });
-
                 $(function(){
                     //alert('제이쿼리')
                     function validationCheck(ele){
                         let data = $(ele).val();
                         let isValid = true;
                         if(typeof data == 'undefined' || data == null || data == ''){
-                            let msg = $(ele).parents('tr').find('label').text();
-                            alert(`${msg} 필수 항목입니다.`)
-                            $(ele).focus();
                             isValid = false;
                         }
                         return isValid;
                     }
 
-                    $('#submitBtn').click(function(){
+
+                    $('#submitBtn').click(function (){
+                        const addMemberForm = $('#addAllergyForm');
+                        const inputGroup = $('#addAllergyForm input');
                         let isSubmit = true;
-
-                        if(memberLevel == '1'){
-                            const $selectEle = $('#sellerInfo');
-                            isSubmit = validationCheck($selectEle);
-                            $selectEle.focus();
-                            if(!isSubmit) return;
-                        }
-
-                        let $inputEles = $('#addReportForm input');
-                        $inputEles.each(function(idx, item){
+                        inputGroup.each(function (idx, item){
                             isSubmit = validationCheck(item);
-                            return isSubmit;
+                            if(!isSubmit) {
+                                let msg = $(item).parents('tr').find('label').text();
+                                alert(msg + '재료를 입력해주세요.');
+                                $(item).focus();
+                                return false;
+                            }
                         });
-
-                        if(isSubmit) $('#addReportForm').submit();
-
+                        if (isSubmit) addMemberForm.submit();
                     });
                 });
 
             </script>
         </th:block>
-
 
 <th:block layout:fragment="customContent">
 
@@ -57,7 +45,7 @@
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="breadcumb-text text-center">
-                        <h2>신고 게시판</h2>
+                        <h2>재료 등록</h2>
                     </div>
                 </div>
             </div>
@@ -68,7 +56,7 @@
     <!-- ##### Board Area Start ##### -->
     <head>
         <meta charset="UTF-8">
-        <title>신고 글 등록</title>
+        <title>알러지 재료 등록</title>
         <style>
             body {
                 font-family: 'Noto Sans KR', sans-serif;
@@ -111,9 +99,7 @@
                 resize: none;
                 height: 200px;
             }
-            input[type="submit"], input[type="reset"] {
-                display: inline-block;
-                margin-right: 10px;
+            input[type="submit"] {
                 background-color: #008CBA;
                 color: #FFFFFF;
                 border: none;
@@ -122,41 +108,33 @@
                 cursor: pointer;
                 transition: all 0.3s ease-in-out;
             }
-            input[type="submit"]:hover, input[type="reset"]:hover {
+            input[type="submit"]:hover {
                 background-color: #006B8F;
             }
         </style>
     </head>
     <body>
     <div id="container">
-        <h1>신고 글 등록</h1>
-        <form action="addReportForm" th:action="@{/user/addReport}" method="post">
-            <!--<label for="reportBoardCode">신고글 번호</label>
-            <input type="text" id="reportBoardCode" name="reportBoardCode" required>-->
-            <!--<label for="reportTypeCode">신고 카테고리 </label>
-            <input type="text" id="reportTypeCode" name="reportTypeCode" required>-->
-            <label for="reportTypeCode">신고 카테고리:</label>
-            <select id="reportTypeCode" name="reportTypeCode" required>
-                <th:block th:unless="${reportTypeList == null}" th:each="l : ${reportTypeList}">
-                    <option th:value="${l.reportTypeCode}">[[${l.reportType}]]</option>
-                </th:block>
-            </select>
-            <label for="recipeCode">신고 레시피 코드</label>
-            <input type="text" id="recipeCode" name="recipeCode" required>
-            <label for="reportStateCode">신고 상태</label>
-            <input type="text" id="reportStateCode" name="reportStateCode" required>
-            <label for="memberId">작성자 ID:</label>
-            <input type="text" id="memberId" name="memberId" th:value="${session.SID}" readonly="readonly">
-            <label for="reportInfoBoardContent">내용:</label>
-            <textarea id="reportInfoBoardContent" name="reportInfoBoardContent" rows="10" cols="50" required></textarea>
-            <input type="submit" value="글 등록">
+        <h1>나의 알러지 재료 등록</h1>
+        <form id="addAllergyForm" th:action="@{/user/addAllergy}" method="post">
+        <!--<form action="submit.php" method="POST">-->
+            <label for="memberId">등록자 ID:</label>
+            <input type="text" id="memberId" name="memberId" th:value="${session.SID}" readonly="readonly"/>
+            <label for="ingredientCode">알러지 재료 이름:</label>
+                <select id="ingredientCode" name="ingredientCode" required>
+                    <th:block th:unless="${ingredientList == null}" th:each="l : ${ingredientList}">
+                        <option th:value="${l.ingredientCode}">[[${l.ingredientName}]]</option>
+                    </th:block>
+                </select>
             <br>
-            <input type="reset" id="resetBtn" value="입력 취소">
+            <input type="submit" id="submitBtn" value="재료 등록">
         </form>
     </div>
     </body>
 
     <br><br>
+
+    <!-- ##### Board Area End ##### -->
 
 </th:block>
 </html>

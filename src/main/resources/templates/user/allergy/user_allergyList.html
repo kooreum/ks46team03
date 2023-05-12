@@ -14,6 +14,13 @@
           alert(msg);
         }
       });
+      $('.delete-btn').click(function(event){
+        event.preventDefault();
+        let allergyCode = $(this).data('allergyCode');
+        if (confirm("정말 삭제하시겠습니까?")) {
+          location.href = "/user/removeAllergy?allergyCode=" + allergyCode;
+        }
+      })
 
     </script>
   </th:block>
@@ -42,7 +49,7 @@
     }
 
     th {
-      background-color: #2E8B57;
+      background-color: #f5f5f5;
       color: black;
     }
 
@@ -70,14 +77,6 @@
       background-color: #0062cc;
     }
 
-    .write-button a {
-      background-color: #008000;
-    }
-
-    .write-button a:hover {
-      background-color: #006400;
-    }
-
   </style>
 </head>
 
@@ -94,7 +93,7 @@
       <div class="row h-100 align-items-center">
         <div class="col-12">
           <div class="breadcumb-text text-center">
-            <h2>신고</h2>
+            <h2>나의 알러지 재료 등록</h2>
           </div>
         </div>
       </div>
@@ -103,46 +102,38 @@
   <!-- ##### Breadcumb Area End ##### -->
 
   <div id="container">
-    <h1>신고 게시판</h1>
+    <h1>알러지 재료</h1>
       <table class="table-center" >
         <thead>
         <tr>
-          <th>신고게시글번호</th>
-          <th>신고 유형</th>
-          <th>신고 제목</th>
-          <th>작성자</th>
-          <th>신고처리상태</th>
-          <th>글등록시간</th>
+          <th>알러지 재료 코드</th>
+          <th>재료 이름</th>
+          <th>회원 ID</th>
+          <th>삭제</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:unless="${reportList == null}" th:each=" l : ${reportList}">
-          <td th:text="${l.reportBoardCode}"></td>
-          <td th:text="${l.reportTypeCode}"></td>
-          <td>
-            <a th:href="@{/user/reportContent(reportBoardCode=${l.reportBoardCode})}" th:text="${l.reportBoardTitle}"></a>
-          </td>
+        <tr th:unless="${allergyList == null}" th:each=" l : ${allergyList}">
+          <td th:text="${l.allergyCode}"></td>
+          <td th:text="${l.ingredientName}"></td>
           <td th:text="${l.memberId}"></td>
-          <td th:text="${l.reportStateCode}"></td>
-          <td th:text="${l.reportDatetime}"></td>
-          <!--<td>
-            <a th:href="@{/user/modifyReport(reportBoardCode=${l.reportBoardCode})}">수정</a>
-          </td>
           <td>
-            <a th:href="@{/user/removeReport(reportBoardCode=${l.reportBoardCode})}">삭제</a>
-          </td>-->
+            <a class="delete-btn" th:data-allergy-code="${l.allergyCode}" href="#">삭제</a>
+          </td>
         </tr>
-        <tr th:if="${reportList == null}">
-          <td colspan="7">등록된 신고글이 없습니다.</td>
+        <tr th:if="${allergyList == null}">
+          <td colspan="7">등록된 알러지 재료가 없습니다.</td>
         </tr>
+
         </tbody>
-    </table>
-    <div class="write-button">
-      <a th:href="@{/user/addReport}">신고글 등록</a>
-    </div>
+      </table>
+      <div class="write-button">
+        <a th:href="@{/user/addAllergy}">알러지 재료 등록</a>
+      </div>
     <br><br>
-    <div th:include="~{/user/search/user_search :: reportSearchFragment}"></div>
+
   </div>
+
 </th:block>
 
 </html>

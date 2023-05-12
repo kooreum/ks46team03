@@ -2,6 +2,7 @@ package ks46team03.user.controller;
 
 
 import jakarta.servlet.http.HttpSession;
+import ks46team03.dto.Inquiry;
 import ks46team03.dto.Member;
 import ks46team03.dto.Notice;
 import ks46team03.dto.Report;
@@ -34,8 +35,16 @@ public class NoticeController {
 		this.userNoticeMapper = userNoticeMapper;
 	}
 
+	@GetMapping("/noticeContent")
+	public String inquiryContent(@RequestParam("noticeBoardCode") String noticeBoardCode, Model model) {
+		Notice notice = userNoticeService.getNoticeInfoByCode(noticeBoardCode);
+		model.addAttribute("notice", notice);
+		model.addAttribute("title","공지글 내용");
+		return "user/board/user_noticeContent";
+	}
+
 	@GetMapping("/noticeList") //GoodsList에서 가져옴
-	public String getNoticeList(Model model
+	public String getNoticeList(Model model ,String searchKey,String searchValue
 			, HttpSession session
 			, @RequestParam(name="msg", required = false) String msg) {
 		String memberLevel = (String) session.getAttribute("SLEVEL");
@@ -49,7 +58,7 @@ public class NoticeController {
 			paramMap.put("searchValue", sellerId);
 		}
 
-		List<Notice> noticeList = userNoticeService.getNoticeList(paramMap);
+		List<Notice> noticeList = userNoticeService.getNoticeList(paramMap, searchKey,searchValue );
 		model.addAttribute("title", "공지사항");
 		model.addAttribute("noticeList", noticeList);
 		if(msg != null) model.addAttribute("msg", msg);

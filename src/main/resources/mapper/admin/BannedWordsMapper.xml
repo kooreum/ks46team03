@@ -5,7 +5,9 @@
 <mapper namespace="ks46team03.admin.mapper.BannedWordsMapper">
     <resultMap id="bannedWordsResultMap" type="BannedWords">
         <id     column="banned_words_code"            property="bannedWordsCode"/>
-        <result column="banned_words_list"            property="bannedWordList"/>
+        <result column="banned_words_list"            property="bannedWordsList"/>
+        <result column="banned_words_reg_time"        property="bannedWordsRegTime"/>
+        <result column="member_id"                    property="memberId"/>
     </resultMap>
 
     <select id="getBannedWordsList" resultMap="bannedWordsResultMap">
@@ -13,19 +15,31 @@
     SELECT
     banned_words_code
     ,banned_words_list
+        ,member_id
+    ,banned_words_reg_time
 
     FROM
     banned_words
     </select>
 
-<!--    <delete id="removeIngredientById" parameterType="String">
-        /* 재료삭제 */
+    <delete id="removeBannedWordsByCode" parameterType="String">
+        /* 금칙어 삭제 */
         DELETE
         FROM
-        ingredient_registration
+        banned_words
         WHERE
-        ingredient_code = #{ingredientCode};
+        banned_words_code = #{bannedWordsCode};
     </delete>
+
+    <insert id="addBannedWords" parameterType="bannedWords">
+        /* 금칙어 등록 */
+        INSERT INTO banned_words
+        (banned_words_code, member_id, banned_words_list, banned_words_reg_time)
+        VALUES
+        (sf_new_banned_code(),#{memberId}, #{bannedWordsList}, SYSDATE());
+    </insert>
+
+<!--
     <delete id="removeIngredientListById" parameterType="String">
         /*  재료 이력 삭제 */
         DELETE
@@ -36,10 +50,6 @@
     </delete>
 
 
-
-
-
-
     <insert id="addIngredient" parameterType="Ingredient">
         /* 재료등록 */
         INSERT INTO ingredient_registration
@@ -47,19 +57,6 @@
         VALUES
         (sf_new_ingredient_code(), #{memberId}, #{ingredientName}, #{ingredientCategoryCode}, SYSDATE());
     </insert>-->
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 </mapper>

@@ -3,7 +3,19 @@ package ks46team03.dto;
 public class BannedWords {
     private String bannedWordsCode;
 
-    private String bannedWordList;
+    private String bannedWordsList;
+
+    private String bannedWordsRegTime;
+
+    private String memberId;
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
 
     public String getBannedWordsCode() {
         return bannedWordsCode;
@@ -13,19 +25,29 @@ public class BannedWords {
         this.bannedWordsCode = bannedWordsCode;
     }
 
-    public String getBannedWordList() {
-        return bannedWordList;
+    public String getBannedWordsList() {
+        return bannedWordsList;
     }
 
-    public void setBannedWordList(String bannedWordList) {
-        this.bannedWordList = bannedWordList;
+    public void setBannedWordsList(String bannedWordsList) {
+        this.bannedWordsList = bannedWordsList;
+    }
+
+    public String getBannedWordsRegTime() {
+        return bannedWordsRegTime;
+    }
+
+    public void setBannedWordsRegTime(String bannedWordsRegTime) {
+        this.bannedWordsRegTime = bannedWordsRegTime;
     }
 
     @Override
     public String toString() {
         return "BannedWords{" +
                 "bannedWordsCode='" + bannedWordsCode + '\'' +
-                ", bannedWordList='" + bannedWordList + '\'' +
+                ", bannedWordsList='" + bannedWordsList + '\'' +
+                ", bannedWordsRegTime='" + bannedWordsRegTime + '\'' +
+                ", memberId='" + memberId + '\'' +
                 '}';
     }
 }

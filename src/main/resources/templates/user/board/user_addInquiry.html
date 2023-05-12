@@ -5,6 +5,11 @@
         <th:block layout:fragment="customJs">
             <script th:src="@{/js/jquery-3.6.4.js}"></script>
             <script th:inline="javascript">
+
+                $('#resetBtn').click(function (){
+                    history.go(-1);
+                });
+
                 $(function(){
                     //alert('제이쿼리')
                     function validationCheck(ele){
@@ -106,7 +111,9 @@
                 resize: none;
                 height: 200px;
             }
-            input[type="submit"] {
+            input[type="submit"], input[type="reset"] {
+                display: inline-block;
+                margin-right: 10px;
                 background-color: #008CBA;
                 color: #FFFFFF;
                 border: none;
@@ -115,7 +122,7 @@
                 cursor: pointer;
                 transition: all 0.3s ease-in-out;
             }
-            input[type="submit"]:hover {
+            input[type="submit"]:hover, input[type="reset"]:hover {
                 background-color: #006B8F;
             }
         </style>
@@ -130,42 +137,23 @@
             <input type="text" id="inquiryBoardTitle" name="inquiryBoardTitle" required>
             <label for="memberId">작성자 ID:</label>
             <input type="text" id="memberId" name="memberId" th:value="${session.SID}" readonly="readonly"/>
-            <!--<input type="text" id="memberId" name="memberId" required>-->
             <label for="inquiryTypeCode">문의 카테고리:</label>
-            <input type="text" id="inquiryTypeCode" name="inquiryTypeCode" required>
-            <!--<select id="inquiryTypeCode" name="inquiryTypeCode" required>
-                <option value="">선택하세요</option>
-                <option value="광고">광고성 글</option>
-                <option value="도배">무분별한 도배</option>
-                <option value="사기">사기성 글</option>
-                <option value="음란">음란성 글</option>
-                <option value="욕설">욕설 및 혐오 조장 글 </option>
-                <option value="기타">기타 </option>
-            </select>-->
+            <select id="inquiryTypeCode" name="inquiryTypeCode" required>
+                <th:block th:unless="${inquiryTypeList == null}" th:each="l : ${inquiryTypeList}">
+                    <option th:value="${l.inquiryTypeCode}">[[${l.inquiryCategory}]]</option>
+                </th:block>
+            </select>
             <label for="inquiryBoardContent">내용:</label>
             <textarea id="inquiryBoardContent" name="inquiryBoardContent" rows="10" cols="50" required></textarea>
             <input type="submit" id="submitBtn" value="글 등록">
+            <br>
+            <input type="reset" id="resetBtn" value="입력 취소">
             <!--<button type="button" id="submitBtn" disabled="disabled">글등록</button>-->
         </form>
     </div>
     </body>
 
     <br><br>
-
-    <!-- ##### Board Area End ##### -->
-
-
-    <!-- ##### All Javascript Files ##### -->
-    <!-- jQuery-2.2.4 js -->
-    <script src="js/jquery/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
-    <script src="js/bootstrap/popper.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="js/bootstrap/bootstrap.min.js"></script>
-    <!-- All Plugins js -->
-    <script src="js/plugins/plugins.js"></script>
-    <!-- Active js -->
-    <script src="js/active.js"></script>
 
 </th:block>
 </html>

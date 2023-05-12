@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/user_default}">
+      layout:decorate="~{layout/admin_default}">
 <th:block layout:fragment="customJs">
-    <script th:src="@{/js/jquery-3.6.4.js}"></script>
+  <script th:src="@{/js/jquery-3.6.4.js}"></script>
     <script th:inline="javascript">
 
         $('#resetBtn').click(function (){
@@ -48,23 +48,7 @@
     </script>
 </th:block>
 
-<th:block layout:fragment="customContent">
-
-    <!-- ##### Breadcumb Area Start ##### -->
-    <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(/user/img/bg-img/breadcumb2.jpg);">
-        <div class="container h-100">
-            <div class="row h-100 align-items-center">
-                <div class="col-12">
-                    <div class="breadcumb-text text-center">
-                        <h2>공지 게시판</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ##### Breadcumb Area End ##### -->
-
-    <!-- ##### Board Area Start ##### -->
+<th:block layout:fragment="customContents">
     <head>
         <meta charset="UTF-8">
         <title>공지 글 등록</title>
@@ -107,6 +91,7 @@
                 height: 30px;
             }
             textarea {
+                width: 100%;
                 resize: none;
                 height: 200px;
             }
@@ -127,9 +112,10 @@
         </style>
     </head>
     <body>
+    <br><br>
     <div id="container">
         <h1>공지 글 등록</h1>
-        <form id="addNoticeForm" th:action="@{/user/addNotice}" method="POST">
+        <form id="addNoticeForm" th:action="@{/admin/addNotice}" method="POST">
             <!--<label for="noticeBoardCode">공지사항코드:</label>
             <input type="text" id="noticeBoardCode" name="noticeBoardCode" required>-->
             <label for="noticeBoardTitle">제목:</label>
@@ -146,9 +132,6 @@
     </body>
 
     <br><br>
-
-    <!-- ##### Board Area End ##### -->
-
 
 </th:block>
 </html>

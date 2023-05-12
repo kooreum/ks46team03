@@ -18,6 +18,7 @@
         ,notice_board_title
         ,notice_board_content
         ,member_id
+        ,notice_board_reg_time
         FROM
         notice_board
         WHERE
@@ -86,7 +87,7 @@
         n.member_id = m.member_id
         <where>
             <if test="searchKey != null and searchKey != ''">
-                ${searchKey} = #{searchValue};
+                ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
             </if>
         </where>
         order by CAST(SUBSTRING_INDEX(n.notice_board_code, 'notice_board_',-1) AS unsigned) desc

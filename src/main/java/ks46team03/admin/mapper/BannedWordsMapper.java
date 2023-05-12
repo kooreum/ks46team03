@@ -7,6 +7,12 @@ import java.util.List;
 @Mapper
 public interface BannedWordsMapper {
 
-    //재료 목록 조회
+    //금칙어 목록 조회
     public List<BannedWords> getBannedWordsList();
+
+    //금칙어 삭제
+    public int removeBannedWordsByCode(String bannedWordsCode);
+
+    //금칙어 등록
+    public int addBannedWords(BannedWords bannedWords);
 }

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/user_default}">
+<head>
+  <link rel="stylesheet" type="text/css" th:href="@{/user/css/table.css}" />
+  <!--<script th:src="@{/js/jquery-3.6.4.js}"></script>-->
+
+  <th:block layout:fragment="customJs">
+    <script th:inline="javascript">
+      $(document).ready(function () {
+        let msg = /*[[${msg}]]*/ null;
+        console.log(msg);
+        if (msg) {
+          alert(msg);
+        }
+      });
+
+      $('.delete-btn').click(function(event){
+        event.preventDefault();
+        let oneMealCalCode = $(this).data('oneMealCalCode');
+        if (confirm("정말 삭제하시겠습니까?")) {
+          location.href = "/user/deleteCalorie?oneMealCalCode=" + oneMealCalCode;
+        }
+      })
+
+    </script>
+  </th:block>
+
+  <style>
+    #container {
+      width: 80%;
+      margin: 0 auto;
+      padding-top: 50px;
+    }
+    #container2 {
+      text-align: center;
+    }
+    #container3 {
+      text-align: center;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f5f5f5;
+      color: black;
+    }
+
+    #submitBtn {
+      background-color: #008CBA;
+      color: #FFFFFF;
+      border-radius: 5px;
+      margin-left: 10px;
+      cursor: pointer;
+      border: 1px solid #008CBA; /* 배경색과 동일한 색상으로 테두리 설정 */
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    #submitBtn2 {
+      background-color: #008CBA;
+      color: #FFFFFF;
+      border-radius: 5px;
+      margin-left: 10px;
+      cursor: pointer;
+      border: 1px solid #008CBA; /* 배경색과 동일한 색상으로 테두리 설정 */
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+
+  </style>
+</head>
+
+<script th:inline="javascript">
+  let msg = [[${msg}]];
+  if(msg) alert(msg);
+</script>
+
+<th:block layout:fragment="customContent">
+
+  <!-- ##### Breadcumb Area Start ##### -->
+  <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(/user/img/bg-img/breadcumb2.jpg);">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center">
+        <div class="col-12">
+          <div class="breadcumb-text text-center">
+            <h2>나의 제한 칼로리 </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ##### Breadcumb Area End ##### -->
+
+  <div id="container">
+    <h1>제한 칼로리 등록</h1>
+      <table class="table-center" >
+        <thead>
+        <tr>
+          <th>한끼 제한 칼로리 코드</th>
+          <th>회원 ID</th>
+          <th>한끼 최대 칼로리</th>
+          <th>단위</th>
+          <th>수정</th>
+          <th>삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:unless="${calorieList == null}" th:each=" l : ${calorieList}">
+          <td th:text="${l.oneMealCalCode}"></td>
+          <td th:text="${l.memberId}"></td>
+          <td th:text="${l.mealMaxCalorie}"></td>
+          <td th:text="${l.unit}"></td>
+          <td>
+            <a th:href="@{#}">수정</a>
+          </td>
+          <td>
+            <a class="delete-btn" th:data-one-meal-cal-code="${l.oneMealCalCode}" href="#">삭제</a>
+          </td>
+        </tr>
+        <tr th:if="${calorieList == null or #lists.isEmpty(calorieList)}">
+          <td colspan="7">등록된 칼로리 정보가 없습니다.</td>
+        </tr>
+
+        </tbody>
+      </table>
+    <br>
+    <div id="container2" th:if="${calorieList == null or #lists.isEmpty(calorieList)}">
+      <form id="addMealCalForm" th:action="@{/user/addMealCal}" method="POST">
+        <label for="oneMealCalCode">칼로리 코드:</label>
+        <input type="text" id="oneMealCalCode" name="oneMealCalCode" required>
+        <label for="memberId">작성자 ID:</label>
+        <input type="text" id="memberId" name="memberId" th:value="${session.SID}" readonly="readonly">
+        <label for="mealMaxCalorie">한끼 제한 칼로리:</label>
+        <input type="text" id="mealMaxCalorie" name="mealMaxCalorie" required>
+        <input type="submit" id="submitBtn" value="칼로리 등록">
+      </form>
+    </div>
+    <br><br>
+
+
+    <table class="table-center" >
+      <thead>
+      <tr>
+        <th>하루 제한 칼로리 코드</th>
+        <th>회원 ID</th>
+        <th>하루 최대 칼로리</th>
+        <th>단위</th>
+        <th>수정</th>
+        <th>삭제</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:unless="${dayCalorieList == null}" th:each=" l : ${dayCalorieList}">
+        <td th:text="${l.oneDayCalCode}"></td>
+        <td th:text="${l.memberId}"></td>
+        <td th:text="${l.dayMaxCalorie}"></td>
+        <td th:text="${l.unit}"></td>
+        <td>
+          <a th:href="@{#}">수정</a>
+        </td>
+        <td>
+          <a th:href="@{#}">삭제</a>
+        </td>
+      </tr>
+      <tr th:if="${dayCalorieList == null or #lists.isEmpty(dayCalorieList)}">
+        <td colspan="7">등록된 칼로리 정보가 없습니다.</td>
+      </tr>
+
+      </tbody>
+    </table>
+    <br>
+    <div id="container3" th:if="${dayCalorieList == null or #lists.isEmpty(dayCalorieList)}">
+      <form id="addDayCalForm" th:action="@{/admin/addDaycal}" method="POST">
+        <label for="oneDayCalCode">칼로리 코드:</label>
+        <input type="text" id="oneDayCalCode" name="oneDayCalCode" required>
+        <label for="memberId" >작성자 ID:</label>
+        <input type="text" id="memberId2" name="memberId" th:value="${session.SID}" readonly="readonly">
+        <label for="dayMaxCalorie">하루 제한 칼로리:</label>
+        <input type="text" id="dayMaxCalorie" name="dayMaxCalorie" required>
+        <input type="submit" id="submitBtn2" value="칼로리 등록">
+      </form>
+    </div>
+    <br><br>
+
+  </div>
+
+</th:block>
+
+</html>
