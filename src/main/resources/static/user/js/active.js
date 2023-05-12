@@ -123,7 +123,7 @@
 
     // :: 9.0 nice Select Active Code
     if ($.fn.niceSelect) {
-        $('select').niceSelect();
+        $('.select').niceSelect();
     }
 
     // :: 10.0 wow Active Code

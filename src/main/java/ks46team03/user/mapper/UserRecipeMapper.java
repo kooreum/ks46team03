@@ -1,8 +1,10 @@
 package ks46team03.user.mapper;
 
+import ks46team03.dto.Bookmark;
 import ks46team03.dto.Recipe;
 import org.apache.ibatis.annotations.Mapper;
 
+import javax.swing.text.View;
 import java.util.List;
 import java.util.Map;
 
@@ -18,10 +20,18 @@ public interface UserRecipeMapper {
     public int modifyRecipe(Recipe recipe);
     // 특정레시피조회
     public Recipe getRecipeInfoById(String recipeCode);
+
+    public Recipe getRecipeInfoByCode(String recipeCode);
     //레시피 등록
     public int addRecipe(Recipe recipe);
     // 레시피 목록조회
     public List<Recipe> getRecipeList(Map<String,Object> paramMap, String searchKey, String searchValue);
 
+    public List<Bookmark> getBookmarkList(String searchKey, String searchValue, String SID);
 
+    public int removeBookmark(String recipeBookmarksCode);
+
+    public int getViewCount(String recipeCode);
+
+    public List<Recipe> getViewRank(Map<String, Object> paramMap);
 }

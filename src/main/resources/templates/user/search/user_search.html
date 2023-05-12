@@ -16,10 +16,10 @@
   <div th:fragment="searchFragment2">
     <form th:action="@{/user/recipe/recipeList}" method="get">
       <select name="searchKey">
-        <option value="memberId">회원 아이디</option>
         <option value="recipeName">레시피 이름</option>
+        <option value="memberId">회원 아이디</option>
       </select>
-      <input type="text" name="searchValue" placeholder="검색어를 입력해주세요"/>
+      <input class="" type="text" name="searchValue" placeholder="검색어를 입력해주세요"/>
       <button type="submit">검색</button>
     </form>
   </div>

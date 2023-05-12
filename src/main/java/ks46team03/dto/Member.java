@@ -12,7 +12,7 @@ public class Member {
     private String memberPhone;
     private String memberNickname;
     private String memberAllergy;
-    private String memberRemove;
+    private String memberStatus;
     private String joinDate;
 
     public String getMemberId() {
@@ -103,12 +103,12 @@ public class Member {
         this.memberAllergy = memberAllergy;
     }
 
-    public String getMemberRemove() {
-        return memberRemove;
+    public String getMemberStatus() {
+        return memberStatus;
     }
 
-    public void setMemberRemove(String memberRemove) {
-        this.memberRemove = memberRemove;
+    public void setMemberStatus(String memberStatus) {
+        this.memberStatus = memberStatus;
     }
 
     public String getJoinDate() {
@@ -133,7 +133,7 @@ public class Member {
                 ", memberPhone='" + memberPhone + '\'' +
                 ", memberNickname='" + memberNickname + '\'' +
                 ", memberAllergy='" + memberAllergy + '\'' +
-                ", memberRemove='" + memberRemove + '\'' +
+                ", memberStatus='" + memberStatus + '\'' +
                 ", joinDate='" + joinDate + '\'' +
                 '}';
     }

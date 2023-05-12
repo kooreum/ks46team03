@@ -83,7 +83,7 @@ public class MemberController {
         model.addAttribute("title", "로그인");
         if(result != null) model.addAttribute("result", result);
 
-        return "/user/member/user_login";
+        return "user/member/user_login";
     }
 
     @PostMapping("/addMember")
@@ -121,14 +121,14 @@ public class MemberController {
         model.addAttribute("title", "회원가입");
         model.addAttribute("memberLevelList", memberLevelList);
 
-        return "/user/member/user_addMember";
+        return "user/member/user_addMember";
     }
 
     @PostMapping("/modifyMember")
     public String modifyMember(Member member) {
         userMemberMapper.modifyMember(member);
 
-        return "redirect:/user/member/memberList";
+        return "redirect:/user/index";
     }
 
     @GetMapping("/modifyMember")
@@ -139,7 +139,7 @@ public class MemberController {
         model.addAttribute("memberLevelList", memberLevelList);
         model.addAttribute("memberInfo", memberInfo);
 
-        return "/user/member/user_modifyMember";
+        return "user/member/user_modifyMember";
     }
 
     @GetMapping("/memberList")
@@ -150,7 +150,7 @@ public class MemberController {
         model.addAttribute("title", "회원목록조회");
         model.addAttribute("memberList", memberList);
 
-        return "/user/member/user_memberList";
+        return "user/member/user_memberList";
     }
 
     @PostMapping("removeMember")
@@ -181,6 +181,6 @@ public class MemberController {
         model.addAttribute("title", "회원탈퇴");
         model.addAttribute("memberId", memberId);
 
-        return "/user/member/user_removeMember";
+        return "user/member/user_removeMember";
     }
 }
