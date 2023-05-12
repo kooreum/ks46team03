@@ -5,6 +5,7 @@
 <mapper namespace="ks46team03.user.mapper.UserReportMapper">
     <resultMap id="reportResultMap" type="Report">
         <id     column="report_board_code"          property="reportBoardCode"/>
+        <result column="report_board_title"         property="reportBoardTitle"/>
         <result column="member_id"                  property="memberId"/>
         <result column="report_type_code"           property="reportTypeCode"/>
         <result column="recipe_code"                property="recipeCode"/>
@@ -13,15 +14,34 @@
         <result column="report_datetime"            property="reportDatetime"/>
     </resultMap>
 
+    <select id="getReportTypeList" resultType="map">
+        /* 신고 유형 조회 */
+        SELECT
+        report_type_code AS reportTypeCode
+        ,report_type AS reportType
+        FROM
+        report_type;
+    </select>
+
+    <update id="updateReportState">
+        /* 신고처리상태 업데이트 */
+        UPDATE report_board
+        SET report_state_code = #{reportStateCode}
+        WHERE report_board_code = #{reportBoardCode}
+    </update>
+
+
     <select id="getReportInfoByCode" parameterType="String" resultMap="reportResultMap">
         /* 특정신고조회*/
         SELECT
         report_board_code
+        ,report_board_title
         ,report_type_code
         ,recipe_code
         ,report_state_code
         ,report_info_board_content
         ,member_id
+        ,report_datetime
         FROM
         report_board
         WHERE
@@ -77,13 +97,14 @@
         INSERT INTO report_board
         (report_board_code, member_id, report_type_code, recipe_code, report_state_code, report_info_board_content, report_datetime)
         VALUES
-        (#{reportBoardCode}, #{memberId}, #{reportTypeCode}, #{recipeCode}, #{reportStateCode}, #{reportInfoBoardContent}, SYSDATE());
+        (sf_new_report_code(), #{memberId}, #{reportTypeCode}, #{recipeCode}, #{reportStateCode}, #{reportInfoBoardContent}, SYSDATE());
     </insert>
 
     <select id="getReportList" resultMap="reportResultMap" parameterType="String">
         /* 신고목록조회 */
         SELECT
             r.report_board_code,
+            r.report_board_title,
             r.member_id,
             r.report_type_code,
             r.recipe_code,
@@ -97,7 +118,7 @@
             r.member_id = m.member_id
         <where>
             <if test="searchKey != null and searchKey != ''">
-                ${searchKey} = #{searchValue};
+                ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
             </if>
         </where>
             order by CAST(SUBSTRING_INDEX(r.report_board_code, 'report_board_',-1) AS unsigned) desc

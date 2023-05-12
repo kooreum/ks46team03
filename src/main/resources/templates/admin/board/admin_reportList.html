@@ -4,12 +4,12 @@
       layout:decorate="~{layout/admin_default}">
 <head>
   <link rel="stylesheet" type="text/css" th:href="@{/admin/css/pjc.css}" />
-
-  <th:block layout:fragment="customJs">
-  </th:block>
-
   <style>
-    .write-button {
+    #container {
+      padding: 0 20px;
+    }
+
+   /* .write-button {
       text-align: right;
       margin-top: 30px;
     }
@@ -26,39 +26,140 @@
 
     .write-button a:hover {
       background-color: #0062cc;
-    }
+    } 신고글 관리자 글 등록버튼 불필요*/
   </style>
 </head>
+<th:block layout:fragment="customJs">
+  <script th:inline="javascript">
+    $('.report-state').change(function(){
+      let reportStateCode = $(this).val();
+      const modifyA = $(this).parents('tr').find('.modify-report');
+      let href = modifyA.attr('href');
+      href += '&reportStateCode=' + reportStateCode;
+      modifyA.attr('href', href);
+    })
+    $('.modify-report').click(function(e){
+      e.preventDefault();
+      let href = $(this).attr('href');
+      if(href.indexOf('&') < 0){
+        alert('수정된 내용이 없습니다.');
+        return;
+      }
+      location.href = href;
+    })
+    /**
+     * 전체 선택
+     */
+    $('#allCheck').click(function () {
+      $('.checks').prop('checked', $(this).prop('checked'));
+    });
+    $('.checks').click(function () {
+      let length = $('.checks').length;
+      let checkedLength = $('.checks:checked').length;
+      if (length == checkedLength) {
+        $('#allCheck').prop('checked', true);
+      } else {
+        $('#allCheck').prop('checked', false);
+      }
+    });
+    /**
+     * 체크박스 선택 후 deleteBtn 버튼
+     */
+    $('#delCheckBtn').click(function () {
 
+      const checkedArr = $('.checks:checked');
+      console.log(checkedArr);
+
+      let length = checkedArr.length;
+
+      const valueArr = [];
+      let msg = '삭제하시겠습니까?';
+
+      if (length == 0) {
+        alert("선택된 항목이 없습니다.");
+      }
+      else {
+        let result = confirm(msg);
+
+        if(result == true){
+
+          $(checkedArr).each(function() {
+            valueArr.push($(this).attr('value'));
+          });
+          console.log(valueArr);
+
+          let request = $.ajax({
+            url: '/admin/removeCheckedInquiry',
+            method: 'POST',
+            data: { valueArr : valueArr },
+            dataType: 'json'
+          });
+
+          request.done(function(result){
+            if(result){
+              alert('삭제되었습니다.');
+              location.reload();
+            }
+          });
+
+          request.fail(function(jqXHR, textStatus){
+            alert(`Request failed: ${textStatus}`);
+          });
+        }else{
+          location.reload();
+        }
+      }
+    });
+  </script>
+</th:block>
 <th:block layout:fragment="customContents">
   <div id="container">
     <h1>신고 게시판</h1>
+    <br>
+    <button type="submit" id="delCheckBtn" class="btn btn-secondary btn-icon-split">
+      <span class="text">선택삭제</span>
+    </button>
+    <br>
     <table class="table-center" >
       <thead>
       <tr>
+        <th><input type="checkbox" id="allCheck"></th>
+        <th>No</th>
         <th>신고게시글번호</th>
-        <th>작성자</th>
         <th>신고 유형</th>
+        <th>신고 제목</th>
         <th>신고 레시피 글번호</th>
-        <th>신고처리상태</th>
+        <th>작성자</th>
         <th>글등록시간</th>
+        <th>신고처리상태</th>
         <th>수정</th>
         <th>삭제</th>
       </tr>
       </thead>
       <tbody>
       <tr th:unless="${reportList == null}" th:each=" l : ${reportList}">
+        <td><input class="checks" type="checkbox" th:value="${l.reportBoardCode}"></td>
+        <th th:text="${lStat.count}"></th>
         <td th:text="${l.reportBoardCode}"></td>
-        <td th:text="${l.memberId}"></td>
         <td th:text="${l.reportTypeCode}"></td>
+        <td>
+          <a th:href="@{/user/reportContent(reportBoardCode=${l.reportBoardCode})}" th:text="${l.reportBoardTitle}"></a>
+        </td>
         <td th:text="${l.recipeCode}"></td>
-        <td th:text="${l.reportStateCode}"></td>
+        <td th:text="${l.memberId}"></td>
         <td th:text="${l.reportDatetime}"></td>
         <td>
-          <a th:href="@{/user/modifyReport(reportBoardCode=${l.reportBoardCode})}">수정</a>
+          <select class="report-state" name="reportStateCode" th:modelAttribute="l.reportStateCode">
+            <option value="report_state_1" th:selected="${l.reportStateCode == 'report_state_1'}">처리중</option>
+            <option value="report_state_2" th:selected="${l.reportStateCode == 'report_state_2'}">처리완료</option>
+            <option value="report_state_3" th:selected="${l.reportStateCode == 'report_state_3'}">반려</option>
+          </select>
         </td>
         <td>
-          <a th:href="@{/user/removeReport(reportBoardCode=${l.reportBoardCode})}">삭제</a>
+          <a class="modify-report" th:href="@{/admin/updateReportState(reportBoardCode=${l.reportBoardCode})}">수정</a>
+        </td>
+        <td>
+          <a class="delete-report" th:href="@{/user/removeReport(reportBoardCode=${l.reportBoardCode})}">삭제</a>
         </td>
       </tr>
       <tr th:if="${reportList == null}">
@@ -66,9 +167,11 @@
       </tr>
       </tbody>
     </table>
-    <div class="write-button">
+    <!--<div class="write-button">
       <a th:href="@{/user/addReport}">신고글 등록</a>
-    </div>
+    </div> 신고글도 관리자 등록버튼 불필요 -->
+    <br><br>
+    <div th:include="~{/admin/search/admin_search :: adminReportSearchFragment}"></div>
   </div>
 </th:block>
 

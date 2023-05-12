@@ -116,6 +116,13 @@
                                     <li><a th:href="@{/user/recipe/recipeList}">레시피</a></li>
                                     <li><a th:href="@{/user/recipe/bookmarkList}">즐겨찾기</a></li>
 
+                                    <li><a th:if="${session.SLEVEL != null and (session.SLEVEL == 'member_code_2' or session.SLEVEL == 'member_code_1')}" href="#">나의 식단 관리</a>
+                                        <ul class="dropdown">
+                                            <li><a th:href="@{/user/allergyList}">알러지 재료 등록</a></li>
+                                            <li><a th:href="@{/user/calorieList}">제한 칼로리 설정</a></li>
+                                        </ul>
+                                    </li>
+
                                     <li><a href="#">더보기</a>
                                         <ul class="dropdown">
                                             <li><a th:href="@{/user/noticeList}">공지 게시판</a></li>

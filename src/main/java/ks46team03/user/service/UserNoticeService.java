@@ -21,8 +21,22 @@ public class UserNoticeService {
         this.userMemberMapper = userMemberMapper;
     }
 
-    public List<Notice> getNoticeList(Map<String,Object> paramMap){
-        List<Notice> noticeList = userNoticeMapper.getNoticeList((paramMap));
+    public List<Notice> getNoticeList(Map<String,Object> paramMap, String searchKey, String searchValue){
+
+        if (searchKey != null) {
+            switch (searchKey) {
+                case "memberId":
+                    searchKey = "n.member_id";
+                    break;
+                case "noticeBoardCode":
+                    searchKey = "n.notice_board_code";
+                    break;
+                default:
+                    searchKey = "n.notice_board_title";
+                    break;
+            }
+        }
+        List<Notice> noticeList = userNoticeMapper.getNoticeList(paramMap, searchKey, searchValue);
         return noticeList;
     }
 
@@ -39,5 +53,11 @@ public class UserNoticeService {
     public Notice getNoticeInfoByCode(String noticeBoardCode){
         Notice noticeInfo = userNoticeMapper.getNoticeInfoByCode(noticeBoardCode);
         return noticeInfo;
+    }
+
+    public void removeCheckedNotice(List<String> valueArr){
+        for(int i = 0; i < valueArr.size(); i++){
+            userNoticeMapper.removeNoticeByNoticeCode(valueArr.get(i));
+        }
     }
 }

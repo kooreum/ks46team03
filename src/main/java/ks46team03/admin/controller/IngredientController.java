@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/ingredient")
 public class IngredientController {
 
 
@@ -29,7 +29,7 @@ public class IngredientController {
      * @param ingredientCode
      * @return
      */
-    @PostMapping("/ingredient/removeIngredient")
+    @PostMapping("/removeIngredient")
     public String removeIngredient(String ingredientCode) {
 
         ingredientMapper.removeIngredientById(ingredientCode);
@@ -49,7 +49,7 @@ public class IngredientController {
         model.addAttribute("title", "재료삭제화면");
         model.addAttribute("ingredientCode", ingredientCode);
 
-        return "/admin/ingredient/admin_removeIngredient";
+        return "admin/ingredient/admin_removeIngredient";
     }
 
 
@@ -84,7 +84,7 @@ public class IngredientController {
         model.addAttribute("ingredientList", ingredientList);
         model.addAttribute("ingredientInfo", ingredientInfo);
 
-        return "/admin/ingredient/admin_modifyIngredient";
+        return "admin/ingredient/admin_modifyIngredient";
     }
 
 
@@ -112,7 +112,7 @@ public class IngredientController {
         model.addAttribute("title", "재료등록화면");
         model.addAttribute("IngredientList", IngredientList);
 
-        return "/admin/ingredient/admin_addIngredient";
+        return "admin/ingredient/admin_addIngredient";
     }
 
 
@@ -121,7 +121,7 @@ public class IngredientController {
      * @param model
      * @return
      */
-    @GetMapping("/ingredient/admin_ingredientList")
+    @GetMapping("/ingredientList")
 
     public String getIngredientList(Model model,String searchKey,String searchValue) {
 
@@ -129,7 +129,7 @@ public class IngredientController {
         model.addAttribute("title", "재료목록화면");
         model.addAttribute("ingredientList", ingredientList);
 
-        return "/admin/ingredient/admin_ingredientList";
+        return "admin/ingredient/admin_ingredientList";
 
 
     }
