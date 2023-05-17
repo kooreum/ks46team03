@@ -27,9 +27,11 @@ public interface UserRecipeMapper {
     // 레시피 목록조회
     public List<Recipe> getRecipeList(Map<String,Object> paramMap, String searchKey, String searchValue);
 
-    public List<Bookmark> getBookmarkList(String searchKey, String searchValue, String SID);
+    public List<Bookmark> getBookmarkList(String SID);
 
     public int removeBookmark(String recipeBookmarksCode);
+
+    public int addBookmark(String recipeCode, String SID);
 
     public int getViewCount(String recipeCode);
 

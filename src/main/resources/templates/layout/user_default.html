@@ -16,6 +16,12 @@
 
     <!-- Core Stylesheet -->
     <link rel="stylesheet" th:href="@{/user/style.css}">
+
+  <!-- Dropzone.js -->
+  <link th:href="@{/vendors/dropzone/dist/min/dropzone.min.css}" rel="stylesheet">
+
+  <!-- DataTables -->
+  <link th:href="@{/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css}" rel="stylesheet">
 </head>
 <body>
 	<th:block th:replace="~{fragment/user_preloader :: preloaderFragment}"></th:block>
@@ -45,6 +51,24 @@
     <script th:src="@{/user/js/plugins/plugins.js}"></script>
     <!-- Active js -->
     <script th:src="@{/user/js/active.js}"></script>
+
+  <!-- Datatables -->
+  <script th:src="@{/user/vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
+  <script th:src="@{/user/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+  <script th:src="@{/user/vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
+  <script th:src="@{/user/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
+  <script th:src="@{/user/vendors/datatables.net-buttons/js/buttons.flash.min.js}"></script>
+  <script th:src="@{/user/vendors/datatables.net-buttons/js/buttons.html5.min.js}"></script>
+  <script th:src="@{/user/vendors/datatables.net-buttons/js/buttons.print.min.js}"></script>
+  <script th:src="@{/user/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js}"></script>
+  <script th:src="@{/user/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js}"></script>
+  <script th:src="@{/user/vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
+  <script th:src="@{/user/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js}"></script>
+  <script th:src="@{/user/vendors/datatables.net-scroller/js/dataTables.scroller.min.js}"></script>
+  <script th:src="@{/user/vendors/jszip/dist/jszip.min.js}"></script>
+  <script th:src="@{/user/vendors/pdfmake/build/pdfmake.min.js}"></script>
+  <script th:src="@{/user/vendors/pdfmake/build/vfs_fonts.js}"></script>
+  <script th:src="@{/user/vendors/sweetalert2/sweetalert2.js}"></script>
 
 	<th:block layout:fragment="customJs"></th:block>
 

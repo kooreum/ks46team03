@@ -31,14 +31,13 @@ public class FridgeController {
 	public String userRecipePage(Model model
 								, HttpSession session) {
 		String memberId = (String) session.getAttribute("SID");
-		String levelNum = (String) session.getAttribute("SLEVEL");
 
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 			paramMap.put("searchKey", "i.member_id");
 			paramMap.put("searchValue", memberId);
 
 		List<Location> fridgeList = userFridgeService.getFridgeList(paramMap);
-//		System.out.println("fridgeList = " + fridgeList);
+
 		model.addAttribute("fridgeList", fridgeList);
 
 		return "user/fridge/user_fridge";
@@ -48,7 +47,6 @@ public class FridgeController {
 							, HttpSession session){
 
 		String memberId = (String) session.getAttribute("SID");
-		String levelNum = (String) session.getAttribute("SLEVEL");
 
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 			paramMap.put("searchKey", "i.member_id");
