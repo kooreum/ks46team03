@@ -2,7 +2,28 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/user_default}">
-
+<th:block layout:fragment="customJs">
+    <script>
+        $(document).on('click', '#addBookmarkBtn', function(e) {
+            e.preventDefault();
+            let recipeCode = $(this).data('recipeCode');
+            console.log(recipeCode)
+            $.ajax({
+                type: 'POST',
+                url: '/user/addBookmark',
+                data: {
+                    'recipeCode': recipeCode
+                },
+                success: function(data) {
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    console.log('AJAX Error: ' + error);
+                }
+            });
+        });
+    </script>
+</th:block>
 
 <th:block layout:fragment="customContent">
 
@@ -50,7 +71,7 @@
                 </div>
                 <div class="col-12 col-md-4">
                     <div class="receipe-ratings text-right my-5">
-                        <a href="#" class="btn delicious-btn mt-5">For Begginers</a>
+                        <button id="addBookmarkBtn" th:data-recipe-code="${recipeDetail.recipeCode}" class="btn btn-primary mt-5">+ 즐겨찾기</button>
                     </div>
                 </div>
 
@@ -99,30 +120,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-            <!-- Ingredients -->
-<!--            <div class="ingredients">-->
-<!--                <h4>Ingredients</h4>-->
-<!--                <ul>-->
-<!--                    <li th:each="i : ${ingredientDetail}">-->
-<!--                        <span th:text="${i.ingredientCode}"></span>-->
-<!--                        <span th:text="${i.quantity}"></span>-->
-<!--                        <span th:text="${i.gram}"></span>-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--            </div>-->
-
-
-
-
-
-
-
-
-
-
         </div>
     </div>
 </div>

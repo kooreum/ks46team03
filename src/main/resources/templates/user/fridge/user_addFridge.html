@@ -105,22 +105,19 @@
         </div>
         <!-- ##### Breadcrumb Area End ##### -->
 
-        <!-- ##### Board Area Start ##### -->
         <body>
             <div id="container">
                 <h1>나의 재료 등록</h1>
                 <form id="addFridgeForm" th:action="@{/user/fridge/addFridge}" method="post">
-                <!--<form action="submit.php" method="POST">-->
+
                     <label for="memberId">작성자 ID:</label>
                     <input type="text" id="memberId" name="memberId" th:value="${session.SID}" readonly="readonly"/>
-
                     <label for="myDetailLocationCode">세부 위치:</label>
                         <select id="myDetailLocationCode" name="myDetailLocationCode" required>
                             <th:block th:unless="${locationList == null}" th:each="l : ${locationList}">
                                 <option th:value="${l.myDetailLocationCode}">[[${l.myDetailLocationName}]]</option>
                             </th:block>
                         </select>
-
                     <label for="ingredientCode">재료:</label>
                     <select id="ingredientCode" name="ingredientCode">
                         <th:block th:unless="${ingredientList == null}" th:each="il : ${ingredientList}">
@@ -135,11 +132,9 @@
                     <label for="ingredientNote">노트:</label>
                     <textarea id="ingredientNote" name="ingredientNote" rows="10" cols="50" required></textarea>
                     <input type="button" id="submitBtn" value="재료 등록">
-                    <!--<button type="button" id="submitBtn" disabled="disabled">글등록</button>-->
                 </form>
             </div>
         </body>
-
         <br><br>
     </th:block>
 </html>

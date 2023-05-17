@@ -53,8 +53,7 @@ public class UserRecipeService {
 
 
     public int addRecipe(Recipe recipe) {
-        int result =
-                userRecipeMapper.addRecipe(recipe);
+        int result = userRecipeMapper.addRecipe(recipe);
 
         return result;
     }
@@ -81,24 +80,20 @@ public class UserRecipeService {
         return recipeList;
     }
 
-    public List<Bookmark> getBookmarkList(String searchKey, String searchValue, String SID) {
-        if (searchKey != null) {
-            switch (searchKey) {
-                case "memberId":
-                    searchKey = "r.member_id";
-                    break;
-                default:
-                    searchKey = "r.recipe_name";
-                    break;
-            }
-        }
-        List<Bookmark> bookmarkList = userRecipeMapper.getBookmarkList(searchKey, searchValue, SID);
+    public List<Bookmark> getBookmarkList(String SID) {
+
+        List<Bookmark> bookmarkList = userRecipeMapper.getBookmarkList(SID);
 
         return bookmarkList;
     }
 
     public int removeBookmark(String recipeBookmarksCode) {
         int result = userRecipeMapper.removeBookmark(recipeBookmarksCode);
+        return result;
+    }
+
+    public int addBookmark(String recipeCode, String SID) {
+        int result = userRecipeMapper.addBookmark(recipeCode, SID);
         return result;
     }
 

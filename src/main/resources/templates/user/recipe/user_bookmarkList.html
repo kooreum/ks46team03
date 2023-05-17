@@ -97,10 +97,11 @@
 		</thead>
 		<tbody>
 			<tr th:unless="${bookmarkList == null}" th:each=" l : ${bookmarkList}">
-				<td th:text="${l.recipeName}"></td>
- <!--				<td th:text="${l.recipeCategoryCode}"></td> -->
+				<td>
+					<a th:href="@{/user/recipe/recipeDetail(recipeCode=${l.recipeCode})}" th:text="${l.recipeName}"></a>
+				</td>
 				<td th:text="${l.memberId}"></td>
-				<td th:text="${l.recipeCal}"></td>
+				<td th:text="${l.recipeCal} + ' kcal'"></td>
 				<td th:text="${l.recipeQuantity} + '인분'"></td>
 				<td>
 					<a class="removeBookmarkBtn" th:data-recipe-bookmarks-code="${l.recipeBookmarksCode}" href="#">삭제</a>
@@ -109,7 +110,6 @@
 			<tr th:if="${bookmarkList == null}">
 				<td colspan="7">등록된 레시피의 정보가 없습니다.</td>
 			</tr>
-
 		</tbody>
 	</table>
 
