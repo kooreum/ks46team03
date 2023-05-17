@@ -21,6 +21,7 @@
             <result column="ingredient_status" property="ingredientStatus"/>
             <result column="gram" property="gram"/>
             <result column="reg_time" property="regTime"/>
+            <result column="end_time" property="endTime"/>
             <result column="expiration_date" property="expirationDate"/>
             <result column="ingredient_name" property="ingredientName"/>
         </collection>

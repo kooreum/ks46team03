@@ -7,7 +7,7 @@ public class Bookmark {
     private String memberId;
     private String recipeCal;
     private String recipeQuantity;
-    private String regDate;
+    private String recipeBookmarksRegDate;
     private String updateAt;
     private String imageUrl;
     private String viewCount;
@@ -63,12 +63,12 @@ public class Bookmark {
         this.recipeQuantity = recipeQuantity;
     }
 
-    public String getRegDate() {
-        return regDate;
+    public String getRecipeBookmarksRegDate() {
+        return recipeBookmarksRegDate;
     }
 
-    public void setRegDate(String regDate) {
-        this.regDate = regDate;
+    public void setRecipeBookmarksRegDate(String recipeBookmarksRegDate) {
+        this.recipeBookmarksRegDate = recipeBookmarksRegDate;
     }
 
     public String getUpdateAt() {
@@ -128,7 +128,7 @@ public class Bookmark {
                 ", memberId='" + memberId + '\'' +
                 ", recipeCal='" + recipeCal + '\'' +
                 ", recipeQuantity='" + recipeQuantity + '\'' +
-                ", regDate='" + regDate + '\'' +
+                ", recipeBookmarksRegDate='" + recipeBookmarksRegDate + '\'' +
                 ", updateAt='" + updateAt + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", viewCount='" + viewCount + '\'' +

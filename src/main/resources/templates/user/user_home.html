@@ -26,7 +26,8 @@
 							<img src="/user/img/bg-img/r1.jpg" alt="">
 							<div class="receipe-content">
 								<a th:href="@{/user/recipe/recipeDetail(recipeCode=${l.recipeCode})}">
-									<h5 th:text="${l.recipeName}"></h5>
+									<h5 th:text="${l.recipeName}"></h5><br>
+									<h5 th:text="'조회수 : ' + ${l.viewCount}" style="font-style: italic; color: gray;"></h5>
 								</a>
 							</div>
 						</div>

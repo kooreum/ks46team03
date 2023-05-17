@@ -15,6 +15,7 @@ public class Fridge {
     private String ingredientStatus;
     private String gram;
     private String regTime;
+    private String endTime;
     private String expirationDate;
     private String ingredientName;
     private String myDetailLocationName;
@@ -131,6 +132,14 @@ public class Fridge {
         this.regTime = regTime;
     }
 
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
     public String getExpirationDate() {
         return expirationDate;
     }
@@ -172,6 +181,7 @@ public class Fridge {
                 ", ingredientStatus='" + ingredientStatus + '\'' +
                 ", gram='" + gram + '\'' +
                 ", regTime='" + regTime + '\'' +
+                ", endTime='" + endTime + '\'' +
                 ", expirationDate='" + expirationDate + '\'' +
                 ", ingredientName='" + ingredientName + '\'' +
                 ", myDetailLocationName='" + myDetailLocationName + '\'' +

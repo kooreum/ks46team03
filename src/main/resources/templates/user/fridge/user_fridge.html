@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/user_default}">
-<link rel="stylesheet" type="text/css" th:href="@{/user/css/table.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/user/css/table.css}"/>
 <head>
     <style>
         .row {
@@ -66,8 +66,8 @@
         <script>
             $(document).on('click','.detail-btn', function(){
                 let myIngredientCode = $(this).data('myIngredientCode');
-                let myIngredientNote = $(this).data('ingredientNote');
                 let myIngredientName = $(this).data('ingredientName');
+                let myIngredientNote = $(this).data('ingredientNote');
                 $('#modalLabel').text(myIngredientName);
                 $('#modalContent').text(myIngredientNote);
                 $('#removeIngredientBtn').data('myIngredientCode', myIngredientCode);
