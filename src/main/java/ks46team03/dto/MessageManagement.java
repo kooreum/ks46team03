@@ -8,6 +8,7 @@ public class MessageManagement {
     private String messageDetails;
     private String messageSendTime;
     private String messageDeleteTime;
+    private String messageDeleteSortation;
 
     public String getMessageManagementCode() {
         return messageManagementCode;
@@ -65,6 +66,13 @@ public class MessageManagement {
         this.messageDeleteTime = messageDeleteTime;
     }
 
+    public String getMessageDeleteSortation() {
+        return messageDeleteSortation;
+    }
+
+    public void setMessageDeleteSortation(String messageDeleteSortation) {
+        this.messageDeleteSortation = messageDeleteSortation;
+    }
 
     @Override
     public String toString() {
@@ -76,6 +84,7 @@ public class MessageManagement {
                 ", messageDetails='" + messageDetails + '\'' +
                 ", messageSendTime='" + messageSendTime + '\'' +
                 ", messageDeleteTime='" + messageDeleteTime + '\'' +
+                ", messageDeleteSortation='" + messageDeleteSortation + '\'' +
                 '}';
     }
 }

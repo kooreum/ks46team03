@@ -114,7 +114,7 @@
 
                                     <li><a th:if="${session.SLEVEL != null and (session.SLEVEL == 'member_code_2' or session.SLEVEL == 'member_code_1')}" th:href="@{/user/fridge/userFridge}">냉장고</a></li>
                                     <li><a th:href="@{/user/recipe/recipeList}">레시피</a></li>
-                                    <li><a th:href="@{/user/recipe/bookmarkList}">즐겨찾기</a></li>
+                                    <li><a th:if="${session.SLEVEL != null and (session.SLEVEL == 'member_code_2' or session.SLEVEL == 'member_code_1')}" th:href="@{/user/recipe/bookmarkList}">즐겨찾기</a></li>
 
                                     <li><a th:if="${session.SLEVEL != null and (session.SLEVEL == 'member_code_2' or session.SLEVEL == 'member_code_1')}" href="#">나의 식단 관리</a>
                                         <ul class="dropdown">
