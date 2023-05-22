@@ -27,102 +27,103 @@
 
 <th:block layout:fragment="customContent">
 
-<!-- ##### Breadcumb Area Start ##### -->
-<div class="breadcumb-area bg-img bg-overlay" style="background-image: url(https://cdn.pixabay.com/photo/2017/05/02/18/20/blueberries-2278921_960_720.jpg);">
-    <div class="container h-100">
-        <div class="row h-100 align-items-center">
-            <div class="col-12">
-                <div class="breadcumb-text text-center">
-                    <h2>Recipe</h2>
+    <!-- ##### Breadcumb Area Start ##### -->
+    <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(https://cdn.pixabay.com/photo/2017/05/02/18/20/blueberries-2278921_960_720.jpg);">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <div class="breadcumb-text text-center">
+                        <h2>Recipe</h2>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- ##### Breadcumb Area End ##### -->
+    <!-- ##### Breadcumb Area End ##### -->
 
-<div class="receipe-post-area section-padding-80">
+    <div class="receipe-post-area section-padding-80">
 
 
-    <!-- Receipe Slider -->
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="receipe-slider owl-carousel">
-                    <img src="https://hibab.co.kr/web/product/big/202208/dda4f7cca5f4a2574b080bb301aade94.jpg" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Receipe Content Area -->
-    <div class="receipe-content-area">
+        <!-- Receipe Slider -->
         <div class="container">
-
             <div class="row">
-                <div class="col-12 col-md-8">
-                    <div class="receipe-headline my-5" th:object="${recipeDetail}">
-                        <span th:text="|게시일자: *{regDate}|" style="margin-left: 5px"></span>
-                        <h1 class="mt-2" th:text="*{recipeName}"></h1>
-                        <div class="receipe-duration mt-4">
-                            <h6 th:text="|음식의 양: *{recipeQuantity} 인분|"></h6>
+                <div class="col-12">
+                    <div class="receipe-slider owl-carousel">
+                        <img th:if="${fileDetail ne null}" th:src="@{|/${fileDetail.filePath}|}" alt="">
+                        <img th:unless="${fileDetail ne null}" src="https://hibab.co.kr/web/product/big/202208/dda4f7cca5f4a2574b080bb301aade94.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Receipe Content Area -->
+        <div class="receipe-content-area">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-12 col-md-8">
+                        <div class="receipe-headline my-5" th:object="${recipeDetail}">
+                            <span th:text="|게시일자: *{regDate}|" style="margin-left: 5px"></span>
+                            <h1 class="mt-2" th:text="*{recipeName}"></h1>
+                            <div class="receipe-duration mt-4">
+                                <h6 th:text="|음식의 양: *{recipeQuantity} 인분|"></h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="receipe-ratings text-right my-5">
+                            <button id="addBookmarkBtn" th:data-recipe-code="${recipeDetail.recipeCode}" class="btn btn-primary mt-5">+ 즐겨찾기</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <!-- Single Preparation Step -->
+                        <div class="single-preparation-step d-flex">
+                            <h4>01.</h4>
+                            <p th:each="r : ${recipeDetail}">
+                                <strong th:text="${r.recipeStep1}" style="font-size: 16px; color: black;"></strong>
+                            </p>
+
+                        </div>
+                        <!-- Single Preparation Step -->
+                        <div class="single-preparation-step d-flex">
+                            <h4>02.</h4>
+                            <p th:each="r : ${recipeDetail}">
+                                <strong th:text="${r.recipeStep2}" style="font-size: 16px; color: black;"></strong>
+                            </p>
+                        </div>
+                        <!-- Single Preparation Step -->
+                        <div class="single-preparation-step d-flex">
+                            <h4>03.</h4>
+                            <p th:each="r : ${recipeDetail}">
+                                <strong th:text="${r.recipeStep3}" style="font-size: 16px; color: black;"></strong>
+                            </p>
+                        </div>
+                        <!-- Single Preparation Step -->
+                    </div>
+                    <!-- Ingredients -->
+                    <div class="col-12 col-lg-4">
+                        <div class="ingredients">
+                            <h4 style="font-style: italic">재료 ingredients</h4>
+
+                            <th:block th:each="il, status : ${ingredientDetailList}">
+                                <!-- Custom Checkbox -->
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" th:id="${il.ingredientCode}">
+                                    <label class="custom-control-label ml-3" th:for="${il.ingredientCode}"
+                                           th:text="|${il.ingredientName} (${il.quantity} ${il.gram})|">4 Tbsp (57 gr) butter</label>
+                                </div>
+
+                            </th:block>
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-4">
-                    <div class="receipe-ratings text-right my-5">
-                        <button id="addBookmarkBtn" th:data-recipe-code="${recipeDetail.recipeCode}" class="btn btn-primary mt-5">+ 즐겨찾기</button>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="col-12 col-lg-8">
-                    <!-- Single Preparation Step -->
-                    <div class="single-preparation-step d-flex">
-                        <h4>01.</h4>
-                        <p th:each="r : ${recipeDetail}">
-                            <strong th:text="${r.recipeStep1}" style="font-size: 16px; color: black;"></strong>
-                        </p>
-
-                    </div>
-                    <!-- Single Preparation Step -->
-                    <div class="single-preparation-step d-flex">
-                        <h4>02.</h4>
-                        <p th:each="r : ${recipeDetail}">
-                            <strong th:text="${r.recipeStep2}" style="font-size: 16px; color: black;"></strong>
-                        </p>
-                    </div>
-                    <!-- Single Preparation Step -->
-                    <div class="single-preparation-step d-flex">
-                        <h4>03.</h4>
-                        <p th:each="r : ${recipeDetail}">
-                            <strong th:text="${r.recipeStep3}" style="font-size: 16px; color: black;"></strong>
-                        </p>
-                    </div>
-                    <!-- Single Preparation Step -->
-                </div>
-                <!-- Ingredients -->
-                <div class="col-12 col-lg-4">
-                    <div class="ingredients">
-                        <h4 style="font-style: italic">재료 ingredients</h4>
-
-                        <th:block th:each="il, status : ${ingredientDetailList}">
-                            <!-- Custom Checkbox -->
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" th:id="${il.ingredientCode}">
-                                <label class="custom-control-label ml-3" th:for="${il.ingredientCode}"
-                                       th:text="|${il.ingredientName} (${il.quantity} ${il.gram})|">4 Tbsp (57 gr) butter</label>
-                            </div>
-
-                        </th:block>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
-</div>
 
 </th:block>
 </html>

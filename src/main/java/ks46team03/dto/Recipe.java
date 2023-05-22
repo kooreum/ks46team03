@@ -20,6 +20,8 @@ public class Recipe {
     private String recipeStep3;
 
     private List<Recipe> viewRank;
+    private List<String> ingredientCodeList;
+    private List<RecipeIngredient> recipeIngredients;
 
     public List<Recipe> getViewRank() {
         return viewRank;
@@ -149,6 +151,22 @@ public class Recipe {
         this.recipeUseNumber = recipeUseNumber;
     }
 
+    public List<String> getIngredientCodeList() {
+        return ingredientCodeList;
+    }
+
+    public void setIngredientCodeList(List<String> ingredientCodeList) {
+        this.ingredientCodeList = ingredientCodeList;
+    }
+
+    public List<RecipeIngredient> getRecipeIngredients() {
+        return recipeIngredients;
+    }
+
+    public void setRecipeIngredients(List<RecipeIngredient> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
+    }
+
     @Override
     public String toString() {
         return "Recipe{" +
@@ -168,6 +186,8 @@ public class Recipe {
                 ", recipeStep2='" + recipeStep2 + '\'' +
                 ", recipeStep3='" + recipeStep3 + '\'' +
                 ", viewRank=" + viewRank +
+                ", ingredientCodeList=" + ingredientCodeList +
+                ", recipeIngredients=" + recipeIngredients +
                 '}';
     }
 }

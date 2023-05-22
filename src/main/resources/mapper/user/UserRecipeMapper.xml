@@ -12,7 +12,7 @@
         <result column="recipe_quantity" property="recipeQuantity"/>
         <result column="reg_date" property="regDate"/>
         <result column="update_at" property="updateAt"/>
-        <result column="image_url" property="imageUrl"/>
+        <result column="file_idx" property="fileIdx"/>
         <result column="view_count" property="viewCount"/>
         <result column="recommendation_count" property="recommendationCount"/>
         <result column="recipe_use_number" property="recipeUseNumber"/>
@@ -130,4 +130,75 @@
         order by view_count DESC
     LIMIT 3;
     </select>
+
+    <delete id="removeRecipeById" parameterType="String">
+        <!-- 레시피 삭제 -->
+        DELETE FROM recipe_reg
+        WHERE recipe_code = #{recipeCode}
+    </delete>
+
+    <delete id="removeRecipeListById" parameterType="String">
+        <!-- 레시피 이력 삭제 -->
+        DELETE FROM recipe_ingredient
+        WHERE recipe_code = #{recipeCode};
+    </delete>
+
+
+
+    <update id="modifyRecipe" parameterType="Recipe">
+        /* 레시피 수정 */
+        UPDATE recipe_reg
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="recipeName != null and recipeName != ''">
+                recipe_name = #{recipeName},
+            </if>
+            <if test="recipeCategoryCode != null and recipeCategoryCode != ''">
+                recipe_category_code = #{recipeCategoryCode},
+            </if>
+            <if test="memberId != null and memberId != ''">
+                member_id = #{memberId},
+            </if>
+            <if test="recipeStep1 != null and recipeStep1 != ''">
+                recipe_step1 = #{recipeStep1},
+            </if>
+            <if test="recipeStep2 != null and recipeStep2 != ''">
+                recipe_step2 = #{recipeStep2},
+            </if>
+            <if test="recipeStep3 != null and recipeStep3 != ''">
+                recipe_step3 = #{recipeStep3},
+            </if>
+            <if test="recipeCal != null and recipeCal != ''">
+                recipe_cal = #{recipeCal},
+            </if>
+            <if test="fileIdx != null and fileIdx != ''">
+                file_idx = #{fileIdx},
+            </if>
+            update_at = NOW(),
+
+        </trim>
+        WHERE
+        recipe_code = #{recipeCode};
+    </update>
+
+    <insert id="addRecipe" parameterType="Recipe">
+        <selectKey keyProperty="recipeCode" resultType="string" order="BEFORE">
+            SELECT sf_new_recipe_code() AS recipeCode;
+        </selectKey>
+        /* 레시피등록 */
+        INSERT INTO recipe_reg
+        (recipe_code, recipe_name, recipe_category_code, member_id, recipe_cal, recipe_quantity, file_idx, reg_date, recipe_step1, recipe_step2, recipe_step3)
+        VALUES
+        (#{recipeCode}, #{recipeName}, #{recipeCategoryCode}, #{memberId}, #{recipeCal}, #{recipeQuantity}, #{fileIdx}, SYSDATE(), #{recipeStep1} ,#{recipeStep2} ,#{recipeStep3});
+    </insert>
+
+    <insert id="addRecipeIngredient" parameterType="List">
+        /* 레시피 재료등록 */
+        INSERT INTO recipe_ingredient
+        (recipe_number, recipe_code, ingredient_code, quantity, gram, member_id, reg_time)
+        VALUES
+        <foreach collection="recipeIngredientList" item="item" separator=",">
+            (sf_new_recipe_number(), #{item.recipeCode}, #{item.ingredientCode}, #{item.quantity}, #{item.gram}, #{item.memberId}, now())
+        </foreach>
+
+    </insert>
 </mapper>

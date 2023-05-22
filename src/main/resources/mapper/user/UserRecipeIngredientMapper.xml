@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks46team03.user.mapper.UserRecipeIngredientMapper">
+    <resultMap id="recipeIngredientResultMap" type="RecipeIngredient">
+        <id     column="recipe_number"            property="recipeNumber"/>
+        <result column="recipe_code"            property="recipeCode"/>
+        <result column="ingredient_code"   property="ingredientCode"/>
+        <result column="quantity"              property="quantity"/>
+        <result column="gram"             property="gram"/>
+        <result column="member_id"        property="memberId"/>
+        <result column="reg_time"               property="regTime"/>
+    </resultMap>
+
+    <select id="getIngredientInfoByCode" parameterType="String" resultType="map">
+        <!-- 특정 레시피 조회 -->
+        SELECT
+             ri.recipe_code as recipeCode
+            ,ri.quantity as quantity
+            ,ri.gram as gram
+            ,ir.ingredient_code as ingredientCode
+            ,ir.ingredient_name as ingredientName
+        FROM
+            recipe_ingredient AS ri
+            INNER JOIN
+            ingredient_registration AS ir
+            ON
+            ri.ingredient_code = ir.ingredient_code
+        WHERE
+            recipe_code = #{recipeCode};
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>
