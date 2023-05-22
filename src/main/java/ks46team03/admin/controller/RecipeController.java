@@ -1,6 +1,8 @@
 package ks46team03.admin.controller;
 
 
+import jakarta.servlet.http.HttpSession;
+import ks46team03.admin.mapper.MemberMapper;
 import ks46team03.admin.mapper.RecipeMapper;
 import ks46team03.admin.service.RecipeService;
 import ks46team03.dto.Recipe;
@@ -11,19 +13,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller("adminRecipeController")
-@RequestMapping("/admin")
+@RequestMapping("/admin/recipe")
 public class RecipeController {
 
     private final RecipeService recipeService;
     private final RecipeMapper recipeMapper;
 
-    public RecipeController(RecipeService recipeService, RecipeMapper recipeMapper) {
+    private final MemberMapper memberMapper;
+
+    public RecipeController(RecipeService recipeService, RecipeMapper recipeMapper, MemberMapper memberMapper) {
         this.recipeService = recipeService;
         this.recipeMapper = recipeMapper;
+        this.memberMapper = memberMapper;
     }
 
     /**
@@ -31,12 +38,12 @@ public class RecipeController {
      * @param recipeCode
      * @return
      */
-    @PostMapping("/recipe/removeRecipe")
+    @PostMapping("/removeRecipe")
     public String removeRecipe(String recipeCode) {
 
         recipeMapper.removeRecipeById(recipeCode);
 
-        return "redirect:/admin/recipe/admin_recipeList";
+        return "redirect:/admin/recipe/recipeList";
     }
 
 
@@ -46,12 +53,12 @@ public class RecipeController {
      * @param model
      * @return
      */
-    @GetMapping("/recipe/removeRecipe")
+    @GetMapping("/removeRecipe")
     public String removeRecipe(@RequestParam(name = "recipeCode") String recipeCode, Model model){
         model.addAttribute("title", "레시피삭제화면");
         model.addAttribute("recipeCode", recipeCode);
 
-        return "/admin/recipe/admin_removeRecipe";
+        return "admin/recipe/admin_removeRecipe";
     }
 
 
@@ -60,12 +67,12 @@ public class RecipeController {
      * @param recipe
      * @return
      */
-    @PostMapping("/recipe/modifyRecipe")
+    @PostMapping("/modifyRecipe")
     public String modifyRecipe(Recipe recipe) {
 
         recipeMapper.modifyRecipe(recipe);
 
-        return "redirect:/admin/recipe/admin_recipeList";
+        return "redirect:/admin/recipe/recipeList";
     }
 
     /**
@@ -74,20 +81,23 @@ public class RecipeController {
      * @param model
      * @return
      */
-    @GetMapping("/recipe/modifyRecipe")
+    @GetMapping("/modifyRecipe")
     public String modifyRecipe(
-            @RequestParam(name="recipeCode") String recipeCode
+            @RequestParam(name="recipeCode") String recipeCode, Map<String,Object> paramMap
             ,@RequestParam(name="searchKey", required = false) String searchKey
             ,@RequestParam(name="searchValue", required = false) String searchValue
             ,Model model) {
         Recipe recipeInfo = recipeService.getRecipeInfoById(recipeCode);
-        List<Recipe> recipeList = recipeService.getRecipeList(searchKey, searchValue);
+        List<Recipe> recipeList = recipeService.getRecipeList(paramMap,searchKey, searchValue);
         model.addAttribute("title", "레시피수정화면");
         model.addAttribute("recipeList", recipeList);
         model.addAttribute("recipeInfo", recipeInfo);
 
-        return "/admin/recipe/admin_modifyRecipe";
+        return "admin/recipe/admin_modifyRecipe";
     }
+
+
+
 
 
     /**
@@ -95,10 +105,10 @@ public class RecipeController {
      * @param recipe
      * @return
      */
-    @PostMapping("/recipe/admin_addRecipe")
+    @PostMapping("/addRecipe")
     public String addRecipe(Recipe recipe) {
         recipeService.addRecipe(recipe);
-        return "redirect:/admin/recipe/admin_recipeList";
+        return "redirect:/admin/recipe/recipeList";
     }
 
 
@@ -107,38 +117,44 @@ public class RecipeController {
      * @param model
      * @return
      */
-    @GetMapping("/recipe/admin_addRecipe")
-    public String addRecipe(Model model,String searchKey,String searchValue) {
+    @GetMapping("/addRecipe")
+    public String addRecipe(Map<String,Object> paramMap, Model model,String searchKey,String searchValue) {
 
-        List<Recipe> RecipeList = recipeService.getRecipeList(searchKey,searchValue);
+        List<Recipe> RecipeList = recipeService.getRecipeList(paramMap,searchKey,searchValue);
 
         model.addAttribute("title", "레시피등록화면");
         model.addAttribute("RecipeList", RecipeList);
 
-        return "/admin/recipe/admin_addRecipe";
+        return "admin/recipe/admin_addRecipe";
     }
 
 
 
-    @GetMapping("/admin/admin_recipe")
-
-    public String adminRecipe(){
-
-        return "admin_addRecipe";
-    }
 
     /**
      * 레시피 리스트
      * @param model
      * @return
      */
-    @GetMapping("/recipe/admin_recipeList")
-    public String getRecipeList(Model model,String searchKey,String searchValue) {
-        List<Recipe> recipeList = recipeService.getRecipeList(searchKey,searchValue);
+    @GetMapping("/recipeList")
+    public String getRecipeList(Model model
+            , @RequestParam(name = "searchKey", required = false) String searchKey
+            , @RequestParam(name = "searchValue", required = false) String searchValue
+            , HttpSession session
+            , @RequestParam(name = "msg", required = false) String msg)  {
+        String memberLevel = (String)session.getAttribute("SLEVLE");
+        Map<String, Object> paramMap = null;
+        if(memberLevel != null && "2".equals(memberLevel)){
+            String sellerId = (String) session.getAttribute("SID");
+            paramMap = new HashMap<String, Object>();
+            paramMap.put("searchkey", "g_seller_id");
+            paramMap.put("searchValue", sellerId);
+        }
+        List<Recipe> recipeList = recipeService.getRecipeList(paramMap,searchKey,searchValue);
         model.addAttribute("title", "레시피목록조회");
         model.addAttribute("recipeList", recipeList);
-
-        return "/admin/recipe/admin_recipeList";
+        if(msg != null) model.addAttribute("msg",msg);
+        return "admin/recipe/admin_recipeList";
     }
 
 }

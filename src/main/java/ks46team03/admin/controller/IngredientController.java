@@ -34,7 +34,7 @@ public class IngredientController {
 
         ingredientMapper.removeIngredientById(ingredientCode);
 
-        return "redirect:/admin/ingredient/admin_ingredientList";
+        return "redirect:/admin/ingredient/ingredientList";
     }
 
 
@@ -44,7 +44,7 @@ public class IngredientController {
      * @param model
      * @return
      */
-    @GetMapping("/ingredient/removeIngredient")
+    @GetMapping("/removeIngredient")
     public String removeIngredient(@RequestParam(name = "ingredientCode") String ingredientCode, Model model){
         model.addAttribute("title", "재료삭제화면");
         model.addAttribute("ingredientCode", ingredientCode);
@@ -58,12 +58,12 @@ public class IngredientController {
      * @param ingredient
      * @return
      */
-    @PostMapping("/ingredient/modifyIngredient")
+    @PostMapping("/modifyIngredient")
     public String modifyIngredient(Ingredient ingredient) {
 
         ingredientMapper.modifyIngredient(ingredient);
 
-        return "redirect:/admin/ingredient/admin_ingredientList";
+        return "redirect:/admin/ingredient/ingredientList";
     }
 
     /**
@@ -72,7 +72,7 @@ public class IngredientController {
      * @param model
      * @return
      */
-    @GetMapping("/ingredient/modifyIngredient")
+    @GetMapping("/modifyIngredient")
     public String modifyIngredient(
             @RequestParam(name="ingredientCode") String ingredientCode,
             @RequestParam(name="searchKey", required = false) String searchKey
@@ -93,10 +93,10 @@ public class IngredientController {
      * @param ingredient
      * @return
      */
-    @PostMapping("/ingredient/admin_addIngredient")
+    @PostMapping("/addIngredient")
     public String addIngredient(Ingredient ingredient) {
         ingredientService.addIngredient(ingredient);
-        return "redirect:/admin/ingredient/admin_ingredientList";
+        return "redirect:/admin/ingredient/ingredientList";
     }
 
     /**
@@ -104,7 +104,7 @@ public class IngredientController {
      * @param model
      * @return
      */
-    @GetMapping("/ingredient/admin_addIngredient")
+    @GetMapping("/addIngredient")
     public String addIngredient(Model model,String searchKey,String searchValue) {
 
         List<Ingredient> IngredientList = ingredientService.getIngredientList(searchKey,searchValue);

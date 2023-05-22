@@ -11,7 +11,7 @@ public class Recipe {
     private String recipeQuantity;
     private String regDate;
     private String updateAt;
-    private String imageUrl;
+    private String fileIdx;
     private String viewCount;
     private String recommendationCount;
     private String recipeUseNumber;
@@ -20,6 +20,8 @@ public class Recipe {
     private String recipeStep3;
 
     private List<Recipe> viewRank;
+    private List<String> ingredientCodeList;
+    private List<RecipeIngredient> recipeIngredients;
 
     public List<Recipe> getViewRank() {
         return viewRank;
@@ -117,12 +119,12 @@ public class Recipe {
         this.updateAt = updateAt;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getFileIdx() {
+        return fileIdx;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setFileIdx(String fileIdx) {
+        this.fileIdx = fileIdx;
     }
 
     public String getViewCount() {
@@ -149,6 +151,22 @@ public class Recipe {
         this.recipeUseNumber = recipeUseNumber;
     }
 
+    public List<String> getIngredientCodeList() {
+        return ingredientCodeList;
+    }
+
+    public void setIngredientCodeList(List<String> ingredientCodeList) {
+        this.ingredientCodeList = ingredientCodeList;
+    }
+
+    public List<RecipeIngredient> getRecipeIngredients() {
+        return recipeIngredients;
+    }
+
+    public void setRecipeIngredients(List<RecipeIngredient> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
+    }
+
     @Override
     public String toString() {
         return "Recipe{" +
@@ -160,7 +178,7 @@ public class Recipe {
                 ", recipeQuantity='" + recipeQuantity + '\'' +
                 ", regDate='" + regDate + '\'' +
                 ", updateAt='" + updateAt + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
+                ", fileIdx='" + fileIdx + '\'' +
                 ", viewCount='" + viewCount + '\'' +
                 ", recommendationCount='" + recommendationCount + '\'' +
                 ", recipeUseNumber='" + recipeUseNumber + '\'' +
@@ -168,6 +186,8 @@ public class Recipe {
                 ", recipeStep2='" + recipeStep2 + '\'' +
                 ", recipeStep3='" + recipeStep3 + '\'' +
                 ", viewRank=" + viewRank +
+                ", ingredientCodeList=" + ingredientCodeList +
+                ", recipeIngredients=" + recipeIngredients +
                 '}';
     }
 }
