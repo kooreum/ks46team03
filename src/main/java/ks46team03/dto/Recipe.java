@@ -11,7 +11,7 @@ public class Recipe {
     private String recipeQuantity;
     private String regDate;
     private String updateAt;
-    private String imageUrl;
+    private String fileIdx;
     private String viewCount;
     private String recommendationCount;
     private String recipeUseNumber;
@@ -117,12 +117,12 @@ public class Recipe {
         this.updateAt = updateAt;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getFileIdx() {
+        return fileIdx;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setFileIdx(String fileIdx) {
+        this.fileIdx = fileIdx;
     }
 
     public String getViewCount() {
@@ -160,7 +160,7 @@ public class Recipe {
                 ", recipeQuantity='" + recipeQuantity + '\'' +
                 ", regDate='" + regDate + '\'' +
                 ", updateAt='" + updateAt + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
+                ", fileIdx='" + fileIdx + '\'' +
                 ", viewCount='" + viewCount + '\'' +
                 ", recommendationCount='" + recommendationCount + '\'' +
                 ", recipeUseNumber='" + recipeUseNumber + '\'' +

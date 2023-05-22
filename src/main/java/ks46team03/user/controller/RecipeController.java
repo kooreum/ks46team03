@@ -61,7 +61,6 @@ public class RecipeController {
 			msg = "레시피코드:"+ recipeCode + " 를 삭제할 수 없습니다.";
 		}
 		reAttr.addAttribute("msg", msg);
-
 		return "redirect:/user/recipe/recipeList";
 	}
 
@@ -76,7 +75,6 @@ public class RecipeController {
 	public String removeRecipe(@RequestParam(name = "recipeCode") String recipeCode, Model model){
 		model.addAttribute("title", "레시피삭제화면");
 		model.addAttribute("recipeCode", recipeCode);
-
 		return "user/recipe/user_removeRecipe";
 	}
 
@@ -90,7 +88,6 @@ public class RecipeController {
 	public String UserModifyRecipe(Recipe recipe) {
 
 		userRecipeMapper.modifyRecipe(recipe);
-
 		return "redirect:/user/recipe/recipeList";
 	}
 
@@ -124,10 +121,8 @@ public class RecipeController {
 	public String addRecipe(Map<String, Object> paramMap, Model model,String searchKey,String searchValue) {
 
 		List<Recipe> RecipeList = userRecipeService.getRecipeList(paramMap,searchKey,searchValue);
-
 		model.addAttribute("title", "레시피등록화면");
 		model.addAttribute("RecipeList", RecipeList);
-
 		return "/user/recipe/user_addRecipe";
 	}
 
@@ -137,7 +132,6 @@ public class RecipeController {
 								, @RequestParam(name="searchKey", required = false) String searchKey
 								, @RequestParam(name="searchValue", required = false) String searchValue
 								, HttpSession session, Map<String,Object> paramMap) {
-
 		List<Recipe> recipeList = userRecipeService.getRecipeList(paramMap, searchKey, searchValue);
 		model.addAttribute("title", "레시피조회");
 		model.addAttribute("recipeList", recipeList);
@@ -165,7 +159,6 @@ public class RecipeController {
 	@ResponseBody
 	public String addBookmark(@RequestParam(name = "recipeCode", required = false) String recipeCode
 								, HttpSession session) {
-
 		String SID = (String)session.getAttribute("SID");
 		userRecipeService.addBookmark(recipeCode, SID);
 		return "redirect:/user/recipe/recipeDetail";
