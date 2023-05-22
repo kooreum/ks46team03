@@ -155,7 +155,7 @@ public class RecipeController {
 		model.addAttribute("recipeCategories",recipeCategories);
 		model.addAttribute("ingredients", ingredients);
 
-		return "/user/recipe/user_addRecipe";
+		return "user/recipe/user_addRecipe";
 	}
 
 	@GetMapping("/recipe/list/recipeCate")

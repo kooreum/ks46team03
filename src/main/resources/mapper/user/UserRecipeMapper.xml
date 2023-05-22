@@ -143,8 +143,6 @@
         WHERE recipe_code = #{recipeCode};
     </delete>
 
-
-
     <update id="modifyRecipe" parameterType="Recipe">
         /* 레시피 수정 */
         UPDATE recipe_reg
@@ -174,7 +172,6 @@
                 file_idx = #{fileIdx},
             </if>
             update_at = NOW(),
-
         </trim>
         WHERE
         recipe_code = #{recipeCode};

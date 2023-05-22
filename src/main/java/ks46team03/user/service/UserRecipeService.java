@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.swing.text.View;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +43,6 @@ public class UserRecipeService {
 
     public void removeRecipe(String recipeCode) {
         Recipe recipeInfo = userRecipeMapper.getRecipeInfoById(recipeCode);
-
         if(recipeInfo != null) {
             String infoRecipeCode = recipeInfo.getRecipeCode();
 
@@ -53,7 +51,6 @@ public class UserRecipeService {
             //레시피삭제
             userRecipeMapper.removeRecipeById(recipeCode);
         }
-
     }
 
     //레시피 수정
@@ -63,21 +60,16 @@ public class UserRecipeService {
 
     public  List<Map<String, Object>> getIngredientInfoByCode(String recipeCode) {
         List<Map<String, Object>> ingredientDetailList = userRecipeIngredientMapper.getIngredientInfoByCode(recipeCode);
-
         return ingredientDetailList;
     }
 
 
     public int addRecipe(Recipe recipe, MultipartFile[] uploadfile) {
-
         List<FileDto> fileList = fileUtil.parseFileInfo(uploadfile, filePath);
-
         fileMapper.addFile(fileList);
         String fileIdx = fileList.get(0).getFileIdx();
         recipe.setFileIdx(fileIdx);
-
-        int result =
-                userRecipeMapper.addRecipe(recipe);
+        int result = userRecipeMapper.addRecipe(recipe);
         if(result > 0) {
             List<RecipeIngredient> recipeIngredientList = recipe.getRecipeIngredients();
             recipeIngredientList.forEach(recipeIngredient -> {
@@ -86,7 +78,6 @@ public class UserRecipeService {
             });
             userRecipeMapper.addRecipeIngredient(recipeIngredientList);
         }
-
         return result;
     }
 
@@ -108,14 +99,11 @@ public class UserRecipeService {
             }
         }
         List<Recipe> recipeList = userRecipeMapper.getRecipeList(paramMap,searchKey, searchValue);
-
         return recipeList;
     }
 
     public List<Bookmark> getBookmarkList(String SID) {
-
         List<Bookmark> bookmarkList = userRecipeMapper.getBookmarkList(SID);
-
         return bookmarkList;
     }
 
@@ -130,23 +118,16 @@ public class UserRecipeService {
     }
 
     public Recipe getRecipeInfoByCode(String recipeCode) {
-
         Recipe recipeDetail = userRecipeMapper.getRecipeInfoByCode(recipeCode);
-
         return recipeDetail;
     }
     public int getViewCount(String recipeCode) {
         int viewCount = userRecipeMapper.getViewCount(recipeCode);
-
         return viewCount;
     }
 
     public List<Recipe> getViewRank(Map<String, Object> paramMap) {
         List<Recipe> viewRank = userRecipeMapper.getViewRank(paramMap);
-
         return viewRank;
     }
-
-
-
 }
