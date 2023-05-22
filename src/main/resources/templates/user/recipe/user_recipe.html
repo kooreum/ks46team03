@@ -1,175 +1,132 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/user_default}">
 
+
 <th:block layout:fragment="customContent">
 
-    <!-- ##### Breadcumb Area Start ##### -->
-    <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(img/bg-img/breadcumb2.jpg);">
-        <div class="container h-100">
-            <div class="row h-100 align-items-center">
-                <div class="col-12">
-                    <div class="breadcumb-text text-center">
-                        <h2>Recipe</h2>
-                    </div>
+<!-- ##### Breadcumb Area Start ##### -->
+<div class="breadcumb-area bg-img bg-overlay" style="background-image: url(https://cdn.pixabay.com/photo/2017/05/02/18/20/blueberries-2278921_960_720.jpg);">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="breadcumb-text text-center">
+                    <h2>Recipe</h2>
                 </div>
             </div>
         </div>
     </div>
-    <!-- ##### Breadcumb Area End ##### -->
+</div>
+<!-- ##### Breadcumb Area End ##### -->
 
-    <!-- ##### Blog Area Start ##### -->
-    <div class="blog-area section-padding-80">
+<div class="receipe-post-area section-padding-80">
+
+
+    <!-- Receipe Slider -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="receipe-slider owl-carousel">
+                    <img th:if="${fileDetail ne null}" th:src="@{|/${fileDetail.filePath}|}" alt="">
+                    <img th:unless="${fileDetail ne null}" src="https://hibab.co.kr/web/product/big/202208/dda4f7cca5f4a2574b080bb301aade94.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receipe Content Area -->
+    <div class="receipe-content-area">
         <div class="container">
+
+            <div class="row">
+                <div class="col-12 col-md-8">
+                    <div class="receipe-headline my-5" th:object="${recipeDetail}">
+                        <span th:text="|게시일자: *{regDate}|" style="margin-left: 5px"></span>
+                        <h1 class="mt-2" th:text="*{recipeName}"></h1>
+                        <div class="receipe-duration mt-4">
+                            <h6 th:text="|음식의 양: *{recipeQuantity} 인분|"></h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="receipe-ratings text-right my-5">
+                        <a href="#" class="btn delicious-btn mt-5">For Begginers</a>
+                    </div>
+                </div>
+
+            </div>
+
             <div class="row">
                 <div class="col-12 col-lg-8">
-                    <div class="blog-posts-area">
-
-                        <!-- Single Blog Area -->
-                        <div class="single-blog-area mb-80">
-                            <!-- Thumbnail -->
-                            <div class="blog-thumbnail">
-                                <img src="img/blog-img/1.jpg" alt="">
-                                <!-- Post Date -->
-                                <div class="post-date">
-                                    <a href="#"><span>05</span>April <br> 2018</a>
-                                </div>
-                            </div>
-                            <!-- Content -->
-                            <div class="blog-content">
-                                <a href="#" class="post-title">How to find amazing restaurants in your city</a>
-                                <div class="meta-data">by <a href="#">Maria Williams</a> in <a href="#">Restaurants</a>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec varius dui. Suspendisse potenti. Vestibulum ac pellentesque tortor. Aenean congue sed metus in iaculis. Cras a tortor enim. Phasellus posuere vestibulum ipsum, eget lobortis purus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. </p>
-                                <a href="#" class="btn delicious-btn mt-30">Read More</a>
-                            </div>
-                        </div>
-
-                        <!-- Single Blog Area -->
-                        <div class="single-blog-area mb-80">
-                            <!-- Thumbnail -->
-                            <div class="blog-thumbnail">
-                                <img src="img/blog-img/2.jpg" alt="">
-                                <!-- Post Date -->
-                                <div class="post-date">
-                                    <a href="#"><span>05</span>April <br> 2018</a>
-                                </div>
-                            </div>
-                            <!-- Content -->
-                            <div class="blog-content">
-                                <a href="#" class="post-title">10 tips to live a healty life</a>
-                                <div class="meta-data">by <a href="#">Maria Williams</a> in <a href="#">Restaurants</a>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec varius dui. Suspendisse potenti. Vestibulum ac pellentesque tortor. Aenean congue sed metus in iaculis. Cras a tortor enim. Phasellus posuere vestibulum ipsum, eget lobortis purus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. </p>
-                                <a href="#" class="btn delicious-btn mt-30">Read More</a>
-                            </div>
-                        </div>
-
-                        <!-- Single Blog Area -->
-                        <div class="single-blog-area mb-80">
-                            <!-- Thumbnail -->
-                            <div class="blog-thumbnail">
-                                <img src="img/blog-img/3.jpg" alt="">
-                                <!-- Post Date -->
-                                <div class="post-date">
-                                    <a href="#"><span>05</span>April <br> 2018</a>
-                                </div>
-                            </div>
-                            <!-- Content -->
-                            <div class="blog-content">
-                                <a href="#" class="post-title">5 Tips on how to cook the best hamburger</a>
-                                <div class="meta-data">by <a href="#">Maria Williams</a> in <a href="#">Restaurants</a>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec varius dui. Suspendisse potenti. Vestibulum ac pellentesque tortor. Aenean congue sed metus in iaculis. Cras a tortor enim. Phasellus posuere vestibulum ipsum, eget lobortis purus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. </p>
-                                <a href="#" class="btn delicious-btn mt-30">Read More</a>
-                            </div>
-                        </div>
+                    <!-- Single Preparation Step -->
+                    <div class="single-preparation-step d-flex">
+                        <h4>01.</h4>
+                        <p th:each="r : ${recipeDetail}">
+                            <strong th:text="${r.recipeStep1}" style="font-size: 16px; color: black;"></strong>
+                        </p>
 
                     </div>
-
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item active"><a class="page-link" href="#">01.</a></li>
-                            <li class="page-item"><a class="page-link" href="#">02.</a></li>
-                            <li class="page-item"><a class="page-link" href="#">03.</a></li>
-                        </ul>
-                    </nav>
+                    <!-- Single Preparation Step -->
+                    <div class="single-preparation-step d-flex">
+                        <h4>02.</h4>
+                        <p th:each="r : ${recipeDetail}">
+                            <strong th:text="${r.recipeStep2}" style="font-size: 16px; color: black;"></strong>
+                        </p>
+                    </div>
+                    <!-- Single Preparation Step -->
+                    <div class="single-preparation-step d-flex">
+                        <h4>03.</h4>
+                        <p th:each="r : ${recipeDetail}">
+                            <strong th:text="${r.recipeStep3}" style="font-size: 16px; color: black;"></strong>
+                        </p>
+                    </div>
+                    <!-- Single Preparation Step -->
                 </div>
-
+                <!-- Ingredients -->
                 <div class="col-12 col-lg-4">
-                    <div class="blog-sidebar-area">
+                    <div class="ingredients">
+                        <h4 style="font-style: italic">재료 ingredients</h4>
 
-                        <!-- Widget -->
-                        <div class="single-widget mb-80">
-                            <h6>Archive</h6>
-                            <ul class="list">
-                                <li><a href="#">March 2018</a></li>
-                                <li><a href="#">February 2018</a></li>
-                                <li><a href="#">January 2018</a></li>
-                                <li><a href="#">December 2017</a></li>
-                                <li><a href="#">November 2017</a></li>
-                            </ul>
-                        </div>
-
-                        <!-- Widget -->
-                        <div class="single-widget mb-80">
-                            <h6>Categories</h6>
-                            <ul class="list">
-                                <li><a href="#">Restaurants</a></li>
-                                <li><a href="#">Food &amp; Drinks</a></li>
-                                <li><a href="#">Vegans</a></li>
-                                <li><a href="#">Events &amp; Lifestyle</a></li>
-                                <li><a href="#">Uncategorized</a></li>
-                            </ul>
-                        </div>
-
-                        <!-- Widget -->
-                        <div class="single-widget mb-80">
-                            <h6>Newsletter</h6>
-
-                            <!-- Form -->
-                            <div class="newsletter-form bg-img bg-overlay" style="background-image: url(img/bg-img/bg1.jpg);">
-                                <form action="#" method="post">
-                                    <input type="email" name="email" placeholder="Subscribe to newsletter">
-                                    <button type="submit" class="btn delicious-btn w-100">Subscribe</button>
-                                </form>
-                                <p>Fusce nec ante vitae lacus aliquet vulputate. Donec sceleri sque accumsan molestie. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia.</p>
+                        <th:block th:each="il, status : ${ingredientDetailList}">
+                            <!-- Custom Checkbox -->
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" th:id="${il.ingredientCode}">
+                                <label class="custom-control-label ml-3" th:for="${il.ingredientCode}"
+                                       th:text="|${il.ingredientName} (${il.quantity} ${il.gram})|">4 Tbsp (57 gr) butter</label>
                             </div>
-                        </div>
 
-                        <!-- Widget -->
-                        <div class="single-widget mb-80">
-                            <div class="quote-area text-center">
-                                <span>"</span>
-                                <h4>Nothing is better than going home to family and eating good food and relaxing</h4>
-                                <p>John Smith</p>
-                                <div class="date-comments d-flex justify-content-between">
-                                    <div class="date">January 04, 2018</div>
-                                    <div class="comments">2 Comments</div>
-                                </div>
-                            </div>
-                        </div>
-                        
+                        </th:block>
                     </div>
                 </div>
             </div>
+
+
+
+            <!-- Ingredients -->
+<!--            <div class="ingredients">-->
+<!--                <h4>Ingredients</h4>-->
+<!--                <ul>-->
+<!--                    <li th:each="i : ${ingredientDetail}">-->
+<!--                        <span th:text="${i.ingredientCode}"></span>-->
+<!--                        <span th:text="${i.quantity}"></span>-->
+<!--                        <span th:text="${i.gram}"></span>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+
+
+
+
+
+
+
+
+
+
         </div>
     </div>
-    <!-- ##### Blog Area End ##### -->
-
-
-    <!-- ##### All Javascript Files ##### -->
-    <!-- jQuery-2.2.4 js -->
-    <script src="js/jquery/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
-    <script src="js/bootstrap/popper.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="js/bootstrap/bootstrap.min.js"></script>
-    <!-- All Plugins js -->
-    <script src="js/plugins/plugins.js"></script>
-    <!-- Active js -->
-    <script src="js/active.js"></script>
+</div>
 
 </th:block>
 </html>

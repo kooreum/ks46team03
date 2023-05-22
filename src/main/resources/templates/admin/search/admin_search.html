@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="searchFragment">
+  <form th:action="@{/admin/ingredient/ingredientList}" method="get">
+    <select name="searchKey">
+      <option value="memberId">재료등록자아이디</option>
+      <option value="ingredientCode">재료코드</option>
+      <option value="ingredientName">재료이름</option>
+    </select>
+    <input type="text" name="searchValue" placeholder="검색어를 입력해주세요."/>
+    <button type="submit">검색</button>
+  </form>
+</div>
+
+<div th:fragment="searchFragment2">
+  <form th:action="@{/admin/recipe/recipeList}" method="get">
+    <select name="searchKey">
+      <option value="memberId">레시피등록아이디</option>
+      <option value="recipeCode">레시피코드</option>
+      <option value="recipeName">레시피이름</option>
+    </select>
+    <input type="text" name="searchValue" placeholder="검색어를 입력해주세요."/>
+    <button type="submit">검색</button>
+  </form>
+
+</div>
+
+<div th:fragment="searchFragment3">
+  <form th:action="@{/admin/message/messageManagementList}" method="get">
+    <select name="searchKey">
+      <option value="messageCode">메세지코드</option>
+      <option value="memberId2">수신아이디</option>
+    </select>
+    <input type="text" name="searchValue" placeholder="검색어를 입력해주세요."/>
+    <button type="submit">검색</button>
+  </form>
+
+</div>
+
+
+</html>

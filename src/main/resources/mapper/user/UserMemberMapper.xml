@@ -112,9 +112,10 @@
         <insert id="addMember" parameterType="Member">
             /* 회원가입 */
             INSERT INTO member
-            (member_id, level_num, member_pw, member_name, member_gender, member_birth, member_diet, member_email, member_phone, member_nickname, member_allergy, member_remove, join_date)
+            (member_id, level_num, member_pw, member_name, member_gender, member_birth, member_diet, member_email, member_phone, member_nickname, member_allergy, member_remove, join_date )
             VALUES
-            (#{memberId}, #{levelNum}, #{memberPw}, #{memberName}, #{memberGender}, #{memberBirth}, #{memberDiet}, #{memberEmail}, #{memberPhone}, #{memberNickname}, #{memberAllergy}, #{memberRemove}, NOW());
+            (#{memberId}, #{levelNum}, #{memberPw}, #{memberName}, #{memberGender}, #{memberBirth}, #{memberDiet}, #{memberEmail}, #{memberPhone}, #{memberNickname}, #{memberAllergy}, #{memberRemove}, NOW(),);
+
         </insert>
         <select id="idCheck" parameterType="String" resultType="boolean">
             /* 회원아이디 중복체크 */

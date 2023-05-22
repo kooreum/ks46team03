@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team03.admin.mapper.RecipeMapper">
-    <resultMap id="recipeResultMap" type="recipe">
+    <resultMap id="recipeResultMap" type="Recipe">
         <id     column="recipe_code"                property="recipeCode"/>
         <result column="recipe_name"                property="recipeName"/>
         <result column="recipe_category_code"       property="recipeCategoryCode"/>
@@ -12,10 +12,12 @@
         <result column="recipe_quantity"            property="recipeQuantity"/>
         <result column="reg_date"                   property="regDate"/>
         <result column="update_at"                  property="updateAt"/>
-        <result column="image_url"                  property="imageUrl"/>
+        <result column="file_idx"                  property="fileIdx"/>
         <result column="view_count"                 property="viewCount"/>
-        <result column="recommendation_count"       property="recommendationCount"/>
         <result column="recipe_use_number"          property="recipeUseNumber"/>
+        <result column="recipe_step1"            property="recipeStep1"/>
+        <result column="recipe_step2"            property="recipeStep2"/>
+        <result column="recipe_step3"            property="recipeStep3"/>
     </resultMap>
 
     <delete id="removeRecipeById" parameterType="String">
@@ -43,17 +45,23 @@
         <if test="recipeName != null and recipeName != ''">
             recipe_name = #{recipeName},
         </if>
-        <if test="recipeCategoryCode != null and recipeCategoryCode != ''">
-            recipe_category_code = #{recipeCategoryCode},
-        </if>
         <if test="memberId != null and memberId != ''">
             member_id = #{memberId},
         </if>
         <if test="recipeCal != null and recipeCal != ''">
             recipe_cal = #{recipeCal},
         </if>
-        <if test="imageUrl != null and imageUrl != ''">
-            image_url = #{imageUrl},
+            <if test="recipeStep1 != null and recipeStep1 != ''">
+                recipe_step1 = #{recipeStep1},
+            </if>
+            <if test="recipeStep2 != null and recipeStep2 != ''">
+                recipe_step2 = #{recipeStep2},
+            </if>
+            <if test="recipeStep3 != null and recipeStep3 != ''">
+                recipe_step3 = #{recipeStep3},
+            </if>
+        <if test="fileIdx != null and fileIdx != ''">
+            file_idx = #{fileIdx},
            </if>
             update_at = NOW(),
 
@@ -74,10 +82,12 @@
         ,r.recipe_quantity
         ,r.reg_date
         ,r.update_at
-        ,r.image_url
-        ,view_count
-        ,recommendation_count
-        ,recipe_use_number
+        ,r.file_idx
+        ,r.view_count
+        ,r.recipe_use_number
+        ,r.recipe_step1
+        ,r.recipe_step2
+        ,r.recipe_step3
         FROM
         recipe_reg AS r
         WHERE
@@ -90,28 +100,41 @@
     <insert id="addRecipe" parameterType="Recipe">
         /* 레시피등록 */
         INSERT INTO recipe_reg
-        (recipe_code, recipe_name, recipe_category_code, member_id, recipe_cal, recipe_quantity, image_url, reg_date)
+        (recipe_code, recipe_name, recipe_category_code, member_id, recipe_cal, recipe_quantity, file_idx, reg_date, recipe_step1, recipe_step2, recipe_step3)
         VALUES
-        (sf_new_recipe_code(), #{recipeName}, #{recipeCategoryCode}, #{memberId}, #{recipeCal}, #{recipeQuantity}, #{imageUrl}, SYSDATE());
+        (sf_new_recipe_code(), #{recipeName}, #{recipeCategoryCode}, #{memberId}, #{recipeCal}, #{recipeQuantity}, #{fileIdx}, SYSDATE(), #{recipeStep1} ,#{recipeStep2} ,#{recipeStep3});
     </insert>
 
-    <select id="getRecipeList" resultMap="recipeResultMap">
+    <select id="getRecipeList" parameterType="String" resultType="Recipe">
         /* 레시피 목록 조회 */
         SELECT
-        recipe_code
-        ,recipe_name
-        ,recipe_category_code
-        ,member_id
-        ,recipe_cal
-        ,recipe_quantity
-        ,reg_date
-        ,update_at
-        ,image_url
-        ,view_count
-        ,recommendation_count
-        ,recipe_use_number
+        r.recipe_code             as recipeCode
+        ,r.recipe_name            as recipeName
+        ,r.recipe_category_code   as recipeCategoryCode
+        ,r.member_id              as memberId
+        ,r.recipe_cal             as recipeCal
+        ,r.recipe_quantity        as recipeQuantity
+        ,r.reg_date               as regDate
+        ,r.update_at              as updateAt
+        ,r.file_idx               as fileIdx
+        ,r.view_count             as viewCount
+        ,r.recipe_use_number      as recipeUseNumber
+        ,r.recipe_step1           as recipeStep1
+        ,r.recipe_step2           as recipeStep2
+        ,r.recipe_step3           as recipeStep3
         FROM
-        recipe_reg
+        recipe_reg AS r
+        INNER JOIN
+        member AS m
+        on
+        r.member_id = m.member_id
+        <where>
+            <if test="searchKey != null and searchKey != ''">
+                ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+            </if>
+        </where>
+
+        order by CAST(SUBSTRING_INDEX(recipe_code, 'recipe_',-1) AS unsigned), r.recipe_code
     </select>
 
 

@@ -4,19 +4,7 @@
       layout:decorate="~{layout/user_default}">
 
 <th:block layout:fragment="customJs">
-    <script th:src="@{/js/jquery-3.6.4.js}"></script>
     <script>
-        $('#submitBtn').click(function(){
-            const memberPwEle = $('#memberPw');
-            let memberPw =	memberPwEle.val();
-            if(typeof memberPw == 'undefined' || memberPw == null || memberPw == ''){
-                alert('회원비밀번호를 입력해주세요');
-                memberPwEle.focus();
-                return false;
-            }
-            $('#removeInquiryForm').submit();
-        });
-
         $('#resetBtn').click(function(){
             /*location.href = '/goods/goodsList';*/
             history.go(-1);
@@ -88,6 +76,9 @@
     <body>
     <div class="form-container">
         <form id="removeInquiryForm" th:action="@{/user/removeInquiry}" method="post">
+            <div id="msg-alert" class="alert alert-danger" style="display: none">
+                <p></p>
+            </div>
             <table>
                 <tbody>
                 <tr>
@@ -119,7 +110,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" class="btn-td">
-                        <button type="button" id="submitBtn">문의삭제</button>
+                        <button type="submit" id="submitBtn">문의삭제</button>
                         <button type="button" id="resetBtn">입력취소</button>
                     </td>
                 </tr>

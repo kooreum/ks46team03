@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/message")
 public class MessageController {
     private final MessageService messageService;
     private  final MessageMapper messageMapper;
@@ -28,12 +28,12 @@ public class MessageController {
      * @param messageCode
      * @return
      */
-    @PostMapping("/message/admin_removeMessage")
+    @PostMapping("/removeMessage")
     public String removeMessage(String messageCode) {
 
         messageMapper.removeMessageById(messageCode);
 
-        return "redirect:/admin/message/admin_messageList";
+        return "redirect:/admin/message/messageList";
     }
 
     /**
@@ -42,7 +42,7 @@ public class MessageController {
      * @param model
      * @return
      */
-    @GetMapping("/message/admin_removeMessage")
+    @GetMapping("/removeMessage")
     public String removeMessage(@RequestParam(name = "messageCode") String messageCode, Model model){
         model.addAttribute("title", "메세지삭제화면");
         model.addAttribute("messageCode", messageCode);
@@ -57,11 +57,11 @@ public class MessageController {
      * @param message
      * @return
      */
-    @PostMapping("/message/admin_modifyMessage")
+    @PostMapping("/modifyMessage")
     public String modifyMessage(Message message) {
         messageMapper.modifyMessage(message);
 
-        return "redirect:/admin/message/admin_messageList";
+        return "redirect:/admin/message/messageList";
     }
 
     /**
@@ -70,7 +70,7 @@ public class MessageController {
      * @param model
      * @return
      */
-    @GetMapping("/message/admin_modifyMessage")
+    @GetMapping("/modifyMessage")
     public String modifyMessage(@RequestParam(name="messageCode") String messageCode, Model model) {
         Message messageInfo = messageService.getMessageInfoById(messageCode);
         List<Message> messageList = messageService.getMessageList();
@@ -78,7 +78,7 @@ public class MessageController {
         model.addAttribute("messageList", messageList);
         model.addAttribute("messageInfo", messageInfo);
 
-        return "/admin/message/admin_modifyMessage";
+        return "admin/message/admin_modifyMessage";
     }
 
 
@@ -87,10 +87,10 @@ public class MessageController {
      * @param message
      * @return
      */
-    @PostMapping("/message/admin_addMessage")
+    @PostMapping("/addMessage")
     public String addMessage(Message message) {
         messageService.addMessage(message);
-        return "redirect:/admin/message/admin_messageList";
+        return "redirect:/admin/message/messageList";
     }
 
 
@@ -99,7 +99,7 @@ public class MessageController {
      * @param model
      * @return
      */
-    @GetMapping("/message/admin_addMessage")
+    @GetMapping("/addMessage")
     public String addMessage(Model model) {
 
         List<Message> messageList = messageService.getMessageList();
@@ -107,7 +107,7 @@ public class MessageController {
         model.addAttribute("title", "메세지등록화면");
         model.addAttribute("messageList", messageList);
 
-        return "/admin/message/admin_addMessage";
+        return "admin/message/admin_addMessage";
     }
 
 
@@ -116,12 +116,12 @@ public class MessageController {
      * @param model
      * @return
      */
-    @GetMapping("/message/admin_messageList")
+    @GetMapping("/messageList")
         public String getMessageList(Model model) {
             List<Message> messageList = messageService.getMessageList();
             model.addAttribute("title","메세지목록조회");
             model.addAttribute("messageList",messageList);
-            return "/admin/message/admin_messageList";
+            return "admin/message/admin_messageList";
 
         }
 

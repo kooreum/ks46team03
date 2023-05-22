@@ -22,14 +22,14 @@
             <td th:text="${l.messageDetails}"></td>
 
             <td>
-                <a th:href="@{/admin/message/admin_modifyMessage(messageCode=${l.messageCode})}">수정</a>
+                <a th:href="@{/admin/message/modifyMessage(messageCode=${l.messageCode})}">수정</a>
             </td>
             <td>
-                <a th:href="@{/admin/message/admin_removeMessage(messageCode=${l.messageCode})}">삭제</a>
+                <a th:href="@{/admin/message/removeMessage(messageCode=${l.messageCode})}">삭제</a>
             </td>
         </tr>
         <tr th:if="${messageList == null}">
-            <td colspan="7">등록된 메세지의 정보가 없습니다.</td>
+            <td colspan="5">등록된 메세지의 정보가 없습니다.</td>
         </tr>
 
 

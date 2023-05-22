@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/user_default}">
+        <th:block layout:fragment="customJs">
+            <script th:src="@{/js/jquery-3.6.4.js}"></script>
+            <script th:inline="javascript">
+                $(function(){
+                    //alert('제이쿼리')
+                    function validationCheck(ele){
+                        let data = $(ele).val();
+                        let isValid = true;
+                        if(typeof data == 'undefined' || data == null || data == ''){
+                            isValid = false;
+                        }
+                        return isValid;
+                    }
+
+
+                    $('#submitBtn').click(function (){
+                        const addMemberForm = $('#addFridgeForm');
+                        const inputGroup = $('#addFridgeForm input');
+                        let isSubmit = true;
+                        inputGroup.each(function (idx, item){
+                            isSubmit = validationCheck(item);
+                            if(!isSubmit) {
+                                let msg = $(item).parents('tr').find('label').text();
+                                alert(msg + '재료를 입력해주세요.');
+                                $(item).focus();
+                                return false;
+                            }
+                        });
+                        if (isSubmit) addMemberForm.submit();
+                    });
+                });
+
+            </script>
+        </th:block>
+
+<th:block layout:fragment="customContent">
+
+    <!-- ##### Breadcrumb Area Start ##### -->
+    <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(/user/img/bg-img/breadcumb2.jpg);">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <div class="breadcumb-text text-center">
+                        <h2>재료 등록</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Breadcrumb Area End ##### -->
+
+    <!-- ##### Board Area Start ##### -->
+    <head>
+        <meta charset="UTF-8">
+        <title>재료 등록</title>
+        <style>
+            body {
+                font-family: 'Noto Sans KR', sans-serif;
+                background-color: #F5F5F5;
+                margin: 0;
+                padding: 0;
+            }
+            #container {
+                max-width: 600px;
+                margin: 0 auto;
+                background-color: #FFFFFF;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                border-radius: 5px;
+                margin-top: 50px;
+            }
+            h1 {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            form {
+                display: flex;
+                flex-direction: column;
+            }
+            label {
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+            input[type="text"], textarea {
+                border: none;
+                border-radius: 5px;
+                padding: 10px;
+                margin-bottom: 20px;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            }
+            input[type="text"] {
+                height: 30px;
+            }
+            textarea {
+                resize: none;
+                height: 200px;
+            }
+            input[type="submit"] {
+                background-color: #008CBA;
+                color: #FFFFFF;
+                border: none;
+                border-radius: 5px;
+                padding: 10px 20px;
+                cursor: pointer;
+                transition: all 0.3s ease-in-out;
+            }
+            input[type="submit"]:hover {
+                background-color: #006B8F;
+            }
+        </style>
+    </head>
+    <body>
+    <div id="container">
+        <h1>나의 재료 등록</h1>
+        <form id="addFridgeForm" th:action="@{/user/fridge/addFridge}" method="post">
+        <!--<form action="submit.php" method="POST">-->
+            <label for="memberId">작성자 ID:</label>
+            <input type="text" id="memberId" name="memberId" th:value="${session.SID}" readonly="readonly"/>
+            <label for="myDetailLocationCode">세부 위치:</label>
+                <select id="myDetailLocationCode" name="myDetailLocationCode" required>
+                    <th:block th:unless="${locationList == null}" th:each="l : ${locationList}">
+                        <option th:value="${l.myDetailLocationCode}">[[${l.myDetailLocationName}]]</option>
+                    </th:block>
+                </select>
+
+            <label for="ingredientCode">재료:</label>
+            <input type="text" id="ingredientCode" name="ingredientCode" placeholder="재료 이름을 입력해 주세요" required>
+            <!-- ingredientName 값을 입력 받습니다. -->
+            <script th:inline="javascript">
+                /* 재료 이름에 따라 ingredientCode 설정 */
+                function setIngredientCode(ingredientName) {
+                    var ingredientList = [[${ingredientList}]];
+                    var ingredientCode = '';
+                    for(var i=0; i<ingredientList.length; i++) {
+                        if(ingredientList[i].name == ingredientName) {
+                            ingredientCode = ingredientList[i].code;
+                            break;
+                        }
+                    }
+                    document.getElementById("ingredientCode").value = ingredientCode;
+                }
+            </script>
+
+            <label for="ingredientNote">노트:</label>
+            <textarea id="ingredientNote" name="ingredientNote" rows="10" cols="50" required></textarea>
+            <input type="submit" id="submitBtn" value="재료 등록">
+            <!--<button type="button" id="submitBtn" disabled="disabled">글등록</button>-->
+        </form>
+    </div>
+    </body>
+
+    <br><br>
+
+    <!-- ##### Board Area End ##### -->
+
+
+    <!-- ##### All Javascript Files ##### -->
+    <!-- jQuery-2.2.4 js -->
+    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="js/active.js"></script>
+
+</th:block>
+</html>

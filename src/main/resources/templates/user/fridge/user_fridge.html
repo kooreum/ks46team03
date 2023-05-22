@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/user_default}">
-
+<link rel="stylesheet" type="text/css" th:href="@{/user/css/table.css}" />
 <head>
     <style>
         .row {
@@ -29,6 +29,32 @@
             justify-content: center;
             margin: 3px;
         }
+        .write-button {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .write-button a {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .write-button a:hover {
+            background-color: #0062cc;
+        }
+
+        .write-button a {
+            background-color: deepskyblue;
+        }
+
+        .write-button a:hover {
+            background-color: royalblue;
+        }
     </style>
 </head>
 
@@ -54,38 +80,131 @@
 
         <div class="row mb-2">
             <div class="col-4 themed-grid-col">
-                <fieldset>
-                    <legend>냉장4 좌</legend>
-                    <p th:text="김치" style="color:blue"></p>
-                </fieldset>
+                <table th:unless="fridgeList ==  null">
+                    <thead>
+                        <tr>
+                            <th colspan="2">냉장3 좌</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="r : ${fridgeList}" th:if="${r.myDetailLocationCode == 'my_detail_7'}">
+                            <td th:text="${r.ingredientName}" style="color:blue"></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="col-4 themed-grid-col">
-                <fieldset>
-                    <legend>냉장4 우</legend>
-                    <p th:text="두부" style="color:blue"></p>
-                </fieldset>
+                <table th:unless="fridgeList ==  null">
+                    <thead>
+                    <tr>
+                        <th colspan="2">냉장3 우</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="r : ${fridgeList}" th:if="${r.myDetailLocationCode == 'my_detail_8'}">
+                        <td th:text="${r.ingredientName}" style="color:blue"></td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
     <div class="row mb-2">
-        <div class="col-sm-4 themed-grid-col">냉장3 좌</div>
-        <div class="col-sm-4 themed-grid-col">냉장3 우</div>
+        <div class="col-md-4 themed-grid-col">
+            <table th:unless="fridgeList ==  null">
+                <thead>
+                <tr>
+                    <th colspan="2">냉장2 좌</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="r : ${fridgeList}" th:if="${r.myDetailLocationCode == 'my_detail_5'}">
+                    <td th:text="${r.ingredientName}" style="color:blue"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4 themed-grid-col">
+            <table th:unless="fridgeList ==  null">
+                <thead>
+                <tr>
+                    <th colspan="2">냉장2 우</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="r : ${fridgeList}" th:if="${r.myDetailLocationCode == 'my_detail_6'}">
+                    <td th:text="${r.ingredientName}" style="color:blue"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="row mb-2">
-        <div class="col-md-4 themed-grid-col">냉장2 좌</div>
-        <div class="col-md-4 themed-grid-col">냉장2 우</div>
+        <div class="col-lg-4 themed-grid-col">
+            <table th:unless="fridgeList ==  null">
+                <thead>
+                <tr>
+                    <th colspan="2">냉장1 좌</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="r : ${fridgeList}" th:if="${r.myDetailLocationCode == 'my_detail_3'}">
+                    <td th:text="${r.ingredientName}" style="color:blue"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-4 themed-grid-col">
+            <table th:unless="fridgeList ==  null">
+                <thead>
+                <tr>
+                    <th colspan="2">냉장1 우</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="r : ${fridgeList}" th:if="${r.myDetailLocationCode == 'my_detail_4'}">
+                    <td th:text="${r.ingredientName}" style="color:blue"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="row mb-2">
-        <div class="col-lg-4 themed-grid-col">냉장1 좌</div>
-        <div class="col-lg-4 themed-grid-col">냉장1 우</div>
+        <div class="col-xl-4 themed-grid-col1">
+            <table th:unless="fridgeList ==  null">
+                <thead>
+                <tr>
+                    <th colspan="2">냉동 좌</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="r : ${fridgeList}" th:if="${r.myDetailLocationCode == 'my_detail_1'}">
+                    <td th:text="${r.ingredientName}" style="color:blue"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-xl-4 themed-grid-col1">
+            <table th:unless="fridgeList ==  null">
+                <thead>
+                <tr>
+                    <th colspan="2">냉동 우</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="r : ${fridgeList}" th:if="${r.myDetailLocationCode == 'my_detail_2'}">
+                    <td th:text="${r.ingredientName}" style="color:blue"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     </div>
 
-    <div class="row mb-2">
-        <div class="col-xl-4 themed-grid-col1">냉동 좌</div>
-        <div class="col-xl-4 themed-grid-col1">냉동 우</div>
-    </div>
+    <div class="write-button">
+        <a th:href="@{/user/fridge/addFridge}">재료 등록</a>
     </div>
 
 

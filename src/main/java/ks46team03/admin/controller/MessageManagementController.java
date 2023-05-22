@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/message")
 public class MessageManagementController {
     private final MessageManagementService messageManagementService;
     private final MessageManagementMapper messageManagementMapper;
@@ -26,12 +26,12 @@ public class MessageManagementController {
      * @param messageManagementCode
      * @return
      */
-    @PostMapping("/message/admin_removeMessageManagement")
+    @PostMapping("/removeMessageManagement")
     public String removeMessageManagement(String messageManagementCode) {
 
         messageManagementMapper.removeMessageManagementById(messageManagementCode);
 
-        return "redirect:/admin/message/admin_messageManagementList";
+        return "redirect:/admin/message/messageManagementList";
     }
 
     /**
@@ -40,7 +40,7 @@ public class MessageManagementController {
      * @param model
      * @return
      */
-    @GetMapping("/message/admin_removeMessageManagement")
+    @GetMapping("/removeMessageManagement")
     public String removeMessageManagement(@RequestParam(name = "messageManagementCode") String messageManagementCode, Model model){
         model.addAttribute("title", "상세메세지삭제화면");
         model.addAttribute("messageManagementCode", messageManagementCode);
@@ -54,12 +54,12 @@ public class MessageManagementController {
      * @param model
      * @return
      */
-    @GetMapping("/message/admin_messageManagementList")
-    public String getMessageManagementList(Model model) {
-        List<MessageManagement> messageManagementList = messageManagementService.getMessageManagementList();
+    @GetMapping("/messageManagementList")
+    public String getMessageManagementList(Model model,String searchKey,String searchValue) {
+        List<MessageManagement> messageManagementList = messageManagementService.getMessageManagementList(searchKey,searchValue);
         model.addAttribute("title","메세지상세목록조회");
         model.addAttribute("messageManagementList",messageManagementList);
-        return "/admin/message/admin_messageManagementList";
+        return "admin/message/admin_messageManagementList";
 
     }
 

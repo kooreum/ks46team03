@@ -1,5 +1,7 @@
 package ks46team03.dto;
 
+import java.util.List;
+
 public class Recipe {
     private String recipeCode;
     private String recipeName;
@@ -9,12 +11,36 @@ public class Recipe {
     private String recipeQuantity;
     private String regDate;
     private String updateAt;
-    private String imageUrl;
+    private String fileIdx;
     private String viewCount;
     private String recommendationCount;
     private String recipeUseNumber;
 
+    private String recipeStep1;
+    private String recipeStep2;
+    private String recipeStep3;
+
     private Member SellerInfo;
+
+    private List<String> ingredientCodeList;
+
+    private List<RecipeIngredient> recipeIngredients;
+
+    public List<RecipeIngredient> getRecipeIngredients() {
+        return recipeIngredients;
+    }
+
+    public void setRecipeIngredients(List<RecipeIngredient> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
+    }
+
+    public List<String> getIngredientCodeList() {
+        return ingredientCodeList;
+    }
+
+    public void setIngredientCodeList(List<String> ingredientCodeList) {
+        this.ingredientCodeList = ingredientCodeList;
+    }
 
     public String getRecipeCode() {
         return recipeCode;
@@ -80,12 +106,12 @@ public class Recipe {
         this.updateAt = updateAt;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getFileIdx() {
+        return fileIdx;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setFileIdx(String fileIdx) {
+        this.fileIdx = fileIdx;
     }
 
     public String getViewCount() {
@@ -112,6 +138,30 @@ public class Recipe {
         this.recipeUseNumber = recipeUseNumber;
     }
 
+    public String getRecipeStep1() {
+        return recipeStep1;
+    }
+
+    public void setRecipeStep1(String recipeStep1) {
+        this.recipeStep1 = recipeStep1;
+    }
+
+    public String getRecipeStep2() {
+        return recipeStep2;
+    }
+
+    public void setRecipeStep2(String recipeStep2) {
+        this.recipeStep2 = recipeStep2;
+    }
+
+    public String getRecipeStep3() {
+        return recipeStep3;
+    }
+
+    public void setRecipeStep3(String recipeStep3) {
+        this.recipeStep3 = recipeStep3;
+    }
+
     public Member getSellerInfo() {
         return SellerInfo;
     }
@@ -131,11 +181,16 @@ public class Recipe {
                 ", recipeQuantity='" + recipeQuantity + '\'' +
                 ", regDate='" + regDate + '\'' +
                 ", updateAt='" + updateAt + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
+                ", fileIdx='" + fileIdx + '\'' +
                 ", viewCount='" + viewCount + '\'' +
                 ", recommendationCount='" + recommendationCount + '\'' +
                 ", recipeUseNumber='" + recipeUseNumber + '\'' +
+                ", recipeStep1='" + recipeStep1 + '\'' +
+                ", recipeStep2='" + recipeStep2 + '\'' +
+                ", recipeStep3='" + recipeStep3 + '\'' +
                 ", SellerInfo=" + SellerInfo +
+                ", ingredientCodeList=" + ingredientCodeList +
+                ", recipeIngredients=" + recipeIngredients +
                 '}';
     }
 }

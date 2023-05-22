@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/admin_default}">
 <head>
-    <link rel="stylesheet" type="text/css" th:href="@{/admin/css/form.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/admin/css/pjc2.css}">
 </head>
 <th:block layout:fragment="customJs">
     <script th:src="@{/js/jquery-3.6.4.js}"></script>
@@ -43,7 +43,7 @@
 </th:block>
 
 <th:block layout:fragment="customContents">
-    <form id="addIngredientForm" th:action="@{/admin/ingredient/admin_addIngredient}" method="post">
+    <form id="addIngredientForm" th:action="@{/admin/ingredient/addIngredient}" method="post">
         <table>
             <tbody>
 <!--            <tr>
@@ -72,18 +72,39 @@
                 </td>
             </tr>
 
-            <tr>
-                <td class="labeltd">
-                    <label for="ingredientCategoryCode">카테고리코드</label>
-                </td>
-                <td colspan="2">
-                    <input type="text" id="ingredientCategoryCode" name="ingredientCategoryCode" placeholder="카테고리코드를 입력해 주세요" />
-                </td>
-            </tr>
+<tr>
+    <td class="labeltd">
+        <label for="ingredientCategoryCode">카테고리코드</label>
+    </td>
+    <td colspan="2">
+        <select id="ingredientCategoryCode" name="ingredientCategoryCode">
+            <option value="">카테고리를 선택해 주세요</option>
+            <option value="ingredient_category_1">소고기</option>
+            <option value="ingredient_category_2">돼지고기</option>
+            <option value="ingredient_category_3">닭고기</option>
+            <option value="ingredient_category_4">육류</option>
+            <option value="ingredient_category_5">채소류</option>
+            <option value="ingredient_category_6">해물류</option>
+            <option value="ingredient_category_7">달걀/유제품</option>
+            <option value="ingredient_category_8">가공식품류</option>
+            <option value="ingredient_category_9">쌀</option>
+            <option value="ingredient_category_10">밀가루</option>
+            <option value="ingredient_category_11">건어물류</option>
+            <option value="ingredient_category_12">버섯류</option>
+            <option value="ingredient_category_13">과일류</option>
+            <option value="ingredient_category_14">콩/견과류</option>
+            <option value="ingredient_category_15">곡류</option>
 
-            <tr>
+
+            <!-- 필요한 만큼 옵션을 추가할 수 있습니다 -->
+        </select>
+    </td>
+</tr>
+
+
+<tr>
                 <td colspan="5">
-                    <button type="button" id="submitBtn" >재료등록</button>
+                    <button type="submit" id="submitBtn" >재료등록</button>
                     <button type="button" id="resetBtn" >입력취소</button>
                 </td>
             </tr>

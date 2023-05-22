@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks46team03.user.mapper.UserRecipeCategoryMapper">
+    <resultMap id="recipeCategoryResultMap" type="RecipeCategory">
+        <id     column="recipe_category_Code"      property="recipeCategoryCode"/>
+        <result column="recipe_category"              property="recipeCategory"/>
+    </resultMap>
+
+
+    <select id="getRecipeCategoryList" resultType="RecipeCategory">
+    /* 레시피카테고리 목록 조회 */
+    SELECT
+        recipe_category_code        as recipeCategoryCode
+        ,recipe_category            as recipeCategory
+
+    FROM
+    recipe_category
+    </select>
+
+
+</mapper>

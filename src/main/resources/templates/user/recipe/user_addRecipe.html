@@ -4,138 +4,268 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/user_default}">
 <head>
-  <link rel="stylesheet" type="text/css" th:href="@{/user/css/form.css}">
+    <title>레시피 등록</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #F5F5F5;
+            margin: 0;
+            padding: 0;
+        }
+        .select2-selection__rendered {
+            line-height: 37px !important;
+        }
+        .select2-container .select2-selection--single {
+            height: 37px !important;
+        }
+        .select2-selection__arrow {
+            height: 38px !important;
+        }
+    </style>
 </head>
 <th:block layout:fragment="customJs">
-  <script th:src="@{/js/jquery-3.6.4.js}"></script>
-  <script th:inline="javascript">
-    $(function (){
-      //alert('제이쿼리')
-      function validationCheck(ele){
-        let data = $(ele).val();
-        let isValid = true;
-        if(typeof data == 'undefined' || data == null || data == ''){
-          let msg = $(ele).parents('tr').find('label').text();
-          alert(`${msg} 필수 항목입니다.`)
-          $(ele).focus();
-          isValid = false;
-        }
-        return isValid;
-      }
-
-      /* const memberLevel = [[${session.SLEVEL}]];
-
-        if(memberLevel == '1') {
-          let request = $.ajax({
-            url: '/goods/sellerInfo',
-            method: 'POST',
-            dataType: 'json'
-          });
-
-
-       request.done(function ( data ) {
-          const sellerList = data;
-          if(sellerList != null) {
-            $(sellerList).each(function (idx, item){
-              let memberId = item.memberId;
-              let memberName = item.memberName;
-              const newEle = $(`<option value="${memberId}"> ${memberId} &emsp; :::: &emsp; ${memberName}</option>`);
-              $('#sellerInfo').append(newEle);
-            })
-          }
-
-      });
-      request.fail(function ( jqXHR, textStatus ){
-        alert(`Request failed: ${textStatus}`);
-      });
-    }*/
-
-      $('#submitBtn').click(function (){
-        const addRecipeForm = $('#addRecipeForm');
-        const inputGroup = $('#addRecipeForm input');
-        let isSubmit = true;
-        inputGroup.each(function (idx, item){
-          isSubmit = validationCheck(item);
-          if(!isSubmit) {
-            let msg = $(item).parents('tr').find('label').text();
-            alert(msg + '입력해주세요.');
-            $(item).focus();
-            return false;
-          }
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<!--    <script th:src="@{/js/jquery-3.6.4.js}"></script>-->
+    <script>
+        $('#resetBtn').click(function(){
+            //location.href = '/goods/goodsList';
+            history.go(-1);
         });
-        if (isSubmit) addRecipeForm.submit();
-      });
-    });
+    </script>
+    <script th:inline="javascript">
+        $(function (){
+            function showPreview(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        var thumbnailElement = document.getElementById("thumbnail");
+                        thumbnailElement.innerHTML = '<img src="' + e.target.result + '" class="thumbnail-image" alt="음식 사진" />';
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            $('select:not([id="recipeCategoryCode"])').select2();
+            $('#recipeCategoryCode').select2().on('select2:open', function (e) {
+
+                const selectEle = e.target;
+
+                const request = $.ajax({
+                    url: "/user/recipe/list/recipeCate",
+                    method: "GET",
+                    dataType: "json"
+                });
+
+                request.done(function( cateList ) {
+                    const cateData = cateList.map(item=>{
+                        return {id : item.recipeCategoryCode, name: item.recipeCategory};
+                    });
+                    $(selectEle).unbind('select2:open').bind('select2:open');
+                    $(selectEle).select2({data : cateData});
+                });
+
+                request.fail(function( jqXHR, textStatus ) {
+                    alert( "Request failed: " + textStatus );
+                });
+            });
+
+            function validationCheck(ele){
+                let data = $(ele).val();
+                let isValid = true;
+                if(typeof data == 'undefined' || data == null || data == ''){
+                  let msg = $(ele).parents('tr').find('label').text();
+                  alert(`${msg} 필수 항목입니다.`)
+                  $(ele).focus();
+                  isValid = false;
+                }
+                return isValid;
+            }
+
+
+            $(document).on('click', '#submitBtn', function (){
+                let isSubmit = true;
+
+                if(memberLevel == '1'){
+                    const $selectEle = $('#sellerInfo');
+                    isSubmit = validationCheck($selectEle);
+                    $selectEle.focus();
+                    if (!isSubmit) return;
+                }
+                let $inputEles = $('#addRecipeForm input');
+                $inputEles.each(function (idx, item){
+                    isSubmit = validationCheck(item);
+                    return isSubmit;
+                });
+                if (isSubmit) $('#addRecipeForm').submit();
+            });
+
+            $(document).on('click', '.add-ingredient-btn', function(){
+                    $('select').select2('destroy');
+                    const ingredientRow = $(this).parents('.ingredient-row');
+                    const ingredientRowCopy = ingredientRow.clone(true);
+                    ingredientRow.find('button')
+                        .toggleClass('add-ingredient-btn')
+                        .toggleClass('btn-primary')
+                        .toggleClass('del-ingredient-btn')
+                        .toggleClass('btn-danger')
+                        .text('삭제')
+                    ingredientRow.after(ingredientRowCopy);
+                    ingredientRowCopy.find('input').val('');
+
+                $(document).find('.ingredient-row').each((idx, item)=>{
+                    $(item).find('.multiple-input').each((subIdx,subItem) => {
+                        let propertie = $(subItem).data('propertie');
+                        let name = `recipeIngredients[${idx}].${propertie}`;
+                        $(subItem).attr('name',name);
+                    });
+                });
+
+                $('select').select2();
+                $(this).blur();
+            });
+            $(document).on('click', '.del-ingredient-btn', function(){
+                let rowCnt = $('.ingredient-row').length;
+                const ingredientRow = $(this).parents('.ingredient-row');
+                if(rowCnt > 1){
+                    ingredientRow.remove();
+                }else{
+                    ingredientRow.find('button')
+                        .toggleClass('add-ingredient-btn')
+                        .toggleClass('btn-primary')
+                        .toggleClass('del-ingredient-btn')
+                        .toggleClass('btn-danger')
+                        .text('추가');
+                }
+
+                $(document).find('.ingredient-row').each((idx, item)=>{
+                    $(item).find('.multiple-input').each((subIdx,subItem) => {
+                        let propertie = $(subItem).data('propertie');
+                        let name = `recipeIngredients[${idx}].${propertie}`;
+                        $(subItem).attr('name',name);
+                    });
+                });
+
+            });
+        });
   </script>
 </th:block>
 
 <th:block layout:fragment="customContent">
-  <form id="addRecipeForm"th:action="@{/user/recipe/user_addRecipe}" method="post">
-    <table>
-      <tbody>
-<!--      <tr>-->
-<!--        <td class="labeltd">-->
-<!--          <label for="recipeCode">레시피코드</label>-->
-<!--        </td>-->
-<!--        <td>-->
-<!--          <input type="text" id="recipeCode" name="recipeCode" placeholder="레시피코드를 입력해 주세요"/>-->
-<!--        </td>-->
-<!--      </tr>-->
-      <tr>
-        <td class="labeltd">
-          <label for="recipeName">레시피이름</label>
-        </td>
-        <td colspan="2">
-          <input type="text" id="recipeName" name="recipeName" placeholder="레시피이름을 입력해 주세요"/>
-        </td>
-      </tr>
-      <tr>
-        <td class="labeltd">
-          <label for="recipeCategoryCode">레시피카테고리코드</label>
-        </td>
-        <td colspan="2">
-          <input type="text" id="recipeCategoryCode" name="recipeCategoryCode" placeholder="레시피카테고리를 입력해 주세요" />
-        </td>
-      <tr>
-        <td class="labeltd">
-          <label for="memberId">레시피등록아이디</label>
-        </td>
-        <td colspan="2">
-          <input type="text" id="memberId" name="memberId" placeholder="레시피등록아이디를 입력해 주세요" />
-        </td>
-      <tr>
-        <td class="labeltd">
-          <label for="recipeCal">레시피칼로리</label>
-        </td>
-        <td colspan="2">
-          <input type="text" id="recipeCal" name="recipeCal" placeholder="레시피 칼로리를 입력해 주세요" />
-        </td>
-      </tr>
-      <tr>
-        <td class="labeltd">
-          <label for="recipeQuantity">음식의 양</label>
-        </td>
-        <td colspan="2">
-          <input type="text" id="recipeQuantity" name="recipeQuantity" placeholder="음식의 양을 입력해 주세요" />
-        </td>
-      </tr>
-      <tr>
-        <td class="labeltd">
-          <label for="imageUrl">레시피 사진</label>
-        </td>
-        <td colspan="2">
-          <input type="text" id="imageUrl" name="imageUrl" placeholder="레시피 사진을 입력해 주세요" />
-        </td>
-      </tr>
-      <tr>
-        <td colspan="3">
-          <button type="button" id="submitBtn">레시피등록</button>
-          <button type="button" id="resetBtn">등록취소</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </form>
+    <!-- ##### Breadcrumb Area Start ##### -->
+    <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(/user/img/bg-img/breadcumb2.jpg);">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <div class="breadcumb-text text-center">
+                        <h2>레시피 등록</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Breadcrumb Area End ##### -->
 
+    <!-- ##### Board Area Start ##### -->
+    <div class="container section-padding-80">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <form id="addRecipeForm" th:action="@{/user/recipe/addRecipe}" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="recipeName">레시피이름</label>
+                        <input type="text" id="recipeName" name="recipeName" class="form-control" placeholder="레시피이름을 입력해 주세요" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipeCategoryCode">레시피카테고리코드</label>
+                        <select id="recipeCategoryCode" class="form-control" name="recipeCategoryCode">
+                            <option value="">카테고리를 선택해 주세요</option>
+                            <option th:each="category : ${recipeCategories}"
+                                    th:value="${category.recipeCategoryCode}"
+                                    th:text="${category.recipeCategory}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="memberId">레시피등록아이디</label>
+                        <input type="text" id="memberId" class="form-control" name="memberId" th:value="${session.SID}" readonly="readonly" />
+                    </div>
+
+
+                    <!-- HTML 요소 -->
+                    <div class="form-row ingredient-row">
+                        <div class="form-group col-md-6">
+                            <label for="ingredientCode">재료 선택</label>
+                            <select class="form-control multiple-input" name="recipeIngredients[0].ingredientCode" data-propertie="ingredientCode">
+                                <option value="">재료를 선택하세요</option>
+                                <option th:each="i : ${ingredients}"
+                                        th:value="${i.ingredientCode}"
+                                        th:text="${i.ingredientName}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="quantity1">재료양</label>
+                            <input type="text" class="form-control multiple-input" name="recipeIngredients[0].quantity" data-propertie="quantity" placeholder="재료양을 숫자로 입력해주세요 ex)150" required/>
+                        </div>
+                        <div class="form-group col-md-1">
+                            <label for="gram1">단위</label>
+                            <select class="form-control multiple-input" name="recipeIngredients[0].gram" data-propertie="gram">
+                                <option value="g">g</option>
+                                <option value="mg">mg</option>
+                                <option value="kg">kg</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-1">
+                            <label></label>
+                            <button type="button" class="form-control btn btn-primary p-1 pb-2 mt-2 add-ingredient-btn">추가</button>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipeCal">레시피칼로리</label>
+                        <input type="text" id="recipeCal" class="form-control" name="recipeCal" placeholder="레시피 칼로리를 입력해 주세요" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipeQuantity">음식의 양</label>
+                        <input type="text" id="recipeQuantity" name="recipeQuantity" class="form-control" placeholder="음식의 양을 숫자만 입력해주세요 ex)1" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="imageUri">음식 썸네일</label>
+                        <input type="file" id="imageUri" class="form-control" name="imageUri" accept="imageUri/*" required onchange="showPreview(this)">
+                        <div class="row p-1">
+                            <div class="col-3"></div>
+                            <div id="thumbnail" class="col-6"></div>
+                            <div class="col-3"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipeStep1">요리순서1</label>
+                        <textarea id="recipeStep1" class="form-control" name="recipeStep1" rows="10" cols="50" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipeStep2">요리순서2</label>
+                        <textarea id="recipeStep2" class="form-control" name="recipeStep2" rows="10" cols="50" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipeStep3">요리순서3</label>
+                        <textarea id="recipeStep3" class="form-control" name="recipeStep3" rows="10" cols="50" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <input type="submit" id="submitBtn" class="form-control btn btn-primary" value="레시피 등록">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="reset" id="resetBtn" class="form-control btn btn-warning" value="입력 취소">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+    <!-- ##### Board Area End ##### -->
 </th:block>
 </html>

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface RecipeMapper {
@@ -21,5 +22,5 @@ public interface RecipeMapper {
     //레시피 등록
     public int addRecipe(Recipe recipe);
     //레시피 목록조회
-    public List<Recipe> getRecipeList();
+    public List<Recipe> getRecipeList(Map<String,Object> paramMap, String searchKey, String searchValue);
 }

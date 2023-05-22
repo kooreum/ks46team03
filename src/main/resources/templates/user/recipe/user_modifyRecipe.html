@@ -1,13 +1,24 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/user_default}">
-<head>
-  <link rel="stylesheet" type="text/css" th:href="@{/user/css/form.css}">
-</head>
 <th:block layout:fragment="customJs">
   <script th:src="@{/js/jquery-3.6.4.js}"></script>
   <script>
+    function showPreview(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+          const thumbnailElement = document.getElementById("thumbnail");
+          const oldImage = document.getElementById("oldImage");
+          oldImage.remove();
+          thumbnailElement.innerHTML = '<img src="' + e.target.result + '" class="thumbnail-image" alt="음식 사진" />';
+        };
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
     $('#resetBtn').click(function (){
       history.go(-1);
     });
@@ -16,68 +27,136 @@
 </th:block>
 
 <th:block layout:fragment="customContent">
-  <form id="modifyRecipeForm" th:action="@{/user/recipe/user_modifyRecipe}" method="post">
+  <!-- ##### Breadcrumb Area Start ##### -->
+  <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(/user/img/bg-img/breadcumb2.jpg);">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center">
+        <div class="col-12">
+          <div class="breadcumb-text text-center">
+            <h2>레시피 수정</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ##### Breadcrumb Area End ##### -->
+
+  <!-- ##### Board Area Start ##### -->
+  <head>
+    <meta charset="UTF-8">
+    <title>레시피 수정</title>
+    <style>
+      body {
+        font-family: 'Noto Sans KR', sans-serif;
+        background-color: #F5F5F5;
+        margin: 0;
+        padding: 0;
+      }
+      #container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #FFFFFF;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        border-radius: 5px;
+        margin-top: 50px;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      label {
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      input[type="text"], textarea {
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+      input[type="text"] {
+        height: 30px;
+      }
+      textarea {
+        resize: none;
+        height: 200px;
+      }
+      input[type="submit"], input[type="button"] {
+        background-color: #008CBA;
+        color: #FFFFFF;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+      }
+      input[type="submit"]:hover, input[type="button"]:hover {
+        background-color: #006B8F;
+      }
+      .button-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+      }
+
+      .button-container button {
+        padding: 10px 20px;
+        background-color: #f2f2f2;
+        color: #333;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+
+      .button-container button:hover {
+        background-color: #ccc;
+        cursor: pointer;
+      }
+
+    </style>
+  </head>
 
 
-    <table th:object="${recipeInfo}">
-      <tbody>
-      <tr>
-        <td class="labeltd">
+  <body>
+  <div id="container">
+  <h1>레시피 수정</h1>
+    <form id="modifyRecipeForm" th:object="${recipeInfo}" th:action="@{/user/recipe/modifyRecipe}" method="post">
           <label for="recipeCode">레시피코드</label>
-        </td>
-        <td>
-          <input type="text" id="recipeCode" th:value="*{recipeCode}" name="recipeCode" placeholder="레시피코드를 입력해 주세요" />
-        </td>
-      </tr>
-      <tr>
-        <td class="labeltd">
+          <input type="text" id="recipeCode" th:value="*{recipeCode}" name="recipeCode" readonly="readonly" />
           <label for="recipeName">레시피이름</label>
-        </td>
-        <td>
           <input type="text" id="recipeName" th:value="*{recipeName}" name="recipeName" placeholder="레시피 등록회원아이디를 입력해 주세요"/>
-        </td>
-      </tr>
-      <tr>
-        <td class="labeltd">
-          <label for="recipeCategoryCode">레시피카테고리코드</label>
-        </td>
-        <td colspan="2">
-          <input type="text" id="recipeCategoryCode" th:value="*{recipeCategoryCode}" name="recipeCategoryCode" />
-        </td>
-      </tr>
-      <tr>
-        <td class="labeltd">
-          <label for="memberId">레시피등록아이디</label>
-        </td>
-        <td colspan="2">
-          <input type="text" id="memberId" th:value="*{memberId}" name="memberId" placeholder="레시피등록아이디를 입력해 주세요"/>
-        </td>
-      </tr>
-      <tr>
-        <td class="labeltd">
           <label for="recipeCal">레시피칼로리</label>
-        </td>
-        <td colspan="2">
           <input type="text" id="recipeCal" th:value="*{recipeCal}" name="recipeCal"/>
-        </td>
-      </tr>
-      <tr>
-        <td class="labeltd">
-          <label for="imageUrl">레시피이미지</label>
-        </td>
-        <td colspan="2">
-          <input type="text" id="imageUrl" th:value="*{imageUrl}" name="imageUrl"/>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2">
+          <label for="recipeStep1">요리순서1</label>
+          <input type="text" id="recipeStep1" th:value="*{recipeStep1}" name="recipeStep1"/>
+          <label for="recipeStep2">요리순서2</label>
+          <input type="text" id="recipeStep2" th:value="*{recipeStep2}" name="recipeStep2"/>
+          <label for="recipeStep3">요리순서3</label>
+          <input type="text" id="recipeStep3" th:value="*{recipeStep3}" name="recipeStep3"/>
+
+      <label for="imageUri">음식 썸네일</label>
+          <input type="hidden" name="fileIdx" th:value="${fileDetail.fileIdx}"/>
+          <img id="oldImage" th:if="${fileDetail ne null}" th:src="@{|/${fileDetail.filePath}|}" alt="">
+          <img id="oldImage" th:unless="${fileDetail ne null}" src="https://hibab.co.kr/web/product/big/202208/dda4f7cca5f4a2574b080bb301aade94.jpg" alt="">
+          <input type="file" id="imageUri" class="form-control" name="imageUri" accept="imageUri/*" onchange="showPreview(this)">
+          <div class="row">
+            <div class="col-3"></div>
+            <div id="thumbnail" class="col-6"></div>
+            <div class="col-3"></div>
+          </div>
+      <div class="button-container">
           <button type="submit" id="submitBtn">레시피수정</button>
           <button type="button" id="resetBtn">입력취소</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+      </div>
   </form>
-
+  </div>
+  </body>
 </th:block>
 </html>

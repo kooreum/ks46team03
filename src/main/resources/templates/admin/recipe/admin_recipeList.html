@@ -6,6 +6,7 @@
   <link rel="stylesheet" type="text/css" th:href="@{/admin/css/pjc.css}">
 </head>
 <th:block layout:fragment="customContents">
+  <div th:include="~{admin/search/admin_search :: searchFragment2}"></div>
   <table>
     <thead>
     <tr>
@@ -15,11 +16,13 @@
       <th>레시피등록아이디</th>
       <th>레시피칼로리</th>
       <th>레시피양</th>
+      <th>요리순서1</th>
+      <th>요리순서2</th>
+      <th>요리순서3</th>
       <th>등록일자</th>
       <th>수정일자</th>
-      <th>이미지주소</th>
+      <th>음식썸네일</th>
       <th>조회수</th>
-      <th>추천수</th>
       <th>레시피사용횟수</th>
       <th>수정</th>
       <th>삭제</th>
@@ -33,11 +36,13 @@
       <td th:text="${l.memberId}"></td>
       <td th:text="${l.recipeCal}"></td>
       <td th:text="${l.recipeQuantity}"></td>
+      <td th:text="${l.recipeStep1}"></td>
+      <td th:text="${l.recipeStep2}"></td>
+      <td th:text="${l.recipeStep3}"></td>
       <td th:text="${l.regDate}"></td>
       <td th:text="${l.updateAt}"></td>
-      <td th:text="${l.imageUrl}"></td>
+      <td th:text="${l.fileIdx}"></td>
       <td th:text="${l.viewCount}"></td>
-      <td th:text="${l.recommendationCount}"></td>
       <td th:text="${l.recipeUseNumber}"></td>
       <td>
         <a th:href="@{/admin/recipe/modifyRecipe(recipeCode=${l.recipeCode})}">수정</a>
