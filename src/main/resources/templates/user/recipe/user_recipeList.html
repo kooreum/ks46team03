@@ -49,63 +49,62 @@
 </head>
 
 
-<th:block layout:fragment="customContent">
-	<!-- ##### Breadcumb Area Start ##### -->
-	<div class="breadcumb-area bg-img bg-overlay" style="background-image: url(/user/img/bg-img/breadcumb2.jpg);">
-		<div class="container h-100">
-			<div class="row h-100 align-items-center">
-				<div class="col-12">
-					<div class="breadcumb-text text-center">
-						<h2>레시피</h2>
+	<th:block layout:fragment="customContent">
+		<!-- ##### Breadcumb Area Start ##### -->
+		<div class="breadcumb-area bg-img bg-overlay" style="background-image: url(/user/img/bg-img/breadcumb2.jpg);">
+			<div class="container h-100">
+				<div class="row h-100 align-items-center">
+					<div class="col-12">
+						<div class="breadcumb-text text-center">
+							<h2>레시피</h2>
+						</div>
 					</div>
 				</div>
 			</div>
+		</div><br>
+		<!-- ##### Breadcumb Area End ##### -->
+
+
+		<div th:include="~{/user/search/user_search :: searchFragment2}" class="search-btn"></div>
+		<table class="table-center">
+			<thead>
+				<tr>
+					<th>레시피명</th>
+					<th>작성자 아이디</th>
+					<th>칼로리</th>
+					<th>레시피양</th>
+					<th>레시피등록일자</th>
+					<th>조회수</th>
+					<th>수정</th>
+					<th>삭제</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:unless="${recipeList == null}" th:each=" l : ${recipeList}">
+					<td>
+						<a th:href="@{/user/recipe/recipeDetail(recipeCode=${l.recipeCode})}" th:text="${l.recipeName}"></a>
+					</td>
+					<td th:text="${l.memberId}"></td>
+					<td th:text="${l.recipeCal} + ' kcal'"></td>
+					<td th:text="${l.recipeQuantity} + '인분'"></td>
+					<td th:text="${l.regDate}"></td>
+					<td th:text="${l.viewCount}"></td>
+					<td>
+						<a th:href="@{/user/recipe/modifyRecipe(recipeCode=${l.recipeCode})}">수정</a>
+					</td>
+					<td>
+						<a th:href="@{/user/recipe/removeRecipe(recipeCode=${l.recipeCode})}">삭제</a>
+					</td>
+				</tr>
+				<tr th:if="${recipeList == null}">
+					<td colspan="7">등록된 레시피의 정보가 없습니다.</td>
+				</tr>
+
+			</tbody>
+		</table>
+		<div class="write-button">
+			<a th:href="@{/user/recipe/addRecipe}">레시피 등록</a>
 		</div>
-	</div><br>
-	<!-- ##### Breadcumb Area End ##### -->
-
-
-	<div th:include="~{/user/search/user_search :: searchFragment2}" class="search-btn"></div>
-	<table class="table-center">
-		<thead>
-			<tr>
-				<th>레시피명</th>
-				<th>작성자 아이디</th>
-				<th>칼로리</th>
-				<th>레시피양</th>
-				<th>레시피등록일자</th>
-				<th>조회수</th>
-				<th>수정</th>
-				<th>삭제</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:unless="${recipeList == null}" th:each=" l : ${recipeList}">
-				<td>
-					<a th:href="@{/user/recipe/recipeDetail(recipeCode=${l.recipeCode})}" th:text="${l.recipeName}"></a>
-				</td>
-				<td th:text="${l.memberId}"></td>
-				<td th:text="${l.recipeCal} + ' kcal'"></td>
-				<td th:text="${l.recipeQuantity} + '인분'"></td>
-				<td th:text="${l.regDate}"></td>
-				<td th:text="${l.viewCount}"></td>
-				<td>
-					<a th:href="@{/user/recipe/user_modifyRecipe(recipeCode=${l.recipeCode})}">수정</a>
-				</td>
-				<td>
-					<a th:href="@{/user/recipe/user_removeRecipe(recipeCode=${l.recipeCode})}">삭제</a>
-				</td>
-			</tr>
-			<tr th:if="${recipeList == null}">
-				<td colspan="7">등록된 레시피의 정보가 없습니다.</td>
-			</tr>
-
-
-		</tbody>
-	</table>
-	<div class="write-button">
-		<a th:href="@{/user/recipe/addRecipe}">레시피 등록</a>
-	</div>
-</th:block>
+	</th:block>
 
 </html>

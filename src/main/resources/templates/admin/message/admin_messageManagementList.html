@@ -7,7 +7,7 @@
 </head>
 
 <th:block layout:fragment="customContents">
-  <div th:include="~{/admin/search/admin_search :: searchFragment3}"></div>
+  <div th:include="~{admin/search/admin_search :: searchFragment3}"></div>
   <table>
     <thead>
     <tr>
@@ -29,11 +29,11 @@
       <td th:text="${l.messageDetails}"></td>
       <td th:text="${l.messageSendTime}"></td>
       <td>
-        <a th:href="@{/admin/message/admin_removeMessageManagement(messageManagementCode=${l.messageManagementCode})}">삭제</a>
+        <a th:href="@{/admin/message/removeMessageManagement(messageManagementCode=${l.messageManagementCode})}">삭제</a>
       </td>
     </tr>
     <tr th:if="${messageManagementList == null}">
-      <td colspan="7">등록된 상세메세지의 정보가 없습니다.</td>
+      <td colspan="5">등록된 상세메세지의 정보가 없습니다.</td>
     </tr>
 
 
