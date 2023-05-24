@@ -18,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
         String resourcePath = "file:///" + filePath + "resources/";
 
         if(os != null && os.contains("win")){
-            resourcePath = "file:///c:" + filePath + "resources/";
+            resourcePath = "file:///" + filePath + "resources/";
         }
         System.out.println(resourcePath + "<<<<<<<<resourcePath");
         registry.addResourceHandler("/resources/**")
