@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/admin_default}">
 <head>
-  <link rel="stylesheet" type="text/css" th:href="@{/admin/css/form.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/admin/css/pjc2.css}">
 </head>
 <th:block layout:fragment="customJs">
   <script th:src="@{/js/jquery-3.6.4.js}"></script>
@@ -21,26 +21,10 @@
       <tbody>
       <tr>
         <td class="labeltd">
-          <label for="recipeCode">레시피코드</label>
-        </td>
-        <td>
-          <input type="text" id="recipeCode" th:value="*{recipeCode}" name="recipeCode" placeholder="레시피코드를 입력해 주세요" />
-        </td>
-      </tr>
-      <tr>
-        <td class="labeltd">
           <label for="recipeName">레시피이름</label>
         </td>
         <td>
           <input type="text" id="recipeName" th:value="*{recipeName}" name="recipeName" placeholder="레시피 등록회원아이디를 입력해 주세요"/>
-        </td>
-      </tr>
-      <tr>
-        <td class="labeltd">
-          <label for="recipeCategoryCode">레시피카테고리코드</label>
-        </td>
-        <td colspan="2">
-          <input type="text" id="recipeCategoryCode" th:value="*{recipeCategoryCode}" name="recipeCategoryCode" />
         </td>
       </tr>
       <tr>
@@ -61,10 +45,35 @@
       </tr>
       <tr>
         <td class="labeltd">
-          <label for="imageUrl">레시피이미지</label>
+          <label for="recipeStep1">요리순서1</label>
         </td>
         <td colspan="2">
-          <input type="text" id="imageUrl" th:value="*{imageUrl}" name="imageUrl"/>
+          <input type="text" id="recipeStep1" th:value="*{recipeStep1}" name="recipeStep1"/>
+        </td>
+      </tr>
+      <tr>
+        <td class="labeltd">
+          <label for="recipeStep2">요리순서2</label>
+        </td>
+        <td colspan="2">
+          <input type="text" id="recipeStep2" th:value="*{recipeStep2}" name="recipeStep2"/>
+        </td>
+      </tr>
+      <tr>
+        <td class="labeltd">
+          <label for="recipeStep3">요리순서3</label>
+        </td>
+        <td colspan="2">
+          <input type="text" id="recipeStep3" th:value="*{recipeStep3}" name="recipeStep3"/>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="labeltd">
+          <label for="fileIdx">음식 썸네일</label>
+        </td>
+        <td colspan="2">
+          <input type="file" id="fileIdx" th:value="*{fileIdx}" name="fileIdx"/>
         </td>
       </tr>
       <tr>

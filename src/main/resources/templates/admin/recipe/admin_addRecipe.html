@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/admin_default}">
 <head>
-  <link rel="stylesheet" type="text/css" th:href="@{/admin/css/form.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/admin/css/pjc2.css}">
 </head>
 <th:block layout:fragment="customJs">
   <script th:src="@{/js/jquery-3.6.4.js}"></script>
@@ -11,6 +11,19 @@
       $('#resetBtn').click(function (){
       history.go(-1);
     });
+      function showPreview(input) {
+          if (input.files && input.files[0]) {
+              var reader = new FileReader();
+
+              reader.onload = function(e) {
+                  var thumbnailElement = document.getElementById("thumbnail");
+                  thumbnailElement.innerHTML = '<img src="' + e.target.result + '" class="thumbnail-image" alt="음식 사진" />';
+              };
+
+              reader.readAsDataURL(input.files[0]);
+          }
+      }
+
     $(function (){
       //alert('제이쿼리')
       function validationCheck(ele){
@@ -42,7 +55,7 @@
 </th:block>
 
 <th:block layout:fragment="customContents">
-  <form id="addRecipeForm" th:action="@{/admin/recipe/admin_addRecipe}" method="post">
+  <form id="addRecipeForm" th:action="@{/admin/recipe/addRecipe}" method="post">
     <table>
       <tbody>
 <!--      <tr>-->
@@ -61,19 +74,42 @@
           <input type="text" id="recipeName" name="recipeName" placeholder="레시피이름을 입력해 주세요"/>
         </td>
       </tr>
-      <tr>
-        <td class="labeltd">
-          <label for="recipeCategoryCode">레시피카테고리코드</label>
-        </td>
-        <td colspan="2">
-          <input type="text" id="recipeCategoryCode" name="recipeCategoryCode" placeholder="레시피카테고리를 입력해 주세요" />
-        </td>
+<tr>
+    <td class="labeltd">
+        <label for="recipeCategoryCode">레시피카테고리코드</label>
+    </td>
+    <td colspan="2">
+        <select id="recipeCategoryCode" name="recipeCategoryCode">
+            <option value="">카테고리를 선택해 주세요</option>
+            <option value="recipe_category_1">밥요리</option>
+            <option value="recipe_category_2">국&탕</option>
+            <option value="recipe_category_3">찌개&전골</option>
+            <option value="recipe_category_4">밑반찬</option>
+            <option value="recipe_category_5">볶음요리</option>
+            <option value="recipe_category_6">구이</option>
+            <option value="recipe_category_7">찜&조림</option>
+            <option value="recipe_category_8">튀김</option>
+            <option value="recipe_category_9">면요리</option>
+            <option value="recipe_category_10">샐러드</option>
+            <option value="recipe_category_11">야식&술안주</option>
+            <option value="recipe_category_12">스파게티</option>
+            <option value="recipe_category_13">간식&분식</option>
+            <option value="recipe_category_14">토스트&샌드위치</option>
+            <option value="recipe_category_15">디저트</option>
+            <option value="recipe_category_16">기타요리</option>
+
+
+
+            <!-- 필요한 만큼 옵션을 추가할 수 있습니다 -->
+        </select>
+    </td>
+</tr>
       <tr>
         <td class="labeltd">
           <label for="memberId">레시피등록아이디</label>
         </td>
         <td colspan="2">
-          <input type="text" id="memberId" name="memberId" placeholder="레시피등록아이디를 입력해 주세요" />
+          <input type="text" id="memberId" name="memberId" th:value="${session.SID}" readonly="readonly"  />
         </td>
       <tr>
         <td class="labeltd">
@@ -91,17 +127,59 @@
           <input type="text" id="recipeQuantity" name="recipeQuantity" placeholder="음식의 양을 입력해 주세요" />
         </td>
       </tr>
-      <tr>
-        <td class="labeltd">
-          <label for="imageUrl">레시피 사진</label>
-        </td>
-        <td colspan="2">
-          <input type="text" id="imageUrl" name="imageUrl" placeholder="레시피 사진을 입력해 주세요" />
-        </td>
-      </tr>
-      <tr>
-        <td colspan="3">
-          <button type="button" id="submitBtn">레시피등록</button>
+        <tr>
+            <td class="labeltd">
+                <label for="recipeStep1">요리순서1</label>
+            </td>
+            <td colspan="2">
+                <textarea id="recipeStep1" name="recipeStep1" rows="10" cols="50" required></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="labeltd">
+                <label for="recipeStep2">요리순서2</label>
+            </td>
+            <td colspan="2">
+                <textarea id="recipeStep2" name="recipeStep2" rows="10" cols="50" ></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="labeltd">
+                <label for="recipeStep3">요리순서3</label>
+            </td>
+            <td colspan="2">
+                <textarea id="recipeStep3" name="recipeStep3" rows="10" cols="50" ></textarea>
+            </td>
+        </tr>
+
+<!--    <tr>-->
+<!--        <td class="labeltd">-->
+<!--            <label for="fileIdx">음식 썸네일</label>-->
+<!--        </td>-->
+<!--        <td colspan="2">-->
+<!--            <input type="file" id="fileIdx" th:value="${fileIdx}" name="fileIdx"/>-->
+<!--        </td>-->
+<!--    </tr>-->
+
+        <tr>
+            <td>
+                <label for="imageUri">음식 썸네일</label>
+            </td>
+            <td>
+                <input type="file" id="imageUri" class="form-control" name="imageUri" accept="imageUri/*" required onchange="showPreview(this)">
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div id="thumbnail"></div>
+            </td>
+        </tr>
+
+
+        <tr>
+        <td colspan="5">
+          <button type="submit" id="submitBtn">레시피등록</button>
           <button type="button" id="resetBtn">등록취소</button>
         </td>
       </tr>
