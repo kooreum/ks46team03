@@ -42,7 +42,7 @@ public class UserRecipeService {
     }
 
     public void removeRecipe(String recipeCode) {
-        Recipe recipeInfo = userRecipeMapper.getRecipeInfoById(recipeCode);
+        Recipe recipeInfo = (Recipe)userRecipeMapper.getRecipeInfoById(recipeCode);
         if(recipeInfo != null) {
             String infoRecipeCode = recipeInfo.getRecipeCode();
 
