@@ -36,8 +36,6 @@
       $('#delCheckBtn').click(function () {
 
         const checkedArr = $('.checks:checked');
-        console.log(checkedArr);
-
         let length = checkedArr.length;
 
         const valueArr = [];
@@ -57,7 +55,7 @@
             console.log(valueArr);
 
             let request = $.ajax({
-              url: '/admin/removeCheckedInquiry',
+              url: '/admin/removeCheckedNotice',
               method: 'POST',
               data: { valueArr : valueArr },
               dataType: 'json'

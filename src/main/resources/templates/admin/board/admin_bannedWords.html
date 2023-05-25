@@ -76,7 +76,7 @@
                   console.log(valueArr);
 
                   let request = $.ajax({
-                      url: '/admin/removeCheckedInquiry', //<--- 여기 수정해야 함 !!!!!
+                      url: '/admin/removeCheckedBannedWords',
                       method: 'POST',
                       data: {valueArr: valueArr},
                       dataType: 'json'
