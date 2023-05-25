@@ -9,10 +9,7 @@ import ks46team03.user.mapper.UserNoticeMapper;
 import ks46team03.user.service.UserNoticeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
@@ -116,6 +113,8 @@ public class NoticeController {
 		return "redirect:/user/noticeList";
 	}
 	/* 체크박스에 선택한 공지사항 삭제 */
+	@PostMapping("/removeCheckedNotice")
+	@ResponseBody
 	public List<String> removeCheckedNotice(@RequestParam(value="valueArr[]") List<String> valueArr){
 
 		userNoticeService.removeCheckedNotice(valueArr);
