@@ -4,110 +4,132 @@
       layout:decorate="~{layout/admin_default}">
 <head>
   <link rel="stylesheet" type="text/css" th:href="@{/admin/css/pjc.css}"/>
+
+  <th:block layout:fragment="customJs">
+    <script th:inline="javascript">
+      $(document).ready(function () {
+        let msg = /*[[${msg}]]*/ null;
+        console.log(msg);
+        if (msg) {
+          alert(msg);
+        }
+      });
+
+      /**
+       * 전체 선택
+       */
+      $('#allCheck').click(function () {
+        $('.checks').prop('checked', $(this).prop('checked'));
+      });
+      $('.checks').click(function () {
+        let length = $('.checks').length;
+        let checkedLength = $('.checks:checked').length;
+        if (length == checkedLength) {
+          $('#allCheck').prop('checked', true);
+        } else {
+          $('#allCheck').prop('checked', false);
+        }
+      });
+      /**
+       * 체크박스 선택 후 deleteBtn 버튼
+       */
+      $('#delCheckBtn').click(function () {
+
+        const checkedArr = $('.checks:checked');
+        console.log(checkedArr);
+
+        let length = checkedArr.length;
+
+        const valueArr = [];
+        let msg = '삭제하시겠습니까?';
+
+        if (length == 0) {
+          alert("선택된 항목이 없습니다.");
+        } else {
+          let result = confirm(msg);
+
+          if (result == true) {
+
+            $(checkedArr).each(function () {
+              valueArr.push($(this).attr('value'));
+            });
+            console.log(valueArr);
+
+            let request = $.ajax({
+              url: '/admin/removeCheckedNotice',
+              method: 'POST',
+              data: {valueArr: valueArr},
+              dataType: 'json'
+            });
+
+            request.done(function (result) {
+              if (result) {
+                alert('삭제되었습니다.');
+                location.reload();
+              }
+            });
+
+            request.fail(function (jqXHR, textStatus) {
+              alert(`Request failed: ${textStatus}`);
+            });
+          } else {
+            location.reload();
+          }
+        }
+      });
+
+      $('#datatable-custom').DataTable({
+        pagination: true,
+        searching: true,
+        lengthChange: true,
+        dom: "<'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>"
+      });
+    </script>
+  </th:block>
+
   <style>
+    .write-button {
+      text-align: right;
+      margin-top: 30px;
+    }
+
+    .write-button a {
+      display: inline-block;
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .write-button a:hover {
+      background-color: #0062cc;
+    }
+
     #container {
       padding: 0 20px;
     }
 
   </style>
+
 </head>
-<th:block layout:fragment="customJs">
-  <script th:inline="javascript">
-    $('.report-state').change(function () {
-      let reportStateCode = $(this).val();
-      const modifyA = $(this).parents('tr').find('.modify-report');
-      let href = modifyA.attr('href');
-      href += '&reportStateCode=' + reportStateCode;
-      modifyA.attr('href', href);
-    })
-    $('.modify-report').click(function (e) {
-      e.preventDefault();
-      let href = $(this).attr('href');
-      if (href.indexOf('&') < 0) {
-        alert('수정된 내용이 없습니다.');
-        return;
-      }
-      location.href = href;
-    })
-    /**
-     * 전체 선택
-     */
-    $('#allCheck').click(function () {
-      $('.checks').prop('checked', $(this).prop('checked'));
-    });
-    $('.checks').click(function () {
-      let length = $('.checks').length;
-      let checkedLength = $('.checks:checked').length;
-      if (length == checkedLength) {
-        $('#allCheck').prop('checked', true);
-      } else {
-        $('#allCheck').prop('checked', false);
-      }
-    });
-    /**
-     * 체크박스 선택 후 deleteBtn 버튼
-     */
-    $('#delCheckBtn').click(function () {
 
-      const checkedArr = $('.checks:checked');
-      console.log(checkedArr);
+<script th:inline="javascript">
+  let msg = [[${msg}]];
+  if (msg) alert(msg);
+</script>
 
-      let length = checkedArr.length;
-
-      const valueArr = [];
-      let msg = '삭제하시겠습니까?';
-
-      if (length == 0) {
-        alert("선택된 항목이 없습니다.");
-      } else {
-        let result = confirm(msg);
-
-        if (result == true) {
-
-          $(checkedArr).each(function () {
-            valueArr.push($(this).attr('value'));
-          });
-          console.log(valueArr);
-
-          let request = $.ajax({
-            url: '/admin/removeCheckedInquiry',
-            method: 'POST',
-            data: {valueArr: valueArr},
-            dataType: 'json'
-          });
-
-          request.done(function (result) {
-            if (result) {
-              alert('삭제되었습니다.');
-              location.reload();
-            }
-          });
-
-          request.fail(function (jqXHR, textStatus) {
-            alert(`Request failed: ${textStatus}`);
-          });
-        } else {
-          location.reload();
-        }
-      }
-    });
-    $('#datatable-custom').DataTable({
-      pagination: true,
-      searching: true,
-      lengthChange: true,
-      dom: "<'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'>>" +
-              "<'row'<'col-sm-12'tr>>" +
-              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>"
-    });
-  </script>
-</th:block>
 <th:block layout:fragment="customContents">
   <div id="container">
-    <h1>신고 게시판</h1>
+    <h1>공지사항 게시판</h1>
     <br>
     <button type="submit" id="delCheckBtn" class="btn btn-secondary btn-icon-split">
       <span class="text">선택삭제</span>
     </button>
+
     <div class="row">
       <div class="col-sm-12">
         <div class="card-box table-responsive">
@@ -124,55 +146,49 @@
                 <tr>
                   <th><input type="checkbox" id="allCheck"></th>
                   <th>No</th>
-                  <th>신고게시글번호</th>
-                  <th>신고 유형</th>
-                  <th>신고 제목</th>
-                  <th>신고 레시피 글번호</th>
+                  <th>공지사항번호</th>
+                  <th>공지사항제목</th>
                   <th>작성자</th>
                   <th>글등록시간</th>
-                  <th>신고처리상태</th>
                   <th>수정</th>
                   <th>삭제</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:unless="${reportList == null}" th:each=" l : ${reportList}">
-                  <td><input class="checks" type="checkbox" th:value="${l.reportBoardCode}"></td>
+                <tr th:unless="${noticeList == null}" th:each=" l : ${noticeList}">
+                  <td><input class="checks" type="checkbox" th:value="${l.noticeBoardCode}"></td>
                   <th th:text="${lStat.count}"></th>
-                  <td th:text="${l.reportBoardCode}"></td>
-                  <td th:text="${l.reportTypeCode}"></td>
+                  <td th:text="${l.noticeBoardCode}"></td>
                   <td>
-                    <a th:href="@{/user/reportContent(reportBoardCode=${l.reportBoardCode})}"
-                       th:text="${l.reportBoardTitle}"></a>
+                    <a th:href="@{/user/noticeContent(noticeBoardCode=${l.noticeBoardCode})}"
+                       th:text="${l.noticeBoardTitle}"></a>
                   </td>
-                  <td th:text="${l.recipeCode}"></td>
                   <td th:text="${l.memberId}"></td>
-                  <td th:text="${l.reportDatetime}"></td>
+                  <td th:text="${l.noticeBoardRegTime}"></td>
                   <td>
-                    <select class="report-state" name="reportStateCode" th:modelAttribute="l.reportStateCode">
-                      <option value="report_state_1" th:selected="${l.reportStateCode == 'report_state_1'}">처리중</option>
-                      <option value="report_state_2" th:selected="${l.reportStateCode == 'report_state_2'}">처리완료
-                      </option>
-                      <option value="report_state_3" th:selected="${l.reportStateCode == 'report_state_3'}">반려</option>
-                    </select>
+                    <a th:if="${session.SID == null}"></a>
+                    <a th:unless="${session.SID == null or session.SID != 'id1'}"
+                       th:href="@{/user/modifyNotice(noticeBoardCode=${l.noticeBoardCode})}">수정</a>
                   </td>
                   <td>
-                    <a class="modify-report"
-                       th:href="@{/admin/updateReportState(reportBoardCode=${l.reportBoardCode})}">수정</a>
-                  </td>
-                  <td>
-                    <a class="delete-report"
-                       th:href="@{/user/removeReport(reportBoardCode=${l.reportBoardCode})}">삭제</a>
+                    <a th:if="${session.SID == null}"></a>
+                    <a th:unless="${session.SID == null or session.SID != 'id1'}"
+                       th:href="@{/user/removeNotice(noticeBoardCode=${l.noticeBoardCode})}">삭제</a>
                   </td>
                 </tr>
-                <tr th:if="${reportList == null}">
-                  <td colspan="7">등록된 신고글이 없습니다.</td>
+                <tr th:if="${noticeList == null}">
+                  <td colspan="7">등록된 공지사항이 없습니다.</td>
                 </tr>
+
                 </tbody>
               </table>
-
+              <div class="write-button">
+                <a th:if="${session.SID == null}"></a>
+                <a th:unless="${session.SID == null or session.SID != 'id1'}"
+                   th:href="@{/admin/addNotice}">공지사항 등록</a>
+              </div>
               <br><br>
-              <div th:include="~{/admin/search/admin_search :: adminReportSearchFragment}"></div>
+              <div th:include="~{/admin/search/admin_search :: adminNoticeSearchFragment}"></div>
             </div>
           </div>
         </div>
@@ -180,5 +196,4 @@
     </div>
   </div>
 </th:block>
-
 </html>
