@@ -20,7 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
         if(os != null && os.contains("win")){
             resourcePath = "file:///" + filePath + "resources/";
         }
-        System.out.println(resourcePath + "<<<<<<<<resourcePath");
+        //System.out.println(resourcePath + "<<<<<<<<resourcePath");
         registry.addResourceHandler("/resources/**")
                 .addResourceLocations(resourcePath)
                 .setCachePeriod(3600)
